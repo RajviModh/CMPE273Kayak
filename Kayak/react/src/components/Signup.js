@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 //import { FormWithConstraints, FieldFeedbacks, FieldFeedback } from 'react-form-with-constraints';
-
+import {connect} from "react-redux";
+import { Link,Route, withRouter } from 'react-router-dom';
 
 class Signup extends Component {
 
@@ -9,23 +10,23 @@ class Signup extends Component {
         handleSignUp: PropTypes.func.isRequired
     };
 
-    state = {
-        username: '',
-        password: ''
-    };
 
     componentWillMount(){
-        this.setState({
-            username: '',
-            password: ''
-        });
+            //
     }
+
+    handleSignup = (userdata) => {
+        //API call
+        if(userdata.username == 'Rohan' && userdata.password == 'Rohan'){
+            console.log('signed up');
+        }
+    };
 
     render() {
         return (
             <div className="row justify-content-md-center">
                 <div className="col-sm-9 col-md-9">
-                    <form onSubmit={this.props.handleSignUp(this.state)}>
+                    <form>
                         <div className="form-group">
                             <hr/>
                             <p>---------------or create a KAYAK account--------------</p>
@@ -37,11 +38,9 @@ class Signup extends Component {
                                 label="Username"
                                 placeholder="Username"
                                 required
-                                value={this.state.username}
+                                value={this.props.select.username}
                                 onChange={(event) => {
-                                    this.setState({
-                                        username: event.target.value
-                                    });
+                                    this.props.userChange(event.target.value)
                                 }}
                             />
                         </div>
@@ -53,11 +52,9 @@ class Signup extends Component {
                                 label="password"
                                 placeholder="Password"
                                 required
-                                value={this.state.password}
+                                value={this.props.select.password}
                                 onChange={(event) => {
-                                    this.setState({
-                                        password: event.target.value
-                                    });
+                                    this.props.passChange(event.target.value)
                                 }}
                             />
                         </div>
@@ -65,7 +62,8 @@ class Signup extends Component {
                         <div className="input-field">
                             <button
                                 className="btn btn-primary"
-                                type="submit">
+                                type="submit"
+                                onClick={() => this.handleSignup({username: this.props.select.username,password :this.props.select.password})}>
                                 Sign Up
                             </button>
                         </div>
@@ -76,4 +74,31 @@ class Signup extends Component {
     }
 }
 
-export default Signup;
+const mapDispatchToProps = (dispatch) => {
+    return{
+
+        userChange: (username) => {
+            dispatch({
+                type: "CHANGEUSER",
+                payload : {username:username}
+            });
+        },
+
+        passChange: (password) => {
+            dispatch({
+                type: "CHANGEPASS",
+                payload : {password:password}
+            });
+        },
+
+    };
+};
+
+const mapStateToProps = (state) => {
+    return{
+        select: state.userReducer
+    };
+};
+
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Signup));

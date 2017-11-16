@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import '../css/style.css';
 import '../css/bootstrap.css';
+import { Link,Route, withRouter } from 'react-router-dom';
+import {connect} from "react-redux";
 
 
 //var abc = {backgroundImage:'../images/cover_bg_1.jpg'};
@@ -14,19 +16,17 @@ class Login extends Component {
         handleSubmit: PropTypes.func.isRequired
     };
 
-    state = {
-        username: '',
-        password: ''
-    };
 
     componentWillMount(){
-        this.setState({
-            username: '',
-            password: ''
-        });
+        //
     }
 
-
+    handleLogin = (userdata) => {
+        //API call
+        if(userdata.username == 'Rohan' && userdata.password == 'Rohan'){
+            console.log('logged in');
+        }
+    };
 
 
     render() {
@@ -45,11 +45,9 @@ class Login extends Component {
                                 type="text"
                                 label="Username"
                                 placeholder="Username"
-                                value={this.state.username}
+                                value={this.props.select.username}
                                 onChange={(event) => {
-                                    this.setState({
-                                        username: event.target.value
-                                    });
+                                    this.props.userChange(event.target.value)
                                 }}
                             />
                         </div>
@@ -60,11 +58,9 @@ class Login extends Component {
                                 type="password"
                                 label="password"
                                 placeholder="Password"
-                                value={this.state.password}
+                                value={this.props.select.password}
                                 onChange={(event) => {
-                                    this.setState({
-                                        password: event.target.value
-                                    });
+                                    this.props.passChange(event.target.value)
                                 }}
                             />
                         </div>
@@ -73,7 +69,7 @@ class Login extends Component {
                             <button
                                 className="btn btn-primary"
                                 type="button"
-                                onClick={() => this.props.handleSubmit(this.state)}>
+                                onClick={() => this.handleLogin({username: this.props.select.username,password :this.props.select.password})}>
                                 Sign in
                             </button>
                         </div>
@@ -87,4 +83,30 @@ class Login extends Component {
     }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => {
+    return{
+
+        userChange: (username) => {
+            dispatch({
+                type: "CHANGEUSER",
+                payload : {username:username}
+            });
+        },
+
+        passChange: (password) => {
+            dispatch({
+                type: "CHANGEPASS",
+                payload : {password:password}
+            });
+        },
+
+    };
+};
+
+const mapStateToProps = (state) => {
+    return{
+        select: state.userReducer
+    };
+};
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Login));

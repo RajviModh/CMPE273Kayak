@@ -9,6 +9,7 @@ import Welcome from "./Welcome";
 //import '../css/bootstrap.css';
 import Signup from "./Signup";
 import {Modal} from 'react-bootstrap';
+import {connect} from "react-redux";
 
 var abc = {backgroundImage: '../images/cover_bg_1.jpg'};
 
@@ -539,4 +540,30 @@ class NewerHomePage extends Component {
     }
 }
 
-export default withRouter(NewerHomePage);
+const mapDispatchToProps = (dispatch) => {
+    return{
+
+        userChange: (username) => {
+            dispatch({
+                type: "CHANGEUSER",
+                payload : {username:username}
+            });
+        },
+
+        passChange: (password) => {
+            dispatch({
+                type: "CHANGEPASS",
+                payload : {password:password}
+            });
+        },
+
+    };
+};
+
+const mapStateToProps = (state) => {
+    return{
+        select: state.userReducer
+    };
+};
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(NewerHomePage));
