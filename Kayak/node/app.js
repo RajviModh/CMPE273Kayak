@@ -10,6 +10,10 @@ require('./routes/login')(passport);
 var index = require('./routes/index');
 var login = require('./routes/login');
 var signup = require('./routes/signup');
+var adminAddHotels = require('./routes/admin/addhotels');
+var adminAddFlights = require('./routes/admin/addflights');
+var adminAddCars = require('./routes/admin/addcars');
+var adminSearchHotels = require('./routes/admin/searchhotels');
 
 var app = express();
 
@@ -30,6 +34,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.post('/doSignUp',signup.doSignUp);
+app.post('/adminAddHotels',adminAddHotels.addHotels);
+app.post('/adminAddFlights',adminAddFlights.addFlights);
+app.post('/adminAddCars',adminAddCars.addCars);
+app.post('/adminSearchHotels',adminSearchHotels.searchHotels)
+
 app.post('/login',function(req, res,next) {
     console.log("username in app" + JSON.stringify(req.body));
     passport.authenticate('login', function(err, user) {

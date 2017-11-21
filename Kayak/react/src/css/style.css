@@ -263,7 +263,7 @@ figure {
 }
 
 .sf-menu a {
-  color: rgba(0, 0, 0, 0.5);
+  color: white;
   padding: 0.75em 1em !important;
   font-weight: normal;
   border-left: none;
@@ -358,7 +358,7 @@ figure {
   left: 0;
   width: 100%;
   z-index: 1022;
-  background: #fff;
+  background: #000000;
 }
 
 .nav-header {

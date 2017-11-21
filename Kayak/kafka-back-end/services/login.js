@@ -9,7 +9,7 @@ function handle_request(msg, callback){
 
     console.log("in login of kafka back-end");
 
-        console.log("In handle request:" + JSON.stringify(msg));
+    console.log("In handle request:" + JSON.stringify(msg));
     var getUser = "select * from dropbox.users where email='" + msg.username+ "'";
     console.log("Query is:" + getUser);
 

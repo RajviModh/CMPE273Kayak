@@ -1,14 +1,21 @@
 import React, {Component} from 'react';
-import {Route, withRouter} from 'react-router-dom';
+import {Route, withRouter, Link} from 'react-router-dom';
 import * as API from '../api/API';
 import {DropdownMenu, MenuItem} from 'react-bootstrap-dropdown-menu';
 import Login from "./Login";
 import Message from "./Message";
+import UserHeader from "./UserHeader";
+import AdminHeader from "./AdminHeader";
+import UserFooter from "./UserFooter";
+import AdminHomePage from "./admin/AdminHomePage";
+import AdminAddHotels from "./admin/AdminAddHotels";
+import AdminAddFlights from "./admin/AdminAddFlights";
 import Welcome from "./Welcome";
 //import '../css/style.css';
 //import '../css/bootstrap.css';
 import Signup from "./Signup";
 import {Modal} from 'react-bootstrap';
+import Hotels from "./Hotels";
 
 var abc = {backgroundImage: '../images/cover_bg_1.jpg'};
 
@@ -20,7 +27,9 @@ class NewerHomePage extends Component {
         message: '',
         username: '',
         showLoginModal: false,
-        showSignupModal: false
+        showSignupModal: false,
+        isUser:false
+
     };
 
     handleSubmit = (userdata) => {
@@ -87,61 +96,13 @@ class NewerHomePage extends Component {
     };
 
     render() {
+
         return (
             <div id="fh5co-wrapper">
                 <div id="fh5co-page">
-                    <header id="fh5co-header-section" className="sticky-banner">
-                        <div className="container">
-                            <div className="nav-header">
-                                <a href="#" className="js-fh5co-nav-toggle fh5co-nav-toggle dark"/>
-                                <h1 id="fh5co-logo"><a href="index.html"><i className="icon-airplane"/>KAYAK</a></h1>
 
-                                <nav id="fh5co-menu-wrap" role="navigation">
-                                    <ul className="sf-menu" id="fh5co-primary-menu">
-                                        <li className="active"><a href="/">Home</a></li>
-                                        <li>
-                                            <a href="vacation.html" className="fh5co-sub-ddown">Vacations</a>
-                                            <ul className="fh5co-sub-menu">
-                                                <li><a href="#">Family</a></li>
-                                                <li><a href="#">CSS3 &amp; HTML5</a></li>
-                                                <li><a href="#">Angular JS</a></li>
-                                                <li><a href="#">Node JS</a></li>
-                                                <li><a href="#">Django &amp; Python</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="flight.html">Flights</a></li>
-                                        <li><a href="hotel.html">Hotel</a></li>
-                                        <li><a href="car.html">Car</a></li>
-                                        <li><a href="blog.html">Blog</a></li>
-                                        <li><a href="contact.html">Contact</a></li>
-                                        <li>
-                                            <a href='#' className="fh5co-sub-ddown">My Account</a>
-                                            <ul className="fh5co-sub-menu">
-                                                <li>
-                                                    <div>
-                                                        <button className="btn btn-warning" onClick={() => {
-                                                            this.open('login')
-                                                        }}>
-                                                            Login
-                                                        </button>
 
-                                                        <br/><br/>
-                                                        <button className="btn btn-warning" onClick={() => {
-                                                            this.open('signup')
-                                                        }}>
-                                                            Signup
-                                                        </button>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </header>
+                    {this.state.isUser?<UserHeader/>:<AdminHeader/>}
 
                     <Route exact path="/" render={() => (
 
@@ -411,128 +372,26 @@ class NewerHomePage extends Component {
 
                     )}/>
 
-
-                    <div>
-                        <Modal show={this.state.showLoginModal} onHide={() => {
-                            this.close('login')
-                        }}>
-                            {/* <Modal.Header closeButton>
-                        <Modal.Title>Login</Modal.Title>
-                    </Modal.Header>*/}
-                            <Modal.Body>
-                                <Login handleSubmit={this.handleSubmit}/>
-                                <Message message={this.state.message}/>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <div className="col-sm-5 col-md-5">
-                                    Don't have an account?
-                                    <button onClick={() => {
-                                        this.close('login')
-                                    }}>Close
-                                    </button>
-                                </div>
-                            </Modal.Footer>
-                        </Modal>
-
-                    </div>
-                    <div>
-                        <Modal show={this.state.showSignupModal} onHide={() => {
-                            this.close('signup')
-                        }}>
-                            {/* <Modal.Header closeButton>
-                        <Modal.Title>Login</Modal.Title>
-                    </Modal.Header>*/}
-                            <Modal.Body>
-                                <Signup handleSignUp={this.handleSignUp}/>
-                                <Message message={this.state.message}/>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <div className="col-sm-5 col-md-5">
-                                    Don't have an account?
-                                    <button onClick={() => {
-                                        this.close('signup')
-                                    }}>Close
-                                    </button>
-                                </div>
-                            </Modal.Footer>
-                        </Modal>
-
-                    </div>
-
-                    <footer>
-                        <div id="footer">
-                            <div className="container">
-                                <div className="row row-bottom-padded-md">
-                                    <div className="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                        <h3>About Travel</h3>
-                                        <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                            Consonantia, there live the blind texts.</p>
-                                    </div>
-                                    <div className="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                        <h3>Top Flights Routes</h3>
-                                        <ul>
-                                            <li><a href="#">Manila flights</a></li>
-                                            <li><a href="#">Dubai flights</a></li>
-                                            <li><a href="#">Bangkok flights</a></li>
-                                            <li><a href="#">Tokyo Flight</a></li>
-                                            <li><a href="#">New York Flights</a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                        <h3>Top Hotels</h3>
-                                        <ul>
-                                            <li><a href="#">Boracay Hotel</a></li>
-                                            <li><a href="#">Dubai Hotel</a></li>
-                                            <li><a href="#">Singapore Hotel</a></li>
-                                            <li><a href="#">Manila Hotel</a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                        <h3>Interest</h3>
-                                        <ul>
-                                            <li><a href="#">Beaches</a></li>
-                                            <li><a href="#">Family Travel</a></li>
-                                            <li><a href="#">Budget Travel</a></li>
-                                            <li><a href="#">Food &amp; Drink</a></li>
-                                            <li><a href="#">Honeymoon and Romance</a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                        <h3>Best Places</h3>
-                                        <ul>
-                                            <li><a href="#">Boracay Beach</a></li>
-                                            <li><a href="#">Dubai</a></li>
-                                            <li><a href="#">Singapore</a></li>
-                                            <li><a href="#">Hongkong</a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                        <h3>Affordable</h3>
-                                        <ul>
-                                            <li><a href="#">Food &amp; Drink</a></li>
-                                            <li><a href="#">Fare Flights</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-6 col-md-offset-3 text-center">
-                                        <p className="fh5co-social-icons">
-                                            <a href="#"><i className="icon-twitter2"/></a>
-                                            <a href="#"><i className="icon-facebook2"/></a>
-                                            <a href="#"><i className="icon-instagram"/></a>
-                                            <a href="#"><i className="icon-dribbble2"/></a>
-                                            <a href="#"><i className="icon-youtube"/></a>
-                                        </p>
-                                        <p>Copyright 2017. All Rights Reserved. <br/>Made with <i
-                                            className="icon-heart3"/> by Rajvi</p>
-                                    </div>
-                                </div>
-                            </div>
+                    <Route exact path="/hotels" render={() => (
+                        <div>
+                            <Hotels/>
                         </div>
-                    </footer>
+                    )}/>
 
+                    <Route exact path="/adminhome" render={() => (
+                        <div>
+                            <AdminHomePage/>
+                        </div>
+                    )}/>
+
+
+
+
+                    <UserFooter/>
                 </div>
             </div>
+
+
 
         );
 
