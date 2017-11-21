@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Route, withRouter, Link} from 'react-router-dom';
 import * as API from '../api/API';
 import {DropdownMenu, MenuItem} from 'react-bootstrap-dropdown-menu';
@@ -8,19 +8,34 @@ import UserHeader from "./UserHeader";
 import AdminHeader from "./AdminHeader";
 import UserFooter from "./UserFooter";
 import AdminHomePage from "./admin/AdminHomePage";
-import AdminAddHotels from "./admin/AdminAddHotels";
-import AdminAddFlights from "./admin/AdminAddFlights";
-import Welcome from "./Welcome";
-//import '../css/style.css';
-//import '../css/bootstrap.css';
-import Signup from "./Signup";
-import {Modal} from 'react-bootstrap';
+import moment from 'moment';
 import Hotels from "./Hotels";
+import DateTimeField from 'react-bootstrap-datetimepicker';
+
 
 var abc = {backgroundImage: '../images/cover_bg_1.jpg'};
 
+var color = {color:"black"}
+
+var date = new Date();
+date.setDate(date.getDate()-1,'YYYY-MM-DD');
+
+var nowDate = new Date();
+var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0)
 
 class NewerHomePage extends Component {
+
+    logChange = (val) => {
+        console.log('Selected: ', val);
+    }
+
+    static propTypes = {
+        minDate: PropTypes.object
+    }
+
+    componentWillMount(){
+       //alert(today)
+    }
 
     state = {
         isLoggedIn: false,
@@ -28,8 +43,17 @@ class NewerHomePage extends Component {
         username: '',
         showLoginModal: false,
         showSignupModal: false,
-        isUser:false
-
+        isUser:true,
+        fromCity : ['SFO','SJC','LAX'],
+        selectedFrom : '',
+        toCity : ['a','b','c'],
+        selectedTo:'',
+        date: "2017-11-21",
+        startDate :  moment(this.props.minDate, 'DD/MM/YYYY'),
+        format: "YYYY-MM-DD",
+        inputFormat: "DD/MM/YYYY",
+        mode: "date",
+        goingDate : ''
     };
 
     handleSubmit = (userdata) => {
@@ -71,6 +95,12 @@ class NewerHomePage extends Component {
                 }
 
             })
+    };
+
+
+    handleChange = (newDate) => {
+        alert(newDate);
+        return this.setState({date: newDate});
     };
 
     close = (data) => {
@@ -136,25 +166,49 @@ class NewerHomePage extends Component {
                                                                 <div className="col-xxs-12 col-xs-6 mt">
                                                                     <div className="input-field">
                                                                         <label for="from">From:</label>
-                                                                        <input type="text" className="form-control"
-                                                                               id="from-place"
-                                                                               placeholder="Los Angeles, USA"/>
+
+                                                                        <select style={color}
+                                                                                onChange={(event)=>this.setState({selectedFrom:event.target.value})}  className="cs-select cs-skin-border" name="" id="">
+                                                                            {
+                                                                                this.state.fromCity.map(city=>
+                                                                                    <option style={color} value={city}>{city}</option>
+
+                                                                                )
+                                                                            }
+
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt">
                                                                     <div className="input-field">
                                                                         <label for="from">To:</label>
-                                                                        <input type="text" className="form-control"
-                                                                               id="to-place"
-                                                                               placeholder="Tokyo, Japan"/>
+
+                                                                        <select style={color}
+                                                                                onChange={(event)=>this.setState({selectedTo:event.target.value})}  className="cs-select cs-skin-border" name="" id="">
+                                                                            {
+                                                                                this.state.toCity.map(city=>
+                                                                                    <option style={color} value={city}>{city}</option>
+
+                                                                                )
+                                                                            }
+
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt alternate">
                                                                     <div className="input-field">
                                                                         <label for="date-start">Check In:</label>
-                                                                        <input type="text" className="form-control"
-                                                                               id="date-start"
-                                                                               placeholder="mm/dd/yyyy"/>
+                                                                        <div className="input-field">
+                                                                            <DateTimeField  mode="date"
+                                                                                            dateTime={this.state.date}
+                                                                                            minDate={this.state.startDate}
+                                                                                            defaultText="Departure Date"
+                                                                                            format={this.state.format}
+                                                                                            viewMode={this.state.mode}
+                                                                                            inputFormat={this.state.inputFormat}
+                                                                                            onChange={this.handleChange}/>
+
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt alternate">
