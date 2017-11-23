@@ -7,6 +7,8 @@ import AdminAddCars from "./admin/AdminAddCars";
 import AdminSearchHotels from "./admin/AdminSearchHotels";
 import AdminSearchFlights from "./admin/AdminSearchFlights";
 import AdminSearchCars from "./admin/AdminSearchCars";
+import AdminSearchUsers from "./admin/AdminSearchUsers";
+import AdminSearchBills from "./admin/AdminSearchBills";
 
 import AdminViewUsers from "./admin/AdminViewUsers";
 
@@ -40,13 +42,8 @@ class AdminHeader extends Component{
                                            <li><Link to='/adminsearchcars'>Cars</Link></li>
                                        </ul>
                                    </li>
-                                    <li>
-                                        <a href="#" className="fh5co-sub-ddown">User</a>
-                                        <ul className="fh5co-sub-menu">
-                                            <li><a href="#">View Users</a></li>
-                                            <li><a href="#">Modify Users</a></li>
-                                        </ul>
-                                    </li>
+                                    <li><Link to='/adminsearchusers'>Users</Link></li>
+                                    <li><Link to='/adminsearchbills'>Bills</Link></li>
                                 </ul>
                             </nav>
                         </div>
@@ -85,6 +82,17 @@ class AdminHeader extends Component{
                     </div>
                 )}/>
 
+                <Route exact path="/adminsearchusers" render={() => (
+                    <div>
+                        <AdminSearchUsers/>
+                    </div>
+                )}/>
+
+                <Route exact path="/adminsearchbills" render={() => (
+                    <div>
+                        <AdminSearchBills/>
+                    </div>
+                )}/>
             </div>
         )
 

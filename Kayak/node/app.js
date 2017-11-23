@@ -14,6 +14,14 @@ var adminAddHotels = require('./routes/admin/addhotels');
 var adminAddFlights = require('./routes/admin/addflights');
 var adminAddCars = require('./routes/admin/addcars');
 var adminSearchHotels = require('./routes/admin/searchhotels');
+var adminSearchFlights = require('./routes/admin/searchflights');
+var adminSearchCars = require('./routes/admin/searchcars');
+var adminUpdateHotels = require('./routes/admin/updatehotels');
+var adminUpdateFlights = require('./routes/admin/updateflights');
+var adminUpdateCars = require('./routes/admin/updatecars');
+var adminDeleteHotels = require('./routes/admin/deletehotels');
+var adminDeleteFlights = require('./routes/admin/deleteflights');
+var adminDeleteCars = require('./routes/admin/deletecars');
 
 var app = express();
 
@@ -37,7 +45,15 @@ app.post('/doSignUp',signup.doSignUp);
 app.post('/adminAddHotels',adminAddHotels.addHotels);
 app.post('/adminAddFlights',adminAddFlights.addFlights);
 app.post('/adminAddCars',adminAddCars.addCars);
-app.post('/adminSearchHotels',adminSearchHotels.searchHotels)
+app.post('/adminSearchHotels',adminSearchHotels.searchHotels);
+app.post('/adminSearchFlights',adminSearchFlights.searchFlights);
+app.post('/adminSearchCars',adminSearchCars.searchCars);
+app.post('/adminUpdateHotels',adminUpdateHotels.updateHotels);
+app.post('/adminUpdateFlights',adminUpdateFlights.updateFlights);
+app.post('/adminUpdateCars',adminUpdateCars.updateCars);
+app.post('/adminDeleteHotels',adminDeleteHotels.deleteHotels);
+app.post('/adminDeleteFlights',adminDeleteFlights.deleteFlights);
+app.post('/adminDeleteCars',adminDeleteCars.deleteCars);
 
 app.post('/login',function(req, res,next) {
     console.log("username in app" + JSON.stringify(req.body));

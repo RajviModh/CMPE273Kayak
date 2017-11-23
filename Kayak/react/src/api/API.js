@@ -117,7 +117,172 @@ export const adminSearchHotels = (payload) => {
         }
     ).then(res => res.json())
         .then(res => {
-            alert("in api response : "+JSON.stringify(res));
+            //alert("in api response : "+JSON.stringify(res));
+            return res;
+        })
+        .catch(error => {
+            console.log("This is error");
+            return error;
+        });
+};
+
+export const adminSearchFlights = (payload) => {
+    return fetch(`${api}/adminSearchFlights`, {
+            method: 'POST',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }
+    ).then(res => res.json())
+        .then(res => {
+            //alert("in api response : "+JSON.stringify(res));
+            return res;
+        })
+        .catch(error => {
+            console.log("This is error");
+            return error;
+        });
+};
+
+export const adminSearchCars = (payload) => {
+    return fetch(`${api}/adminSearchCars`, {
+            method: 'POST',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }
+    ).then(res => res.json())
+        .then(res => {
+            //alert("in api response : "+JSON.stringify(res));
+            return res;
+        })
+        .catch(error => {
+            console.log("This is error");
+            return error;
+        });
+};
+
+// -----------------------------------------------Admin Update Operations-----------------------------------------------
+
+export const adminUpdateHotels = (payload) => {
+    return fetch(`${api}/adminUpdateHotels`, {
+            method: 'POST',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }
+    ).then(res => res.json())
+        .then(res => {
+            //alert("in api response : "+JSON.stringify(res));
+            return res;
+        })
+        .catch(error => {
+            console.log("This is error");
+            return error;
+        });
+};
+
+export const adminUpdateFlights = (payload) => {
+    return fetch(`${api}/adminUpdateFlights`, {
+            method: 'POST',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }
+    ).then(res => res.json())
+        .then(res => {
+            //alert("in api response : "+JSON.stringify(res));
+            return res;
+        })
+        .catch(error => {
+            console.log("This is error");
+            return error;
+        });
+};
+
+export const adminUpdateCars = (payload) => {
+    return fetch(`${api}/adminUpdateCars`, {
+            method: 'POST',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }
+    ).then(res => res.json())
+        .then(res => {
+            //alert("in api response : "+JSON.stringify(res));
+            return res;
+        })
+        .catch(error => {
+            console.log("This is error");
+            return error;
+        });
+};
+
+// -----------------------------------------------Admin Delete Operations-----------------------------------------------
+
+
+export const adminDeleteHotels = (payload) => {
+    return fetch(`${api}/adminDeleteHotels`, {
+            method: 'POST',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }
+    ).then(res => res.json())
+        .then(res => {
+            //alert("in api response : "+JSON.stringify(res));
+            return res;
+        })
+        .catch(error => {
+            console.log("This is error");
+            return error;
+        });
+};
+
+export const adminDeleteFlights = (payload) => {
+    return fetch(`${api}/adminDeleteFlights`, {
+            method: 'POST',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }
+    ).then(res => res.json())
+        .then(res => {
+            //alert("in api response : "+JSON.stringify(res));
+            return res;
+        })
+        .catch(error => {
+            console.log("This is error");
+            return error;
+        });
+};
+
+export const adminDeleteCars = (payload) => {
+    return fetch(`${api}/adminDeleteCars`, {
+            method: 'POST',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }
+    ).then(res => res.json())
+        .then(res => {
+            //alert("in api response : "+JSON.stringify(res));
             return res;
         })
         .catch(error => {

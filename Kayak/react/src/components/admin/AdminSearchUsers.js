@@ -4,8 +4,7 @@ import * as API from '../../api/API';
 import ReactDataGrid from 'react-data-grid';
 import update from 'immutability-helper';
 
-class AdminSearchCars extends Component {
-
+class AdminSearchUsers extends Component {
     constructor() {
         super();
         this.state =
@@ -14,6 +13,7 @@ class AdminSearchCars extends Component {
                 filters: {},
                 sortColumn: null,
                 sortDirection: null,
+                userName: '',
                 operation: '',
                 searchResult: []
             };
@@ -25,4 +25,4 @@ class AdminSearchCars extends Component {
         );
     }
 }
-export default withRouter(AdminSearchCars);
+export default withRouter(AdminSearchUsers);
