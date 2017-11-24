@@ -11,7 +11,8 @@ import AdminHomePage from "./admin/AdminHomePage";
 import moment from 'moment';
 import Hotels from "./Hotels";
 import DateTimeField from 'react-bootstrap-datetimepicker';
-
+import axios from "axios";
+import {connect} from "react-redux";
 
 var abc = {backgroundImage: '../images/cover_bg_1.jpg'};
 
@@ -25,36 +26,66 @@ var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(
 
 class NewerHomePage extends Component {
 
-    logChange = (val) => {
-        console.log('Selected: ', val);
-    }
-
-    static propTypes = {
-        minDate: PropTypes.object
-    }
-
-    componentWillMount(){
-       //alert(today)
-    }
-
-    state = {
+  constructor (props) {
+    super(props)
+    this.state = {
         isLoggedIn: false,
         message: '',
         username: '',
         showLoginModal: false,
         showSignupModal: false,
         isUser:true,
-        fromCity : ['SFO','SJC','LAX'],
-        selectedFrom : '',
-        toCity : ['a','b','c'],
-        selectedTo:'',
         date: "2017-11-21",
         startDate :  moment(this.props.minDate, 'DD/MM/YYYY'),
         format: "YYYY-MM-DD",
         inputFormat: "DD/MM/YYYY",
         mode: "date",
-        goingDate : ''
-    };
+        fromCity : [],
+        toCity : [],
+        selectedFrom : this.props.select.selectedFrom,
+        selectedTo:this.props.select.selectedTo,
+        goingDate : new Date(),
+        comingDate : new Date(),
+        selectedClass:'',
+        noAdults:0,
+        noChild:0,
+    }
+  }
+
+    componentWillMount(){
+
+        var self=this;
+        console.log("in store ",this.props.select);
+        axios.get('http://localhost:3001/flights/from')
+            .then(function (response) {
+                console.log(response);
+                console.log(response.data.from);
+                self.setState({
+                    fromCity:response.data.from
+                    //isLoggedIn: true,
+                    //message: "Welcome to my App..!!",
+                    //username: userdata.username
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios.get('http://localhost:3001/flights/to')
+            .then(function (response) {
+                console.log(response);
+                console.log(response.data.to);
+                self.setState({
+                    toCity:response.data.to
+                    //isLoggedIn: true,
+                    //message: "Welcome to my App..!!",
+                    //username: userdata.username
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
 
     handleSubmit = (userdata) => {
         API.doLogin(userdata)
@@ -75,6 +106,7 @@ class NewerHomePage extends Component {
                 }
             });
     };
+
     handleSignUp = (userdata) => {
         //alert("in signup");
         API.doSignup(userdata)
@@ -97,11 +129,54 @@ class NewerHomePage extends Component {
             })
     };
 
-
     handleChange = (newDate) => {
-        alert(newDate);
-        return this.setState({date: newDate});
+        //alert(newDate)
+        return this.setState({goingDate: newDate});
     };
+
+    handleChange1 = (newDate) => {
+        //alert(newDate);
+        return this.setState({comingDate: newDate});
+    };
+
+    searchFlight = () => {
+      console.log(this.props.select);
+        var inputData = "from city " + this.state.selectedFrom + "to city " + this.state.selectedTo + "going date" + this.state.goingDate + "coming date" + this.state.comingDate +" class " + this.state.selectedClass +" Adults"+ this.state.noAdults + " Child " + this.state.noChild;
+        var today =new Date()
+        var now = new Date(this.state.goingDate)
+        var going = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+        var coming = new Date(this.state.comingDate)
+
+        var from = this.state.selectedFrom
+        var to = this.state.selectedTo
+        var goingD = this.state.goingDate
+        var comingD = this.state.comingDate
+        var Sclass = this.state.selectedClass
+        var adult = this.state.noAdults
+        var child = this.state.noChild
+
+        if(from==="" || to==="" || goingD==="" || comingD==="" || Sclass==="" || adult==="")
+            alert("Please select all the fields")
+        else if(from===to)
+            alert("From city cannot be same as To city")
+        else if((new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))<(new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate())))
+            alert("Selected date cannot be less than today's date")
+        else if(coming<=going)
+            alert("Arrival date cannot be less than Departure date");
+        else{
+          var self=this;
+          axios.get('http://localhost:3001/flights/search',{params:{from:document.getElementById('selectedFrom').value,to:document.getElementById('selectedTo').value,number_of_seats:document.getElementById('noAdults').value,number_of_seats_c:document.getElementById('noChild').value,category:document.getElementById('category').value,date:this.state.goingDate}})
+              .then(function (response) {
+                  console.log(response);
+                  self.props.setFlights(response.data.returnFlightS);
+                  localStorage.setItem("searchedFlights",response.data.returnFlightS);
+                  console.log("in localStorage: ",localStorage.getItem("searchedFlights"));
+              })
+              .catch(function (error) {
+                  console.log(error);
+              });
+        }
+    }
 
     close = (data) => {
 
@@ -114,6 +189,7 @@ class NewerHomePage extends Component {
             this.setState({showSignupModal: false});
         }
     };
+
     open = (data) => {
         if (data === 'login') {
             alert("in login of open");
@@ -126,12 +202,9 @@ class NewerHomePage extends Component {
     };
 
     render() {
-
         return (
             <div id="fh5co-wrapper">
                 <div id="fh5co-page">
-
-
                     {this.state.isUser?<UserHeader/>:<AdminHeader/>}
 
                     <Route exact path="/" render={() => (
@@ -166,9 +239,9 @@ class NewerHomePage extends Component {
                                                                 <div className="col-xxs-12 col-xs-6 mt">
                                                                     <div className="input-field">
                                                                         <label for="from">From:</label>
-
                                                                         <select style={color}
-                                                                                onChange={(event)=>this.setState({selectedFrom:event.target.value})}  className="cs-select cs-skin-border" name="" id="">
+                                                                                onChange={(event)=>{this.props.setSelectedFrom(event.target.value);this.setState({selectedFrom:event.target.value})}}  className="cs-select cs-skin-border" name="" id="selectedFrom">
+                                                                            <option style={color} name="" id="">City</option>
                                                                             {
                                                                                 this.state.fromCity.map(city=>
                                                                                     <option style={color} value={city}>{city}</option>
@@ -184,7 +257,8 @@ class NewerHomePage extends Component {
                                                                         <label for="from">To:</label>
 
                                                                         <select style={color}
-                                                                                onChange={(event)=>this.setState({selectedTo:event.target.value})}  className="cs-select cs-skin-border" name="" id="">
+                                                                                onChange={(event)=>{this.props.setSelectedTo(event.target.value);this.setState({selectedTo:event.target.value})}}  className="cs-select cs-skin-border" name="" id="selectedTo">
+                                                                            <option style={color} name="" id="">City</option>
                                                                             {
                                                                                 this.state.toCity.map(city=>
                                                                                     <option style={color} value={city}>{city}</option>
@@ -197,10 +271,10 @@ class NewerHomePage extends Component {
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt alternate">
                                                                     <div className="input-field">
-                                                                        <label for="date-start">Check In:</label>
+                                                                        <label for="date-start">Going Date</label>
                                                                         <div className="input-field">
                                                                             <DateTimeField  mode="date"
-                                                                                            dateTime={this.state.date}
+                                                                                            dateTime={this.state.goingDate}
                                                                                             minDate={this.state.startDate}
                                                                                             defaultText="Departure Date"
                                                                                             format={this.state.format}
@@ -213,53 +287,71 @@ class NewerHomePage extends Component {
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt alternate">
                                                                     <div className="input-field">
-                                                                        <label for="date-end">Check Out:</label>
-                                                                        <input type="text" className="form-control"
-                                                                               id="date-end" placeholder="mm/dd/yyyy"/>
+                                                                        <label for="date-end">Coming Date:</label>
+                                                                        <div className="input-field">
+                                                                            <DateTimeField  mode="date"
+                                                                                            dateTime={this.state.comingDate}
+                                                                                            minDate={this.state.startDate}
+                                                                                            defaultText="Arrival Date"
+                                                                                            format={this.state.format}
+                                                                                            viewMode={this.state.mode}
+                                                                                            inputFormat={this.state.inputFormat}
+                                                                                            onChange={this.handleChange1}/>
+
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-sm-12 mt">
                                                                     <section>
                                                                         <label for="class">Class:</label>
-                                                                        <select className="cs-select cs-skin-border">
+                                                                        {/*<select className="cs-select cs-skin-border">
                                                                             <option value="" disabled selected>Economy
                                                                             </option>
                                                                             <option value="economy">Economy</option>
                                                                             <option value="first">First</option>
-                                                                            <option value="business">Business</option>
-                                                                        </select>
-                                                                    </section>
+                                                                            <option value="business">Business</option>*/}
+
+                                                                            <label for="Class">class:</label>
+
+                                                                            <select style={color}
+                                                                                    onChange={(event)=>this.setState({selectedClass:event.target.value})}  className="cs-select cs-skin-border" name="" id="category">
+                                                                                <option style={color} value="class">Class</option>
+                                                                                <option style={color} value="economy">Economy</option>
+                                                                                <option style={color} value="first">First</option>
+                                                                                <option style={color} value="business">Business</option>
+                                                                            </select>
+
+                                                                      </section>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt">
                                                                     <section>
                                                                         <label for="class">Adult:</label>
-                                                                        <select className="cs-select cs-skin-border">
-                                                                            <option value="" disabled selected>1
-                                                                            </option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4">4</option>
-                                                                        </select>
+                                                                        <input style={color} type='number' id="noAdults" onChange={(event) => {
+                                                                            this.setState({
+                                                                                noAdults: event.target.value
+                                                                            });
+
+                                                                        }}
+                                                                        />
                                                                     </section>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt">
                                                                     <section>
                                                                         <label for="class">Children:</label>
-                                                                        <select className="cs-select cs-skin-border">
-                                                                            <option value="" disabled selected>1
-                                                                            </option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4">4</option>
-                                                                        </select>
+                                                                        <input style={color} type='number' id="noChild" onChange={(event) => {
+                                                                            this.setState({
+                                                                                noChild: event.target.value
+                                                                            });
+
+                                                                        }}
+                                                                        />
                                                                     </section>
                                                                 </div>
                                                                 <div className="col-xs-12">
-                                                                    <input type="submit"
+                                                                    <button className="btn btn-primary btn-block" onClick={()=>this.searchFlight()}>Search Flight</button>
+                                                                    {/*<input type="submit"
                                                                            className="btn btn-primary btn-block"
-                                                                           value="Search Flight"/>
+                                                                           value="Search Flight"/>*/}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -437,19 +529,43 @@ class NewerHomePage extends Component {
                             <AdminHomePage/>
                         </div>
                     )}/>
-
-
-
-
                     <UserFooter/>
                 </div>
             </div>
-
-
-
         );
 
     }
 }
 
-export default withRouter(NewerHomePage);
+const mapStateToProps = (state) => {
+    return{
+        select: state.reducerFlights
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        setSelectedFrom: (data) => {
+            console.log("data is "+data);
+            dispatch({
+                type: "setSelectedFrom",
+                payload :{data:data}
+            });
+        },
+        setSelectedTo: (data) => {
+            dispatch({
+                type: "setSelectedTo",
+                payload :{data:data}
+            });
+        },
+        setFlights: (data) => {
+          console.log("flights are ",data);
+            dispatch({
+                type: "setFlights",
+                payload :{data:data}
+            });
+        },
+    };
+};
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(NewerHomePage));
