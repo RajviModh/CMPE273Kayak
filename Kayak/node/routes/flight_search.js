@@ -725,6 +725,6 @@ function round(){
 exports.flight_details = flight_details;*/
 
 
-exports.flight_book = flight_book;
+//exports.flight_book = flight_book;
 
 module.exports = router;
