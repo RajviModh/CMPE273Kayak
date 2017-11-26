@@ -1,27 +1,91 @@
-import React, {Component} from 'react';
-import {Route, withRouter} from 'react-router-dom';
+import React, {Component, PropTypes} from 'react';
+import {Route, withRouter, Link} from 'react-router-dom';
 import * as API from '../api/API';
 import {DropdownMenu, MenuItem} from 'react-bootstrap-dropdown-menu';
 import Login from "./Login";
 import Message from "./Message";
-import Welcome from "./Welcome";
-//import '../css/style.css';
-//import '../css/bootstrap.css';
-import Signup from "./Signup";
-import {Modal} from 'react-bootstrap';
+import UserHeader from "./UserHeader";
+import AdminHeader from "./AdminHeader";
+import UserFooter from "./UserFooter";
+import AdminHomePage from "./admin/AdminHomePage";
+import moment from 'moment';
+import Hotels from "./Hotels";
+import DateTimeField from 'react-bootstrap-datetimepicker';
+import axios from "axios";
+import {connect} from "react-redux";
 
 var abc = {backgroundImage: '../images/cover_bg_1.jpg'};
 
+var color = {color:"black"}
+
+var date = new Date();
+date.setDate(date.getDate()-1,'YYYY-MM-DD');
+
+var nowDate = new Date();
+var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0)
 
 class NewerHomePage extends Component {
 
-    state = {
+  constructor (props) {
+    super(props)
+    this.state = {
         isLoggedIn: false,
         message: '',
         username: '',
         showLoginModal: false,
-        showSignupModal: false
-    };
+        showSignupModal: false,
+        isUser:true,
+        date: "2017-11-21",
+        startDate :  moment(this.props.minDate, 'DD/MM/YYYY'),
+        format: "YYYY-MM-DD",
+        inputFormat: "DD/MM/YYYY",
+        mode: "date",
+        fromCity : [],
+        toCity : [],
+        selectedFrom : this.props.select.selectedFrom,
+        selectedTo:this.props.select.selectedTo,
+        goingDate : new Date(),
+        comingDate : new Date(),
+        selectedClass:'',
+        noAdults:0,
+        noChild:0,
+    }
+  }
+
+    componentWillMount(){
+
+        var self=this;
+        console.log("in store ",this.props.select);
+        axios.get('http://localhost:3001/flights/from')
+            .then(function (response) {
+                console.log(response);
+                console.log(response.data.from);
+                self.setState({
+                    fromCity:response.data.from
+                    //isLoggedIn: true,
+                    //message: "Welcome to my App..!!",
+                    //username: userdata.username
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios.get('http://localhost:3001/flights/to')
+            .then(function (response) {
+                console.log(response);
+                console.log(response.data.to);
+                self.setState({
+                    toCity:response.data.to
+                    //isLoggedIn: true,
+                    //message: "Welcome to my App..!!",
+                    //username: userdata.username
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
 
     handleSubmit = (userdata) => {
         API.doLogin(userdata)
@@ -42,6 +106,7 @@ class NewerHomePage extends Component {
                 }
             });
     };
+
     handleSignUp = (userdata) => {
         //alert("in signup");
         API.doSignup(userdata)
@@ -64,6 +129,55 @@ class NewerHomePage extends Component {
             })
     };
 
+    handleChange = (newDate) => {
+        //alert(newDate)
+        return this.setState({goingDate: newDate});
+    };
+
+    handleChange1 = (newDate) => {
+        //alert(newDate);
+        return this.setState({comingDate: newDate});
+    };
+
+    searchFlight = () => {
+      console.log(this.props.select);
+        var inputData = "from city " + this.state.selectedFrom + "to city " + this.state.selectedTo + "going date" + this.state.goingDate + "coming date" + this.state.comingDate +" class " + this.state.selectedClass +" Adults"+ this.state.noAdults + " Child " + this.state.noChild;
+        var today =new Date()
+        var now = new Date(this.state.goingDate)
+        var going = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+        var coming = new Date(this.state.comingDate)
+
+        var from = this.state.selectedFrom
+        var to = this.state.selectedTo
+        var goingD = this.state.goingDate
+        var comingD = this.state.comingDate
+        var Sclass = this.state.selectedClass
+        var adult = this.state.noAdults
+        var child = this.state.noChild
+
+        if(from==="" || to==="" || goingD==="" || comingD==="" || Sclass==="" || adult==="")
+            alert("Please select all the fields")
+        else if(from===to)
+            alert("From city cannot be same as To city")
+        else if((new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))<(new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate())))
+            alert("Selected date cannot be less than today's date")
+        else if(coming<=going)
+            alert("Arrival date cannot be less than Departure date");
+        else{
+          var self=this;
+          axios.get('http://localhost:3001/flights/search',{params:{from:document.getElementById('selectedFrom').value,to:document.getElementById('selectedTo').value,number_of_seats:document.getElementById('noAdults').value,number_of_seats_c:document.getElementById('noChild').value,category:document.getElementById('category').value,date:this.state.goingDate}})
+              .then(function (response) {
+                  console.log(response);
+                  self.props.setFlights(response.data.returnFlightS);
+                  localStorage.setItem("searchedFlights",response.data.returnFlightS);
+                  console.log("in localStorage: ",localStorage.getItem("searchedFlights"));
+              })
+              .catch(function (error) {
+                  console.log(error);
+              });
+        }
+    }
+
     close = (data) => {
 
         if (data === 'login') {
@@ -75,6 +189,7 @@ class NewerHomePage extends Component {
             this.setState({showSignupModal: false});
         }
     };
+
     open = (data) => {
         if (data === 'login') {
             alert("in login of open");
@@ -90,58 +205,7 @@ class NewerHomePage extends Component {
         return (
             <div id="fh5co-wrapper">
                 <div id="fh5co-page">
-                    <header id="fh5co-header-section" className="sticky-banner">
-                        <div className="container">
-                            <div className="nav-header">
-                                <a href="#" className="js-fh5co-nav-toggle fh5co-nav-toggle dark"/>
-                                <h1 id="fh5co-logo"><a href="index.html"><i className="icon-airplane"/>KAYAK</a></h1>
-
-                                <nav id="fh5co-menu-wrap" role="navigation">
-                                    <ul className="sf-menu" id="fh5co-primary-menu">
-                                        <li className="active"><a href="/">Home</a></li>
-                                        <li>
-                                            <a href="vacation.html" className="fh5co-sub-ddown">Vacations</a>
-                                            <ul className="fh5co-sub-menu">
-                                                <li><a href="#">Family</a></li>
-                                                <li><a href="#">CSS3 &amp; HTML5</a></li>
-                                                <li><a href="#">Angular JS</a></li>
-                                                <li><a href="#">Node JS</a></li>
-                                                <li><a href="#">Django &amp; Python</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="flight.html">Flights</a></li>
-                                        <li><a href="hotel.html">Hotel</a></li>
-                                        <li><a href="car.html">Car</a></li>
-                                        <li><a href="blog.html">Blog</a></li>
-                                        <li><a href="contact.html">Contact</a></li>
-                                        <li>
-                                            <a href='#' className="fh5co-sub-ddown">My Account</a>
-                                            <ul className="fh5co-sub-menu">
-                                                <li>
-                                                    <div>
-                                                        <button className="btn btn-warning" onClick={() => {
-                                                            this.open('login')
-                                                        }}>
-                                                            Login
-                                                        </button>
-
-                                                        <br/><br/>
-                                                        <button className="btn btn-warning" onClick={() => {
-                                                            this.open('signup')
-                                                        }}>
-                                                            Signup
-                                                        </button>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </header>
+                    {this.state.isUser?<UserHeader/>:<AdminHeader/>}
 
                     <Route exact path="/" render={() => (
 
@@ -175,76 +239,119 @@ class NewerHomePage extends Component {
                                                                 <div className="col-xxs-12 col-xs-6 mt">
                                                                     <div className="input-field">
                                                                         <label for="from">From:</label>
-                                                                        <input type="text" className="form-control"
-                                                                               id="from-place"
-                                                                               placeholder="Los Angeles, USA"/>
+                                                                        <select style={color}
+                                                                                onChange={(event)=>{this.props.setSelectedFrom(event.target.value);this.setState({selectedFrom:event.target.value})}}  className="cs-select cs-skin-border" name="" id="selectedFrom">
+                                                                            <option style={color} name="" id="">City</option>
+                                                                            {
+                                                                                this.state.fromCity.map(city=>
+                                                                                    <option style={color} value={city}>{city}</option>
+
+                                                                                )
+                                                                            }
+
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt">
                                                                     <div className="input-field">
                                                                         <label for="from">To:</label>
-                                                                        <input type="text" className="form-control"
-                                                                               id="to-place"
-                                                                               placeholder="Tokyo, Japan"/>
+
+                                                                        <select style={color}
+                                                                                onChange={(event)=>{this.props.setSelectedTo(event.target.value);this.setState({selectedTo:event.target.value})}}  className="cs-select cs-skin-border" name="" id="selectedTo">
+                                                                            <option style={color} name="" id="">City</option>
+                                                                            {
+                                                                                this.state.toCity.map(city=>
+                                                                                    <option style={color} value={city}>{city}</option>
+
+                                                                                )
+                                                                            }
+
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt alternate">
                                                                     <div className="input-field">
-                                                                        <label for="date-start">Check In:</label>
-                                                                        <input type="text" className="form-control"
-                                                                               id="date-start"
-                                                                               placeholder="mm/dd/yyyy"/>
+                                                                        <label for="date-start">Going Date</label>
+                                                                        <div className="input-field">
+                                                                            <DateTimeField  mode="date"
+                                                                                            dateTime={this.state.goingDate}
+                                                                                            minDate={this.state.startDate}
+                                                                                            defaultText="Departure Date"
+                                                                                            format={this.state.format}
+                                                                                            viewMode={this.state.mode}
+                                                                                            inputFormat={this.state.inputFormat}
+                                                                                            onChange={this.handleChange}/>
+
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt alternate">
                                                                     <div className="input-field">
-                                                                        <label for="date-end">Check Out:</label>
-                                                                        <input type="text" className="form-control"
-                                                                               id="date-end" placeholder="mm/dd/yyyy"/>
+                                                                        <label for="date-end">Coming Date:</label>
+                                                                        <div className="input-field">
+                                                                            <DateTimeField  mode="date"
+                                                                                            dateTime={this.state.comingDate}
+                                                                                            minDate={this.state.startDate}
+                                                                                            defaultText="Arrival Date"
+                                                                                            format={this.state.format}
+                                                                                            viewMode={this.state.mode}
+                                                                                            inputFormat={this.state.inputFormat}
+                                                                                            onChange={this.handleChange1}/>
+
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-sm-12 mt">
                                                                     <section>
                                                                         <label for="class">Class:</label>
-                                                                        <select className="cs-select cs-skin-border">
+                                                                        {/*<select className="cs-select cs-skin-border">
                                                                             <option value="" disabled selected>Economy
                                                                             </option>
                                                                             <option value="economy">Economy</option>
                                                                             <option value="first">First</option>
-                                                                            <option value="business">Business</option>
-                                                                        </select>
-                                                                    </section>
+                                                                            <option value="business">Business</option>*/}
+
+                                                                            <label for="Class">class:</label>
+
+                                                                            <select style={color}
+                                                                                    onChange={(event)=>this.setState({selectedClass:event.target.value})}  className="cs-select cs-skin-border" name="" id="category">
+                                                                                <option style={color} value="class">Class</option>
+                                                                                <option style={color} value="economy">Economy</option>
+                                                                                <option style={color} value="first">First</option>
+                                                                                <option style={color} value="business">Business</option>
+                                                                            </select>
+
+                                                                      </section>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt">
                                                                     <section>
                                                                         <label for="class">Adult:</label>
-                                                                        <select className="cs-select cs-skin-border">
-                                                                            <option value="" disabled selected>1
-                                                                            </option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4">4</option>
-                                                                        </select>
+                                                                        <input style={color} type='number' id="noAdults" onChange={(event) => {
+                                                                            this.setState({
+                                                                                noAdults: event.target.value
+                                                                            });
+
+                                                                        }}
+                                                                        />
                                                                     </section>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt">
                                                                     <section>
                                                                         <label for="class">Children:</label>
-                                                                        <select className="cs-select cs-skin-border">
-                                                                            <option value="" disabled selected>1
-                                                                            </option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4">4</option>
-                                                                        </select>
+                                                                        <input style={color} type='number' id="noChild" onChange={(event) => {
+                                                                            this.setState({
+                                                                                noChild: event.target.value
+                                                                            });
+
+                                                                        }}
+                                                                        />
                                                                     </section>
                                                                 </div>
                                                                 <div className="col-xs-12">
-                                                                    <input type="submit"
+                                                                    <button className="btn btn-primary btn-block" onClick={()=>this.searchFlight()}>Search Flight</button>
+                                                                    {/*<input type="submit"
                                                                            className="btn btn-primary btn-block"
-                                                                           value="Search Flight"/>
+                                                                           value="Search Flight"/>*/}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -411,132 +518,54 @@ class NewerHomePage extends Component {
 
                     )}/>
 
-
-                    <div>
-                        <Modal show={this.state.showLoginModal} onHide={() => {
-                            this.close('login')
-                        }}>
-                            {/* <Modal.Header closeButton>
-                        <Modal.Title>Login</Modal.Title>
-                    </Modal.Header>*/}
-                            <Modal.Body>
-                                <Login handleSubmit={this.handleSubmit}/>
-                                <Message message={this.state.message}/>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <div className="col-sm-5 col-md-5">
-                                    Don't have an account?
-                                    <button onClick={() => {
-                                        this.close('login')
-                                    }}>Close
-                                    </button>
-                                </div>
-                            </Modal.Footer>
-                        </Modal>
-
-                    </div>
-                    <div>
-                        <Modal show={this.state.showSignupModal} onHide={() => {
-                            this.close('signup')
-                        }}>
-                            {/* <Modal.Header closeButton>
-                        <Modal.Title>Login</Modal.Title>
-                    </Modal.Header>*/}
-                            <Modal.Body>
-                                <Signup handleSignUp={this.handleSignUp}/>
-                                <Message message={this.state.message}/>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <div className="col-sm-5 col-md-5">
-                                    Don't have an account?
-                                    <button onClick={() => {
-                                        this.close('signup')
-                                    }}>Close
-                                    </button>
-                                </div>
-                            </Modal.Footer>
-                        </Modal>
-
-                    </div>
-
-                    <footer>
-                        <div id="footer">
-                            <div className="container">
-                                <div className="row row-bottom-padded-md">
-                                    <div className="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                        <h3>About Travel</h3>
-                                        <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                            Consonantia, there live the blind texts.</p>
-                                    </div>
-                                    <div className="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                        <h3>Top Flights Routes</h3>
-                                        <ul>
-                                            <li><a href="#">Manila flights</a></li>
-                                            <li><a href="#">Dubai flights</a></li>
-                                            <li><a href="#">Bangkok flights</a></li>
-                                            <li><a href="#">Tokyo Flight</a></li>
-                                            <li><a href="#">New York Flights</a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                        <h3>Top Hotels</h3>
-                                        <ul>
-                                            <li><a href="#">Boracay Hotel</a></li>
-                                            <li><a href="#">Dubai Hotel</a></li>
-                                            <li><a href="#">Singapore Hotel</a></li>
-                                            <li><a href="#">Manila Hotel</a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                        <h3>Interest</h3>
-                                        <ul>
-                                            <li><a href="#">Beaches</a></li>
-                                            <li><a href="#">Family Travel</a></li>
-                                            <li><a href="#">Budget Travel</a></li>
-                                            <li><a href="#">Food &amp; Drink</a></li>
-                                            <li><a href="#">Honeymoon and Romance</a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                        <h3>Best Places</h3>
-                                        <ul>
-                                            <li><a href="#">Boracay Beach</a></li>
-                                            <li><a href="#">Dubai</a></li>
-                                            <li><a href="#">Singapore</a></li>
-                                            <li><a href="#">Hongkong</a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                        <h3>Affordable</h3>
-                                        <ul>
-                                            <li><a href="#">Food &amp; Drink</a></li>
-                                            <li><a href="#">Fare Flights</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-6 col-md-offset-3 text-center">
-                                        <p className="fh5co-social-icons">
-                                            <a href="#"><i className="icon-twitter2"/></a>
-                                            <a href="#"><i className="icon-facebook2"/></a>
-                                            <a href="#"><i className="icon-instagram"/></a>
-                                            <a href="#"><i className="icon-dribbble2"/></a>
-                                            <a href="#"><i className="icon-youtube"/></a>
-                                        </p>
-                                        <p>Copyright 2017. All Rights Reserved. <br/>Made with <i
-                                            className="icon-heart3"/> by Rajvi</p>
-                                    </div>
-                                </div>
-                            </div>
+                    <Route exact path="/hotels" render={() => (
+                        <div>
+                            <Hotels/>
                         </div>
-                    </footer>
+                    )}/>
 
+                    <Route exact path="/adminhome" render={() => (
+                        <div>
+                            <AdminHomePage/>
+                        </div>
+                    )}/>
+                    <UserFooter/>
                 </div>
             </div>
-
         );
 
     }
 }
 
-export default withRouter(NewerHomePage);
+const mapStateToProps = (state) => {
+    return{
+        select: state.reducerFlights
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        setSelectedFrom: (data) => {
+            console.log("data is "+data);
+            dispatch({
+                type: "setSelectedFrom",
+                payload :{data:data}
+            });
+        },
+        setSelectedTo: (data) => {
+            dispatch({
+                type: "setSelectedTo",
+                payload :{data:data}
+            });
+        },
+        setFlights: (data) => {
+          console.log("flights are ",data);
+            dispatch({
+                type: "setFlights",
+                payload :{data:data}
+            });
+        },
+    };
+};
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(NewerHomePage));
