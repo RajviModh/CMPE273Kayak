@@ -1,0 +1,29 @@
+//No of adults and children in hotels
+
+<div className="col-xxs-12 col-xs-6 mt">
+                                                                    <section>
+                                                                        <label for="className">Adult:</label>
+                                                                        // Make proper selection
+                                                                        <select id="noofadults" className="cs-select cs-skin-border">
+                                                                            <option value="" disabled selected>1
+                                                                            </option>
+                                                                            <option value="1">1</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="4">4</option>
+                                                                        </select>
+                                                                    </section>
+                                                                </div>
+                                                                <div className="col-xxs-12 col-xs-6 mt">
+                                                                    <section>
+                                                                        <label for="className" id="noofchildren">Children:</label>
+                                                                        <select id="noofchildren" className="cs-select cs-skin-border">
+                                                                            <option value="" disabled selected>1
+                                                                            </option>
+                                                                            <option value="1">1</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="4">4</option>
+                                                                        </select>
+                                                                    </section>
+                                                                </div>
