@@ -16,7 +16,7 @@ var adminAddCars = require('./routes/admin/addcars');
 var adminSearchHotels = require('./routes/admin/searchhotels');
 
 var app = express();
-
+const hotelRoutes = require('./routes/hotel/hotelRoutes');
 //Enable CORS
 app.use(cors());
 
@@ -31,28 +31,29 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(hotelRoutes);
 
 app.use('/', index);
-app.post('/doSignUp',signup.doSignUp);
-app.post('/adminAddHotels',adminAddHotels.addHotels);
-app.post('/adminAddFlights',adminAddFlights.addFlights);
-app.post('/adminAddCars',adminAddCars.addCars);
-app.post('/adminSearchHotels',adminSearchHotels.searchHotels)
+app.post('/doSignUp', signup.doSignUp);
+app.post('/adminAddHotels', adminAddHotels.addHotels);
+app.post('/adminAddFlights', adminAddFlights.addFlights);
+app.post('/adminAddCars', adminAddCars.addCars);
+app.post('/adminSearchHotels', adminSearchHotels.searchHotels)
 
-app.post('/login',function(req, res,next) {
+app.post('/login', function (req, res, next) {
     console.log("username in app" + JSON.stringify(req.body));
-    passport.authenticate('login', function(err, user) {
-        if(err) {
+    passport.authenticate('login', function (err, user) {
+        if (err) {
             res.status(500).send();
         }
 
-        if(!user) {
+        if (!user) {
             res.status(401).send();
         }
         //req.session.user = user.username;
         //console.log(req.session.user);
         console.log("session initialized");
-       // console.log("back in app.js root : " +user.root);
+        // console.log("back in app.js root : " +user.root);
         //console.log("back in app.js userid : "+user.userid);
         console.log("back in app.js" + JSON.stringify(user));
 
@@ -61,10 +62,11 @@ app.post('/login',function(req, res,next) {
             //username: user.username,
             //userid: user.userid,
             //root: user.root,
-            userid : user.userid,
-            email:user.email,
-            status: '201'});
-    })(req, res,next);
+            userid: user.userid,
+            email: user.email,
+            status: '201'
+        });
+    })(req, res, next);
 });
 
 // catch 404 and forward to error handler
