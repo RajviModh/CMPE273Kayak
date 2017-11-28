@@ -125,3 +125,121 @@ export const adminSearchHotels = (payload) => {
             return error;
         });
 };
+
+//----------------------------------------------------Hotel API calls---------------------------------------------------
+
+export const searchHotels = (payload) => {
+    return fetch(`${api}/hotel/search`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    }).then(res => res.json())
+        .then(res => {
+            alert("back in API  : " + JSON.stringify(res));
+            return res;
+        })
+        .catch(error => {
+            console.log("This is error");
+            return error;
+        });
+};
+
+export const searchcityforHotels = (payload) => {
+    return fetch(`${api}/hotel/search/cities`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    }).then(res => res.json())
+        .then(res => {
+            alert("back in API  : " + JSON.stringify(res));
+            return res;
+        })
+        .catch(error => {
+            console.log("This is error");
+            return error;
+        });
+};
+
+export const bookHotel = (payload) => {
+    return fetch(`${api}/hotel/book`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    }).then(res => res.json())
+        .then(res => {
+            alert("back in API  : " + JSON.stringify(res));
+            return res;
+        })
+        .catch(error => {
+            console.log("This is error");
+            return error;
+        });
+};
+
+//----------------------------------------------------Car API calls-----------------------------------------------------
+
+export const searchCars = (payload) => {
+    return fetch(`${api}/car/search`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    }).then(res => res.json())
+        .then(res => {
+            alert("back in API  : " + JSON.stringify(res));
+            return res;
+        })
+        .catch(error => {
+            console.log("This is error");
+            return error;
+        });
+};
+
+export const searchcityforCars = (payload) => {
+    return fetch(`${api}/car/search/cities`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    }).then(res => res.json())
+        .then(res => {
+            alert("back in API  : " + JSON.stringify(res));
+            return res;
+        })
+        .catch(error => {
+            console.log("This is error");
+            return error;
+        });
+};
+
+export const bookCar = (payload) => {
+    return fetch(`${api}/car/book`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    }).then(res => res.json())
+        .then(res => {
+            alert("back in API  : " + JSON.stringify(res));
+            return res;
+        })
+        .catch(error => {
+            console.log("This is error");
+            return error;
+        });
+};
