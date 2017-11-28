@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import '../css/hotel-style.css';
 import '../css/bootstrap.css';
-import ReactStars from 'react-stars'
+import ReactStars from 'react-stars';
 import DateTimeField from 'react-bootstrap-datetimepicker';
-import {Checkbox} from 'react-bootstrap';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
+import 'rc-slider/assets/index.css';
+import 'rc-tooltip/assets/bootstrap.css';
+import Tooltip from 'rc-tooltip';
 import Slider from 'rc-slider';
-import {Link, Route, withRouter} from 'react-router-dom';
-import {connect} from "react-redux";
-
-
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
 
@@ -67,8 +67,8 @@ const bookHotel = (hotelName) => {
 
 class Hotels extends Component {
 
-    /*state = {
-        flightData: [{
+    state = {
+        /*flightData: [{
             f_id: '#AI-1',
             airline_name: 'Air India',
             fare_e: 1000000,
@@ -89,19 +89,22 @@ class Hotels extends Component {
                 duration: '2:02:00'
             }
 
-        ],
-        fromCity: ['SFO', 'SJC', 'LAX'],
+        ],*/
+        /*fromCity: ['SFO', 'SJC', 'LAX'],
         toCity: ['SFO', 'SJC', 'LAX'],
         selectedFrom: '',
-        selectedTo: '',
+        selectedTo: '',*/
         goingDate: new Date(),
         comingDate: new Date(),
-        selectedClass: '',
+        format: "YYYY-MM-DD",
+        inputFormat: "DD/MM/YYYY",
+        mode: "date"
+        /*selectedClass: '',
         noAdults: 0,
         noChild: 0,
         return_enable: false,
-        hotel_name: 'Hilton'
-    };*/
+        hotel_name: 'Hilton'*/
+    };
 
     handlehotelChange = (newDate) => {
         formdata["checkindate"] = newDate;
@@ -168,45 +171,72 @@ class Hotels extends Component {
         this.setState({});
     }
 
-    getStars(star) {
+    getStars = (star) => {
         var stars = [];
 
         for (var i = 1; i <= star; i++) {
             stars.push(<span>☆</span>);
         }
         return stars;
+    };
+
+    getRooms = (hotelIndex) => {
+
+        var rooms = this.props.select.hotels[hotelIndex].rooms;
+
+        rooms = rooms.map((room, index) => {
+            return ( <tr>
+                <td> {room.type}</td>
+                <td> {room.rent}</td>
+                <td> {room.availableRooms}</td>
+                <button className="btn btn-primary" id="download" type="button"
+                        onClick={() => this.handleBook(room)}>Continue
+                </button>
+            </tr>);
+        });
+        return rooms;
+    }
+
+    getFreebies = (hotelIndex) => {
+        var freebies = this.props.select.hotels[hotelIndex].freebies;
+
+        freebies = freebies.map((freebie, index) => {
+            return (<div><span className="glyphicon glyphicon-ok"
+                               aria-hidden="true"> {freebie}</span><br/></div>);
+        });
+        return freebies;
+
     }
 
     render() {
 
-        var roomTypes, freebies = [];
-        console.log('files render');
+
         var status, url;
 
 
-        roomTypes = this.props.select.rooms.map(function (item, index) {
-            if (!index == 0) {
-                return (
-                    <tr>
-                        <td> {item.type}</td>
-                        <td> {item.rent}</td>
-                        <td> {item.availableRooms}</td>
-                        <button className="btn btn-primary" id="download" type="button"
-                                onClick={() => this.handleBook(item)}>Continue
-                        </button>
-                    </tr>
-                );
-            }
-        }.bind(this));
+        // roomTypes = this.props.select.rooms.map(function (item, index) {
+        //     if (!index == 0) {
+        //         return (
+        //             <tr>
+        //                 <td> {item.type}</td>
+        //                 <td> {item.rent}</td>
+        //                 <td> {item.availableRooms}</td>
+        //                 <button className="btn btn-primary" id="download" type="button"
+        //                         onClick={() => this.handleBook(item)}>Continue
+        //                 </button>
+        //             </tr>
+        //         );
+        //     }
+        // }.bind(this));
 
-        freebies = this.props.select.freebies.map(function (item, index) {
-            return (
-                <span className="glyphicon glyphicon-ok"
-                      aria-hidden="true"> {item}</span>
-            );
-        }.bind(this));
+        //     freebies = this.props.select.freebies.map(function (item, index) {
+        //     return (
+        //     <span className="glyphicon glyphicon-ok"
+        //     aria-hidden="true"> {item}</span>
+        //     );
+        // }.bind(this));
 
-
+        console.log(this.props.select.hotels);
         return (
             <div>
 
@@ -228,9 +258,9 @@ class Hotels extends Component {
 
                                                 <option style={color} name="" id="">City</option>
                                                 {
-                                                    this.state.fromCity.map(city =>
-                                                        <option style={color} value={city}>{city}</option>
-                                                    )
+                                                    /* this.state.fromCity.map(city =>
+                                                         <option style={color} value={city}>{city}</option>
+                                                     )*/
                                                 }
 
                                             </select>
@@ -306,9 +336,9 @@ class Hotels extends Component {
                             <div className="col-md-3 search-grid-left" style={{marginTop: 25}}>
 
                                 <div className="range">
-                                    <h3 className="sear-head">Filter by Price</h3><br></br>
+                                    <h3 className="sear-head">Filter by Price</h3><br/>
                                     <Range min={100} max={2000} defaultValue={[150, 500]}
-                                           tipFormatter={value => `${value}`} onChange={sliderChanged}/>
+                                           tipFormatter={value => `$${value}`} onChange={sliderChanged}/>
                                 </div>
 
                                 <div className="range-two">
@@ -321,14 +351,15 @@ class Hotels extends Component {
 
                             <div className="col-md-9 search-grid-right">
 
-                                {this.props.select.data.map(function (item, index) {
+                                {this.props.select.hotels.map((item, index) => {
                                         return (
                                             <div className="col-md-12 search-grid-right" data-toggle="collapse">
                                                 <div className="hotel-rooms">
                                                     <div className="hotel-left" onClick={() => itemChange(item.HID)}>
                                                         <a style={{fontSize: 25, color: '#DC143C'}}><span
-                                                            class="glyphicon glyphicon-bed" aria-hidden="true"></span>item.name</a><br></br>
-                                                        <p style={{marginRight: 110}}>City</p>
+                                                            class="glyphicon glyphicon-bed"
+                                                            aria-hidden="true">{item.name}</span></a><br></br>
+                                                        <p style={{marginRight: 110}}>{item.city}</p>
                                                         <div className="hotel-left-grids">
                                                             <div className="hotel-left-one">
                                                                 <img src={imgs[Math.floor(Math.random() * imgs.length)]}
@@ -339,15 +370,15 @@ class Hotels extends Component {
                                                                     {this.getStars(item.stars)}
                                                                 </div>
                                                                 <span className="glyphicon glyphicon-map-marker"
-                                                                      aria-hidden="true"></span> item.city<br></br><br></br>
-                                                                {freebies}
+                                                                      aria-hidden="true">{item.street}</span><br></br><br></br>
+                                                                {this.getFreebies(index)}
                                                             </div>
                                                             <div class="clearfix"></div>
                                                         </div>
                                                     </div>
 
                                                     <div className="hotel-right text-right">
-                                                        <h4>item.rooms[0].rent</h4>
+                                                        <h4>{item.rooms[0].rent}</h4>
                                                         <p>Best price</p>
                                                         <a onClick={() => this.displayhotelbookingmodal()}>Continue</a>
                                                     </div>
@@ -365,7 +396,7 @@ class Hotels extends Component {
                                                             <th style={{textAlign: 'center'}}>Price</th>
                                                             <th style={{textAlign: 'center'}}></th>
                                                         </tr>
-                                                        {roomTypes}
+                                                        {this.getRooms(index)}
                                                         </tbody>
                                                     </table>
                                                 </div>
