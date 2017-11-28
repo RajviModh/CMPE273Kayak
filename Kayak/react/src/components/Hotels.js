@@ -1,276 +1,445 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import '../css/hotel-style.css';
 import '../css/bootstrap.css';
-import CustomizedRange from './CustomizedRange';
 import ReactStars from 'react-stars'
-import hotel1 from '../images/21.jpg';
+import DateTimeField from 'react-bootstrap-datetimepicker';
+import {Checkbox} from 'react-bootstrap';
+import Slider from 'rc-slider';
+import {Link, Route, withRouter} from 'react-router-dom';
+import {connect} from "react-redux";
 
-var amount = {border: 0, color:'#ffffff'};
-var amount1 ={border: '0', color:'#ffffff'};
+
+const createSliderWithTooltip = Slider.createSliderWithTooltip;
+const Range = createSliderWithTooltip(Slider.Range);
+
+var imgs = ["../images/place-2.jpg", "../images/place-3.jpg", "../images/place-4.jpg", "../images/place-6.jpg"];
+var amount = {border: 0, color: '#ffffff'};
+var amount1 = {border: '0', color: '#ffffff'};
+
+var color = {color: "black"}
+var colorBlue = {color: "blue"}
+var w = {width: 80, height: 40, color: "black"}
+var optStyle = {color: "Black", height: 40}
+var optStyle1 = {height: 30}
+var padding = {padding: 0}
+var btnStyle = {height: 40, width: 20}
+var btnStyle1 = {height: 30, textAlign: "center"}
+var borderStyle = {border: "thin solid #F78536", padding: 0}
+const emailRegex = require('email-regex')
+var re = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+var regex = /\d/g;
+var formdata = {};
+
 
 const ratingChanged = (newRating) => {
-    console.log(newRating)
+    console.log(newRating);
+}
+
+const sliderChanged = (newRange) => {
+    console.log(newRange);
+}
+
+const itemChange = (newItem) => {
+
+    var toggle = document.getElementById(newItem);
+
+    if (toggle.style.display == 'none') {
+        toggle.style.display = 'block';
+    } else {
+        toggle.style.display = 'none';
+    }
+}
+
+const handleClose = () => {
+
+    var close = document.getElementById("modalforhotelbooking");
+
+    if (close.style.display == 'none') {
+        close.style.display = 'block';
+    } else {
+        close.style.display = 'none';
+    }
+}
+
+const bookHotel = (hotelName) => {
+
 }
 
 class Hotels extends Component {
 
-    state = {
-        hotelname: ''
+    /*state = {
+        flightData: [{
+            f_id: '#AI-1',
+            airline_name: 'Air India',
+            fare_e: 1000000,
+            fare_child_e: 5,
+            capacity_e: 200,
+            time_s: '23:23:00',
+            time_e: '01:25',
+            duration: '2:02:00'
+        },
+            {
+                f_id: '#AI-2',
+                airline_name: 'Jet Airways',
+                fare_e: 1000000,
+                fare_child_e: 5,
+                capacity_e: 200,
+                time_s: '23:23:00',
+                time_e: '01:25',
+                duration: '2:02:00'
+            }
+
+        ],
+        fromCity: ['SFO', 'SJC', 'LAX'],
+        toCity: ['SFO', 'SJC', 'LAX'],
+        selectedFrom: '',
+        selectedTo: '',
+        goingDate: new Date(),
+        comingDate: new Date(),
+        selectedClass: '',
+        noAdults: 0,
+        noChild: 0,
+        return_enable: false,
+        hotel_name: 'Hilton'
+    };*/
+
+    handlehotelChange = (newDate) => {
+        formdata["checkindate"] = newDate;
     };
+    handlehotelChange1 = (newDate) => {
+        formdata["checkoutdate"] = newDate;
+    };
+    displayhotelbookingmodal = () => {
 
-    componenetWillMount(){
-        this.setState({
+        var bookingclick = document.getElementById("modalforhotelbooking");
 
-        });
+        if (bookingclick.style.display == "none") {
+            bookingclick.style.display = 'block';
+        } else {
+            bookingclick.style.display = 'none';
+        }
+    }
+    searchHotels = () => {
+
+        console.log(formdata)
+
+    }
+    handlehotelbooking = () => {
+
+        document.getElementById('messfirstname').style.display = 'none';
+        document.getElementById('messlastname').style.display = 'none';
+        document.getElementById('messemail').style.display = 'none';
+        document.getElementById('messcontact').style.display = 'none';
+
+        var firstname = document.getElementById("firstname").value;
+        var lastname = document.getElementById("lastname").value;
+        var email = document.getElementById("email").value;
+        var contact = document.getElementById("contact").value;
+
+
+        if (firstname == "") {
+            document.getElementById('messfirstname').style.display = 'block';
+            document.getElementById("messfirstname").innerHTML = 'Please enter first name';
+        } else if (regex.test(firstname)) {
+            document.getElementById('messfirstname').style.display = 'block';
+            document.getElementById("messfirstname").innerHTML = 'Name cannot contain digits';
+        } else if (lastname == "") {
+            document.getElementById('messlastname').style.display = 'block';
+            document.getElementById("messlastname").innerHTML = 'Please enter last name';
+        } else if (regex.test(lastname)) {
+            document.getElementById('messlastname').style.display = 'block';
+            document.getElementById("messlastname").innerHTML = 'Name cannot contain digits';
+        } else if (email == "") {
+            document.getElementById('messemail').style.display = 'block';
+            document.getElementById("messemail").innerHTML = 'Please enter email';
+        } else if (!re.test(email)) {
+            document.getElementById('messemail').style.display = 'block';
+            document.getElementById("messemail").innerHTML = 'Invalid email';
+        } else if (contact == "") {
+            document.getElementById('messcontact').style.display = 'block';
+            document.getElementById("messcontact").innerHTML = 'Please enter contact';
+        } else {
+            this.props.history.push('/hotelbooking')
+        }
+
     }
 
+    componenetWillMount() {
+        this.setState({});
+    }
 
+    getStars(star) {
+        var stars = [];
+
+        for (var i = 1; i <= star; i++) {
+            stars.push(<span>☆</span>);
+        }
+        return stars;
+    }
 
     render() {
+
+        var roomTypes, freebies = [];
+        console.log('files render');
+        var status, url;
+
+
+        roomTypes = this.props.select.rooms.map(function (item, index) {
+            if (!index == 0) {
+                return (
+                    <tr>
+                        <td> {item.type}</td>
+                        <td> {item.rent}</td>
+                        <td> {item.availableRooms}</td>
+                        <button className="btn btn-primary" id="download" type="button"
+                                onClick={() => this.handleBook(item)}>Continue
+                        </button>
+                    </tr>
+                );
+            }
+        }.bind(this));
+
+        freebies = this.props.select.freebies.map(function (item, index) {
+            return (
+                <span className="glyphicon glyphicon-ok"
+                      aria-hidden="true"> {item}</span>
+            );
+        }.bind(this));
+
+
         return (
-            <div className="search-page">
-                <div className="container">
-                    <div className="search-grids">
-                        <div className="col-md-3 search-grid-left">
-                            <div className="search-hotel">
-                                <h3 className="sear-head">Name contains</h3>
-                                <form>
-                                    <input type="text" value={this.state.hotelname} placeholder="Hotel Name"  onChange={(event) => {
-                                        this.setState({
-                                            hotelname: event.target.value
-                                        });
-                                    }} required/>
-                                        <input type="submit" value=" "/>
-                                </form>
-                            </div>
-                            <div className="range">
-                                <h3 className="sear-head">Average nightly rate</h3>
-                                <ul className="dropdown-menu6">
-                                    <li>
+            <div>
 
-                                        {/*<div className="slider-range"></div>*/}
-                                        <input type="text" id="amount" style={amount}/>
-                                    </li>
-                                </ul>
-                                <CustomizedRange />
-                            </div>
-                            <div className="range-two">
-                                <h3 className="sear-head">Distance from</h3>
-                                <select className="sel">
-                                    <option value="">Enter City Center</option>
-                                    <option value="">Park View Center</option>
-                                    <option value="">E Park Road</option>
-                                    <option value="">Silver City</option>
-                                </select>
+                <div className="search-page" style={padding}>
+                    <div className="container">
 
-                                <ul className="dropdown-menu5">
-                                    <li>
 
-                                        <div className="slider-range1"></div>
-                                        <input type="text" id="amount1" style={amount1} />
-                                    </li>
-                                </ul>
+                        <div className="tab-content" style={borderStyle}>
+                            <div role="tabpanel" className="tab-pane active" id="flights">
 
+                                &nbsp; &nbsp;
+
+                                <div className="row">
+                                    <div className="col-xs-2 mt" style={padding}>
+                                        <div className="input-field">
+                                            <select style={optStyle}
+                                                    onChange={(event) => formdata["city"] = event.target.value}
+                                                    className="cs-select cs-skin-border" name="" id="">
+
+                                                <option style={color} name="" id="">City</option>
+                                                {
+                                                    this.state.fromCity.map(city =>
+                                                        <option style={color} value={city}>{city}</option>
+                                                    )
+                                                }
+
+                                            </select>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div className="col-xs-2 mt" style={padding}>
+                                        <div className="input-field">
+
+                                            <div className="input-field">
+                                                <DateTimeField mode="date"
+                                                               style={optStyle1}
+                                                               dateTime={this.state.goingDate}
+                                                               minDate={this.state.startDate}
+                                                               defaultText="Check in"
+                                                               format={this.state.format}
+                                                               viewMode={this.state.mode}
+                                                               inputFormat={this.state.inputFormat}
+                                                               onChange={this.handlehotelChange}/>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    &nbsp; &nbsp;
+
+                                    <div className="col-xs-2 mt" style={padding}>
+
+                                        <div className="input-field">
+
+                                            <div className="input-field">
+                                                <DateTimeField mode="date"
+                                                               dateTime={this.state.comingDate}
+                                                               minDate={this.state.startDate}
+                                                               defaultText="Check out"
+                                                               format={this.state.format}
+                                                               viewMode={this.state.mode}
+                                                               inputFormat={this.state.inputFormat}
+                                                               onChange={this.handlehotelChange1}/>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-xs-4 mt" style={padding}>
+
+
+                                        &nbsp; &nbsp;
+
+                                        <input placeholder="Rooms" style={w} type='number' onChange={(event) => {
+                                            formdata["noofrooms"] = event.target.value
+                                        }}
+                                        />
+
+                                    </div>
+
+                                    <div className="col-xs-1" style={padding}>
+                                        <button className="btn btn-primary btn-block" style={btnStyle}
+                                                onClick={() => this.searchHotels()}>-->
+                                        </button>
+                                        {/*<input type="submit"
+                                                                           className="btn btn-primary btn-block"
+                                                                           value="Search Flight"/>*/}
+                                    </div>
+                                </div>
                             </div>
-                            <div className="single-star-bottom">
-                                <h3 className="sear-head">Star rating</h3>
-                                <ReactStars count={5} onChange={ratingChanged} size={24} color2={'#ffd700'} />
-                            </div>
+
+
                         </div>
 
-                        <div className="col-md-9 search-grid-right">
-                            <div className="hotel-rooms">
-                                <div class="container vertical-divider">
-                                    <div class="column one-third">
-                                <div className="hotel-left">
+                        <div className="search-grids">
+                            <div className="col-md-3 search-grid-left" style={{marginTop: 25}}>
 
-                                    {/*<div className="text-left">
-                                    <p>Jl. Pahlawan VII No.247-D Sidoarjo-Surabaya-Indonesia</p>
-                                    </div>*/}
+                                <div className="range">
+                                    <h3 className="sear-head">Filter by Price</h3><br></br>
+                                    <Range min={100} max={2000} defaultValue={[150, 500]}
+                                           tipFormatter={value => `${value}`} onChange={sliderChanged}/>
+                                </div>
 
-                                    <div className="hotel-left-grids">
-                                        <div className="hotel-left-one">
-                                            <a href="single.html"><img src={hotel1} alt="hi" /></a>
+                                <div className="range-two">
+                                    <h3 className="sear-head">Filter by Stars</h3>
+                                    <ReactStars count={5} onChange={ratingChanged} size={24} color2={'#ffd700'}/>
+
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div className="col-md-9 search-grid-right">
+
+                                {this.props.select.data.map(function (item, index) {
+                                        return (
+                                            <div className="col-md-12 search-grid-right" data-toggle="collapse">
+                                                <div className="hotel-rooms">
+                                                    <div className="hotel-left" onClick={() => itemChange(item.HID)}>
+                                                        <a style={{fontSize: 25, color: '#DC143C'}}><span
+                                                            class="glyphicon glyphicon-bed" aria-hidden="true"></span>item.name</a><br></br>
+                                                        <p style={{marginRight: 110}}>City</p>
+                                                        <div className="hotel-left-grids">
+                                                            <div className="hotel-left-one">
+                                                                <img src={imgs[Math.floor(Math.random() * imgs.length)]}
+                                                                     width={50} height={200} alt=""/>
+                                                            </div>
+                                                            <div className="hotel-left-two">
+                                                                <div className="rating text-left">
+                                                                    {this.getStars(item.stars)}
+                                                                </div>
+                                                                <span className="glyphicon glyphicon-map-marker"
+                                                                      aria-hidden="true"></span> item.city<br></br><br></br>
+                                                                {freebies}
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="hotel-right text-right">
+                                                        <h4>item.rooms[0].rent</h4>
+                                                        <p>Best price</p>
+                                                        <a onClick={() => this.displayhotelbookingmodal()}>Continue</a>
+                                                    </div>
+                                                    <div className="clearfix"></div>
+                                                </div>
+
+                                                <div id={item.HID} style={{display: 'none'}} class="collapse">
+                                                    <table id="tableMenu" className="table">
+                                                        <thead>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <th style={{textAlign: 'center'}}>Room Type</th>
+                                                            <th style={{textAlign: 'center'}}>Reviews</th>
+                                                            <th style={{textAlign: 'center'}}>Price</th>
+                                                            <th style={{textAlign: 'center'}}></th>
+                                                        </tr>
+                                                        {roomTypes}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        )
+                                    }
+                                )}
+
+                            </div>
+
+                            <div id="modalforhotelbooking" className="modal" style={{display: 'none'}}>
+                                <div className="modal-dialog" role="document">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h4 className="modal-title">
+                                                <center>Booking Details</center>
+                                            </h4>
+                                            <button type="button" className="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
                                         </div>
-                                        <div className="hotel-left-two">
-                                            <a href="single.html"><span className="glyphicon glyphicon-bed" aria-hidden="true"></span>Grand Park Hyatt</a>
-                                            <br/>
+                                        <div className="modal-body">
+                                            <input type="text" id="firstname" placeholder="First Name"></input>
+                                            <p id="messfirstname"></p>
+                                            <hr></hr>
+                                            <input type="text" id="lastname" placeholder="Last Name"></input>
+                                            <p id="messlastname"></p>
+                                            <hr></hr>
+                                            <input type="text" id="email" placeholder="Email"></input>
+                                            <p id="messemail"></p>
+                                            <hr></hr>
+                                            <input type="text" id="contact" placeholder="Phone Number"></input>
+                                            <p id="messcontact"></p>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-primary"
+                                                    onClick={() => this.handlehotelbooking()}>Book Now
+                                            </button>
+                                            <button type="button" className="btn btn-secondary" data-dismiss="modal"
+                                                    onClick={() => handleClose()}>Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
 
-                                            <div className="rating text-left">
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                            </div>
-                                            <a href="single.html"><span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span>Diamond Street</a>
-                                            <p>2.5 km to Sed ut perspiciatis <span> 2.6 km to sit voluptatem</span></p>
-                                        </div>
-                                        <div className="clearfix"></div>
-                                    </div>
-                                </div>
-                                    </div>
-                                <div className="hotel-right text-right">
-                                    <h4><span>$8,750</span> $4,850</h4>
-                                    <p>Best price</p>
-                                    <a href="single.html">Continue</a>
-                                </div>
-                                <div className="clearfix"></div>
-                            </div>
-                            </div>
-                            <div className="hotel-rooms">
-                                <div className="hotel-left">
-                                    <a href="single.html"><span class="glyphicon glyphicon-bed" aria-hidden="true"></span>Royal Taj Coromandel</a>
-                                    <p>Jl. Pahlawan VII No.247-D Sidoarjo-Surabaya-Indonesia</p>
-                                    <div className="hotel-left-grids">
-                                        <div className="hotel-left-one">
-                                            <a href="single.html"><img src="../images/22.jpg" alt="" /></a>
-                                        </div>
-                                        <div className="hotel-left-two">
-                                            <div className="rating text-left">
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                            </div>
-                                            <a href="single.html"><span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span>Diamond Street</a>
-                                            <p>2.5 km to Sed ut perspiciatis <span> 2.6 km to sit voluptatem</span></p>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                                <div className="hotel-right text-right">
-                                    <h4><span>$3,350</span> $1,450</h4>
-                                    <p>Best price</p>
-                                    <a href="single.html">Continue</a>
-                                </div>
-                                <div className="clearfix"></div>
-                            </div>
-                            <div className="hotel-rooms">
-                                <div className="hotel-left">
-                                    <a href="single.html"><span className="glyphicon glyphicon-bed" aria-hidden="true"></span>Crowne Plaza</a>
-                                    <p>Jl. Pahlawan VII No.247-D Sidoarjo-Surabaya-Indonesia</p>
-                                    <div className="hotel-left-grids">
-                                        <div className="hotel-left-one">
-                                            <a href="single.html"><img src="../images/23.jpg" alt="" /></a>
-                                        </div>
-                                        <div className="hotel-left-two">
-                                            <div className="rating text-left">
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                            </div>
-                                            <a href="single.html"><span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span>Diamond Street</a>
-                                            <p>2.5 km to Sed ut perspiciatis <span> 2.6 km to sit voluptatem</span></p>
-                                        </div>
-                                        <div className="clearfix"></div>
-                                    </div>
-                                </div>
-                                <div className="hotel-right text-right">
-                                    <h4><span>$9,750</span> $5,700</h4>
-                                    <p>Best price</p>
-                                    <a href="single.html">Continue</a>
-                                </div>
-                                <div className="clearfix"></div>
-                            </div>
-                            <div className="hotel-rooms">
-                                <div className="hotel-left">
-                                    <a href="single.html"><span className="glyphicon glyphicon-bed" aria-hidden="true"></span>Modern Hilton Park</a>
-                                    <p>Jl. Pahlawan VII No.247-D Sidoarjo-Surabaya-Indonesia</p>
-                                    <div className="hotel-left-grids">
-                                        <div className="hotel-left-one">
-                                            <a href="single.html"><img src="../images/24.jpg" alt="" /></a>
-                                        </div>
-                                        <div className="hotel-left-two">
-                                            <div className="rating text-left">
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                            </div>
-                                            <a href="single.html"><span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span>Diamond Street</a>
-                                            <p>2.5 km to Sed ut perspiciatis <span> 2.6 km to sit voluptatem</span></p>
-                                        </div>
-                                        <div className="clearfix"></div>
-                                    </div>
-                                </div>
-                                <div className="hotel-right text-right">
-                                    <h4><span>$9,750</span> $6,800</h4>
-                                    <p>Best price</p>
-                                    <a href="single.html">Continue</a>
-                                </div>
-                                <div className="clearfix"></div>
-                            </div>
-                            <div className="hotel-rooms">
-                                <div className="hotel-left">
-                                    <a href="single.html"><span className="glyphicon glyphicon-bed" aria-hidden="true"></span>Grand park Hotel</a>
-                                    <p>Jl. Pahlawan VII No.247-D Sidoarjo-Surabaya-Indonesia</p>
-                                    <div className="hotel-left-grids">
-                                        <div className="hotel-left-one">
-                                            <a href="single.html"><img src="../images/25.jpg" alt="" /></a>
-                                        </div>
-                                        <div className="hotel-left-two">
-                                            <div className="rating text-left">
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                            </div>
-                                            <a href="single.html"><span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span>Diamond Street</a>
-                                            <p>2.5 km to Sed ut perspiciatis <span> 2.6 km to sit voluptatem</span></p>
-                                        </div>
-                                        <div className="clearfix"></div>
-                                    </div>
-                                </div>
-                                <div className="hotel-right text-right">
-                                    <h4><span>$8,750</span> $4,850</h4>
-                                    <p>Best price</p>
-                                    <a href="single.html">Continue</a>
-                                </div>
-                                <div className="clearfix"></div>
-                            </div>
-                            <div className="hotel-rooms">
-                                <div className="hotel-left">
-                                    <a href="single.html"><span className="glyphicon glyphicon-bed" aria-hidden="true"></span>Royal Park Hyatt</a>
-                                    <p>Jl. Pahlawan VII No.247-D Sidoarjo-Surabaya-Indonesia</p>
-                                    <div className="hotel-left-grids">
-                                        <div className="hotel-left-one">
-                                            <a href="single.html"><img src="../images/26.jpg" alt="" /></a>
-                                        </div>
-                                        <div className="hotel-left-two">
-                                            <div className="rating text-left">
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                                <span>☆</span>
-                                            </div>
-                                            <a href="single.html"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>Diamond Street</a>
-                                            <p>2.5 km to Sed ut perspiciatis <span> 2.6 km to sit voluptatem</span></p>
-                                        </div>
-                                        <div className="clearfix"></div>
-                                    </div>
-                                </div>
-                                <div className="hotel-right text-right">
-                                    <h4><span>$4,650</span> $2,650</h4>
-                                    <p>Best price</p>
-                                    <a href="single.html">Continue</a>
-                                </div>
-                                <div className="clearfix"></div>
-                            </div>
                         </div>
-                        <div className="clearfix"></div>
+
                     </div>
                 </div>
             </div>
+
         );
+    }
 }
-}
-export default Hotels;
+
+
+const mapStateToProps = (state) => {
+    return {
+        select: state.reducerHotels
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        storeRestore: () => {
+            dispatch({
+                type: "RESTORE"
+            });
+        },
+    };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Hotels));

@@ -1,20 +1,23 @@
 import React, {Component, PropTypes} from 'react';
-import {Route, withRouter, Link} from 'react-router-dom';
+import {Link, Route, withRouter} from 'react-router-dom';
 import * as API from '../api/API';
 import {DropdownMenu, MenuItem} from 'react-bootstrap-dropdown-menu';
-import Login from "./Login";
-import Message from "./Message";
 import UserHeader from "./UserHeader";
 import AdminHeader from "./AdminHeader";
 import UserFooter from "./UserFooter";
 import AdminHomePage from "./admin/AdminHomePage";
-import moment from 'moment';
 import Hotels from "./Hotels";
+import Flights from "./Flights";
+import Cars from "./cars";
+import Carbooking from './carbooking';
+import Hotelbooking from './hotelbooking';
 import DateTimeField from 'react-bootstrap-datetimepicker';
 import axios from "axios";
 import {connect} from "react-redux";
 
 var abc = {backgroundImage: '../images/cover_bg_1.jpg'};
+var w = {width: 80, height: 40, color: "black"}
+var hoteldata = {}, cardata = {};
 
 var color = {color:"black"}
 
@@ -26,36 +29,10 @@ var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(
 
 class NewerHomePage extends Component {
 
-  constructor (props) {
-    super(props)
-    this.state = {
-        isLoggedIn: false,
-        message: '',
-        username: '',
-        showLoginModal: false,
-        showSignupModal: false,
-        isUser:true,
-        date: "2017-11-21",
-        startDate :  moment(this.props.minDate, 'DD/MM/YYYY'),
-        format: "YYYY-MM-DD",
-        inputFormat: "DD/MM/YYYY",
-        mode: "date",
-        fromCity : [],
-        toCity : [],
-        selectedFrom : this.props.select.selectedFrom,
-        selectedTo:this.props.select.selectedTo,
-        goingDate : new Date(),
-        comingDate : new Date(),
-        selectedClass:'',
-        noAdults:0,
-        noChild:0,
-    }
-  }
+    /*componentWillMount(){
 
-    componentWillMount(){
-
-        var self=this;
-        console.log("in store ",this.props.select);
+        //var self=this;
+        //console.log("in store ",this.props.select);
         axios.get('http://localhost:3001/flights/from')
             .then(function (response) {
                 console.log(response);
@@ -86,7 +63,7 @@ class NewerHomePage extends Component {
                 console.log(error);
             });
     }
-
+*/
     handleSubmit = (userdata) => {
         API.doLogin(userdata)
             .then((res) => {
@@ -106,7 +83,6 @@ class NewerHomePage extends Component {
                 }
             });
     };
-
     handleSignUp = (userdata) => {
         //alert("in signup");
         API.doSignup(userdata)
@@ -122,25 +98,28 @@ class NewerHomePage extends Component {
                     this.setState({
                         message: JSON.stringify(res.errors)
                     });
-                    console.log(this.state.message);
+                    //console.log(this.state.message);
 
                 }
 
             })
     };
-
-    handleChange = (newDate) => {
-        //alert(newDate)
-        return this.setState({goingDate: newDate});
+    handlehotelChange = (newDate) => {
+        this.state.checkindate = newDate;
+        hoteldata["checkindate"] = newDate;
     };
-
-    handleChange1 = (newDate) => {
-        //alert(newDate);
-        return this.setState({comingDate: newDate});
+    handlehotelChange1 = (newDate) => {
+        this.state.checkoutdate = newDate;
+        hoteldata["checkoutdate"] = newDate;
     };
-
+    handlecarChange = (newDate) => {
+        cardata["pickupdate"] = newDate;
+    };
+    handlecarChange1 = (newDate) => {
+        cardata["dropoffdate"] = newDate;
+    };
     searchFlight = () => {
-      console.log(this.props.select);
+        //console.log(this.props.select);
         var inputData = "from city " + this.state.selectedFrom + "to city " + this.state.selectedTo + "going date" + this.state.goingDate + "coming date" + this.state.comingDate +" class " + this.state.selectedClass +" Adults"+ this.state.noAdults + " Child " + this.state.noChild;
         var today =new Date()
         var now = new Date(this.state.goingDate)
@@ -171,10 +150,111 @@ class NewerHomePage extends Component {
                   self.props.setFlights(response.data.returnFlightS);
                   localStorage.setItem("searchedFlights",response.data.returnFlightS);
                   console.log("in localStorage: ",localStorage.getItem("searchedFlights"));
+                  this.props.history.push('/flights');
               })
               .catch(function (error) {
                   console.log(error);
               });
+        }
+    }
+    searchHotels = () => {
+
+        var city = document.getElementById("city").value;
+        var rooms = document.getElementById("noofrooms").value;
+        //var checkin = document.getElementById("checkin").value;
+        //var children = document.getElementById("noofchildren").value;
+
+        if (city == "") {
+            window.alert("Please enter city name")
+        } else if (this.state.checkindate == "") {
+            window.alert("Please enter check in date")
+        } else if (this.state.checkoutdate == "") {
+            window.alert("Please enter check out date")
+        } else if (rooms == "") {
+            window.alert("Please enter number of rooms")
+        } else {
+            API.searchHotels(hoteldata)
+                .then((res) => {
+                    if (res.status === '200') {
+
+                        try {
+                            this.props.storeHotels(res);
+                        }
+                        catch (err) {
+                            window.alert("Some error. Please try again later..")
+                        }
+                        this.props.history.push("/hotelbooking");
+
+                    } else if (res.status === '500') {
+                        window.alert("Bad request. Please try again later..")
+                    }
+                });
+            //API call here
+            //this.props.history.push('/hotels');
+        }
+    }
+    searchCars = () => {
+        var fromcity = document.getElementById("from-place-car").value;
+        var tocity = document.getElementById("to-place-car").value;
+
+
+        if (fromcity == "") {
+            window.alert("Please enter pick up location")
+        } else if (tocity == "") {
+            window.alert("Please enter dropoff location")
+        } else if (this.state.pickupdate == "") {
+            window.alert("Please enter pickup date")
+        } else if (this.state.dropoffdate == "") {
+            window.alert("Please enter dropoff date")
+        } else {
+            API.searchCars(hoteldata)
+                .then((res) => {
+                    if (res.status === '200') {
+
+                        try {
+                            this.props.storeCars(res);
+                        }
+                        catch (err) {
+                            window.alert("Some error. Please try again later..")
+                        }
+                        this.props.history.push("/carbooking");
+
+                    } else if (res.status === '500') {
+                        window.alert("Bad request. Please try again later..")
+                    }
+                });
+            //API call here
+            //this.props.history.push('/cars');
+        }
+    }
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            /*isLoggedIn: false,
+            message: '',
+            username: '',
+            showLoginModal: false,
+            showSignupModal: false,*/
+            isUser: true,
+            /*date: "2017-11-21",
+            startDate :  moment(this.props.minDate, 'DD/MM/YYYY'),*/
+            format: "YYYY-MM-DD",
+            inputFormat: "DD/MM/YYYY",
+            mode: "date",
+            /*fromCity : [],
+            toCity : [],
+            selectedFrom : this.props.select.selectedFrom,
+            selectedTo:this.props.select.selectedTo,*/
+            goingDate: new Date(),
+            comingDate: new Date(),
+            checkindate: "",
+            checkoutdate: "",
+            pickupdate: "",
+            dropoffdate: "",
+            //selectedClass:'',
+            //noAdults:0,
+            //noChild:0,
         }
     }
 
@@ -215,7 +295,7 @@ class NewerHomePage extends Component {
                                 <div className="desc">
                                     <div className="container">
                                         <div className="row">
-                                            <div className="col-sm-5 col-md-5">
+                                            <div className="col-sm-8 col-md-8">
                                                 <div className="tabulation animate-box">
 
 
@@ -230,7 +310,7 @@ class NewerHomePage extends Component {
                                                         </li>
                                                         <li role="presentation">
                                                             <a href="#packages" aria-controls="packages" role="tab"
-                                                               data-toggle="tab">Packages</a>
+                                                               data-toggle="tab">Cars</a>
                                                         </li>
                                                     </ul>
                                                     <div className="tab-content">
@@ -243,10 +323,10 @@ class NewerHomePage extends Component {
                                                                                 onChange={(event)=>{this.props.setSelectedFrom(event.target.value);this.setState({selectedFrom:event.target.value})}}  className="cs-select cs-skin-border" name="" id="selectedFrom">
                                                                             <option style={color} name="" id="">City</option>
                                                                             {
-                                                                                this.state.fromCity.map(city=>
+                                                                                /*this.state.fromCity.map(city=>
                                                                                     <option style={color} value={city}>{city}</option>
 
-                                                                                )
+                                                                                )*/
                                                                             }
 
                                                                         </select>
@@ -260,10 +340,10 @@ class NewerHomePage extends Component {
                                                                                 onChange={(event)=>{this.props.setSelectedTo(event.target.value);this.setState({selectedTo:event.target.value})}}  className="cs-select cs-skin-border" name="" id="selectedTo">
                                                                             <option style={color} name="" id="">City</option>
                                                                             {
-                                                                                this.state.toCity.map(city=>
+                                                                                /*this.state.toCity.map(city=>
                                                                                     <option style={color} value={city}>{city}</option>
 
-                                                                                )
+                                                                                )*/
                                                                             }
 
                                                                         </select>
@@ -289,14 +369,15 @@ class NewerHomePage extends Component {
                                                                     <div className="input-field">
                                                                         <label for="date-end">Coming Date:</label>
                                                                         <div className="input-field">
-                                                                            <DateTimeField  mode="date"
-                                                                                            dateTime={this.state.comingDate}
-                                                                                            minDate={this.state.startDate}
-                                                                                            defaultText="Arrival Date"
-                                                                                            format={this.state.format}
-                                                                                            viewMode={this.state.mode}
-                                                                                            inputFormat={this.state.inputFormat}
-                                                                                            onChange={this.handleChange1}/>
+                                                                            <DateTimeField mode="date"
+                                                                                           dateTime={this.state.comingDate}
+                                                                                           minDate={this.state.startDate}
+                                                                                           defaultText="Arrival Date"
+                                                                                           format={this.state.format}
+                                                                                           viewMode={this.state.mode}
+                                                                                           inputFormat={this.state.inputFormat}
+                                                                                           onChange={this.handleChange1}
+                                                                            />
 
                                                                         </div>
                                                                     </div>
@@ -310,8 +391,6 @@ class NewerHomePage extends Component {
                                                                             <option value="economy">Economy</option>
                                                                             <option value="first">First</option>
                                                                             <option value="business">Business</option>*/}
-
-                                                                            <label for="Class">class:</label>
 
                                                                             <select style={color}
                                                                                     onChange={(event)=>this.setState({selectedClass:event.target.value})}  className="cs-select cs-skin-border" name="" id="category">
@@ -362,66 +441,56 @@ class NewerHomePage extends Component {
                                                                     <div className="input-field">
                                                                         <label for="from">City:</label>
                                                                         <input type="text" className="form-control"
-                                                                               id="from-place"
-                                                                               placeholder="Los Angeles, USA"/>
+                                                                               id="city"
+                                                                               placeholder="Los Angeles, USA"
+                                                                               onChange={(event) => hoteldata["city"] = event.target.value}/>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt alternate">
                                                                     <div className="input-field">
-                                                                        <label for="date-start">Return:</label>
-                                                                        <input type="text" className="form-control"
-                                                                               id="date-start"
-                                                                               placeholder="mm/dd/yyyy"/>
+                                                                        <label for="date-start" id="">Check in:</label>
+                                                                        <div className="input-field" id="checkindate">
+                                                                            <DateTimeField mode="date"
+                                                                                           dateTime={this.state.goingDate}
+                                                                                           minDate={this.state.startDate}
+                                                                                           defaultText="Check in date"
+                                                                                           format={this.state.format}
+                                                                                           viewMode={this.state.mode}
+                                                                                           inputFormat={this.state.inputFormat}
+                                                                                           onChange={this.handlehotelChange}/>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt alternate">
                                                                     <div className="input-field">
-                                                                        <label for="date-end">Check Out:</label>
-                                                                        <input type="text" className="form-control"
-                                                                               id="date-end" placeholder="mm/dd/yyyy"/>
+                                                                        <label for="date-end" id="checkoutdate">Check
+                                                                            Out:</label>
+                                                                        <div className="input-field">
+                                                                            <DateTimeField id="checkoutdate"
+                                                                                           mode="date"
+                                                                                           dateTime={this.state.goingDate}
+                                                                                           minDate={this.state.startDate}
+                                                                                           defaultText="Check out date"
+                                                                                           format={this.state.format}
+                                                                                           viewMode={this.state.mode}
+                                                                                           inputFormat={this.state.inputFormat}
+                                                                                           onChange={this.handlehotelChange1}/>
+
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-sm-12 mt">
-                                                                    <section>
-                                                                        <label for="className">Rooms:</label>
-                                                                        <select className="cs-select cs-skin-border">
-                                                                            <option value="" disabled selected>1
-                                                                            </option>
-                                                                            <option value="economy">1</option>
-                                                                            <option value="first">2</option>
-                                                                            <option value="business">3</option>
-                                                                        </select>
-                                                                    </section>
+                                                                    <input placeholder="Rooms" style={w} type='number'
+                                                                           id="noofrooms" onChange={(event) => {
+                                                                        hoteldata["noofrooms"] = Number(event.target.value)
+                                                                    }}
+                                                                    />
                                                                 </div>
-                                                                <div className="col-xxs-12 col-xs-6 mt">
-                                                                    <section>
-                                                                        <label for="className">Adult:</label>
-                                                                        <select className="cs-select cs-skin-border">
-                                                                            <option value="" disabled selected>1
-                                                                            </option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4">4</option>
-                                                                        </select>
-                                                                    </section>
-                                                                </div>
-                                                                <div className="col-xxs-12 col-xs-6 mt">
-                                                                    <section>
-                                                                        <label for="className">Children:</label>
-                                                                        <select className="cs-select cs-skin-border">
-                                                                            <option value="" disabled selected>1
-                                                                            </option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4">4</option>
-                                                                        </select>
-                                                                    </section>
-                                                                </div>
+
                                                                 <div className="col-xs-12">
                                                                     <input type="submit"
                                                                            className="btn btn-primary btn-block"
+                                                                           onClick={() => this.searchHotels()}
                                                                            value="Search Hotel"/>
                                                                 </div>
                                                             </div>
@@ -431,77 +500,60 @@ class NewerHomePage extends Component {
                                                             <div className="row">
                                                                 <div className="col-xxs-12 col-xs-6 mt">
                                                                     <div className="input-field">
-                                                                        <label for="from">City:</label>
+                                                                        <label for="from">Pick Up</label>
                                                                         <input type="text" className="form-control"
-                                                                               id="from-place"
-                                                                               placeholder="Los Angeles, USA"/>
+                                                                               id="from-place-car"
+                                                                               placeholder="Los Angeles, USA"
+                                                                               onChange={(event) => cardata["pickupcity"] = event.target.value}/>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt">
                                                                     <div className="input-field">
-                                                                        <label for="from">Destination:</label>
+                                                                        <label for="from">Dropoff</label>
                                                                         <input type="text" className="form-control"
-                                                                               id="to-place"
-                                                                               placeholder="Tokyo, Japan"/>
+                                                                               id="to-place-car"
+                                                                               placeholder="Tokyo, Japan"
+                                                                               onChange={(event) => cardata["dropoffcity"] = event.target.value}/>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt alternate">
                                                                     <div className="input-field">
-                                                                        <label for="date-start">Departs:</label>
-                                                                        <input type="text" className="form-control"
-                                                                               id="date-start"
-                                                                               placeholder="mm/dd/yyyy"/>
+                                                                        <label for="date-start">Pick up Date</label>
+                                                                        <div className="input-field">
+                                                                            <DateTimeField mode="datetime"
+                                                                                           dateTime={this.state.goingDate}
+                                                                                           minDate={this.state.startDate}
+                                                                                           defaultText="Pick up date"
+                                                                                           format={this.state.format}
+                                                                                           viewMode={this.state.mode}
+                                                                                           inputFormat={this.state.inputFormat}
+                                                                                           onChange={this.handlecarChange}/>
+
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt alternate">
                                                                     <div className="input-field">
-                                                                        <label for="date-end">Return:</label>
-                                                                        <input type="text" className="form-control"
-                                                                               id="date-end" placeholder="mm/dd/yyyy"/>
+                                                                        <label for="date-end">Dropoff date</label>
+                                                                        <div className="input-field">
+                                                                            <DateTimeField mode="datetime"
+                                                                                           dateTime={this.state.goingDate}
+                                                                                           minDate={this.state.startDate}
+                                                                                           defaultText="Drop off Date"
+                                                                                           format={this.state.format}
+                                                                                           viewMode={this.state.mode}
+                                                                                           inputFormat={this.state.inputFormat}
+                                                                                           onChange={this.handlecarChange1}/>
+
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <div className="col-sm-12 mt">
-                                                                    <section>
-                                                                        <label for="className">Rooms:</label>
-                                                                        <select className="cs-select cs-skin-border">
-                                                                            <option value="" disabled selected>1
-                                                                            </option>
-                                                                            <option value="economy">1</option>
-                                                                            <option value="first">2</option>
-                                                                            <option value="business">3</option>
-                                                                        </select>
-                                                                    </section>
-                                                                </div>
-                                                                <div className="col-xxs-12 col-xs-6 mt">
-                                                                    <section>
-                                                                        <label for="className">Adult:</label>
-                                                                        <select className="cs-select cs-skin-border">
-                                                                            <option value="" disabled selected>1
-                                                                            </option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4">4</option>
-                                                                        </select>
-                                                                    </section>
-                                                                </div>
-                                                                <div className="col-xxs-12 col-xs-6 mt">
-                                                                    <section>
-                                                                        <label for="className">Children:</label>
-                                                                        <select className="cs-select cs-skin-border">
-                                                                            <option value="" disabled selected>1
-                                                                            </option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4">4</option>
-                                                                        </select>
-                                                                    </section>
-                                                                </div>
+
                                                                 <div className="col-xs-12">
                                                                     <input type="submit"
                                                                            className="btn btn-primary btn-block"
-                                                                           value="Search Packages"/>
+                                                                           onClick={() => this.searchCars()}
+                                                                           value="Search Cars"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -524,11 +576,37 @@ class NewerHomePage extends Component {
                         </div>
                     )}/>
 
+                    <Route exact path="/flights" render={() => (
+                        <div>
+                            <Flights/>
+                        </div>
+                    )}/>
+
+
+                    <Route exact path="/cars" render={() => (
+                        <div>
+                            <Cars/>
+                        </div>
+                    )}/>
+
                     <Route exact path="/adminhome" render={() => (
                         <div>
                             <AdminHomePage/>
                         </div>
                     )}/>
+
+                    <Route exact path="/carbooking" render={() => (
+                        <div>
+                            <Carbooking/>
+                        </div>
+                    )}/>
+
+                    <Route exact path="/hotelbooking" render={() => (
+                        <div>
+                            <Hotelbooking/>
+                        </div>
+                    )}/>
+
                     <UserFooter/>
                 </div>
             </div>
@@ -539,29 +617,26 @@ class NewerHomePage extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        select: state.reducerFlights
+        hotels: state.reducerHotels,
+        cars: state.reducerCars
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return{
-        setSelectedFrom: (data) => {
+
+        storeHotels: (data) => {
             console.log("data is "+data);
             dispatch({
-                type: "setSelectedFrom",
+                type: "STOREHOTELS",
                 payload :{data:data}
             });
         },
-        setSelectedTo: (data) => {
+
+        storeCars: (data) => {
+            console.log("data is " + data);
             dispatch({
-                type: "setSelectedTo",
-                payload :{data:data}
-            });
-        },
-        setFlights: (data) => {
-          console.log("flights are ",data);
-            dispatch({
-                type: "setFlights",
+                type: "STORECARS",
                 payload :{data:data}
             });
         },
