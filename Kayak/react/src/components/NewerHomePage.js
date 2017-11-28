@@ -1,7 +1,6 @@
-import React, {Component, PropTypes} from 'react';
-import {Link, Route, withRouter} from 'react-router-dom';
+import React, {Component} from 'react';
+import {Route, withRouter} from 'react-router-dom';
 import * as API from '../api/API';
-import {DropdownMenu, MenuItem} from 'react-bootstrap-dropdown-menu';
 import UserHeader from "./UserHeader";
 import AdminHeader from "./AdminHeader";
 import UserFooter from "./UserFooter";
@@ -19,10 +18,10 @@ var abc = {backgroundImage: '../images/cover_bg_1.jpg'};
 var w = {width: 80, height: 40, color: "black"}
 var hoteldata = {}, cardata = {};
 
-var color = {color:"black"}
+var color = {color: "black"}
 
 var date = new Date();
-date.setDate(date.getDate()-1,'YYYY-MM-DD');
+date.setDate(date.getDate() - 1, 'YYYY-MM-DD');
 
 var nowDate = new Date();
 var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0)
@@ -106,11 +105,11 @@ class NewerHomePage extends Component {
     };
     handlehotelChange = (newDate) => {
         this.state.checkindate = newDate;
-        hoteldata["checkindate"] = newDate;
+        hoteldata["fromDate"] = newDate;
     };
     handlehotelChange1 = (newDate) => {
         this.state.checkoutdate = newDate;
-        hoteldata["checkoutdate"] = newDate;
+        hoteldata["toDate"] = newDate;
     };
     handlecarChange = (newDate) => {
         cardata["pickupdate"] = newDate;
@@ -120,10 +119,10 @@ class NewerHomePage extends Component {
     };
     searchFlight = () => {
         //console.log(this.props.select);
-        var inputData = "from city " + this.state.selectedFrom + "to city " + this.state.selectedTo + "going date" + this.state.goingDate + "coming date" + this.state.comingDate +" class " + this.state.selectedClass +" Adults"+ this.state.noAdults + " Child " + this.state.noChild;
-        var today =new Date()
+        var inputData = "from city " + this.state.selectedFrom + "to city " + this.state.selectedTo + "going date" + this.state.goingDate + "coming date" + this.state.comingDate + " class " + this.state.selectedClass + " Adults" + this.state.noAdults + " Child " + this.state.noChild;
+        var today = new Date()
         var now = new Date(this.state.goingDate)
-        var going = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+        var going = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
         var coming = new Date(this.state.comingDate)
 
         var from = this.state.selectedFrom
@@ -134,27 +133,36 @@ class NewerHomePage extends Component {
         var adult = this.state.noAdults
         var child = this.state.noChild
 
-        if(from==="" || to==="" || goingD==="" || comingD==="" || Sclass==="" || adult==="")
+        if (from === "" || to === "" || goingD === "" || comingD === "" || Sclass === "" || adult === "")
             alert("Please select all the fields")
-        else if(from===to)
+        else if (from === to)
             alert("From city cannot be same as To city")
-        else if((new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))<(new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate())))
+        else if ((new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())) < (new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate())))
             alert("Selected date cannot be less than today's date")
-        else if(coming<=going)
+        else if (coming <= going)
             alert("Arrival date cannot be less than Departure date");
-        else{
-          var self=this;
-          axios.get('http://localhost:3001/flights/search',{params:{from:document.getElementById('selectedFrom').value,to:document.getElementById('selectedTo').value,number_of_seats:document.getElementById('noAdults').value,number_of_seats_c:document.getElementById('noChild').value,category:document.getElementById('category').value,date:this.state.goingDate}})
-              .then(function (response) {
-                  console.log(response);
-                  self.props.setFlights(response.data.returnFlightS);
-                  localStorage.setItem("searchedFlights",response.data.returnFlightS);
-                  console.log("in localStorage: ",localStorage.getItem("searchedFlights"));
-                  this.props.history.push('/flights');
-              })
-              .catch(function (error) {
-                  console.log(error);
-              });
+        else {
+            var self = this;
+            axios.get('http://localhost:3001/flights/search', {
+                params: {
+                    from: document.getElementById('selectedFrom').value,
+                    to: document.getElementById('selectedTo').value,
+                    number_of_seats: document.getElementById('noAdults').value,
+                    number_of_seats_c: document.getElementById('noChild').value,
+                    category: document.getElementById('category').value,
+                    date: this.state.goingDate
+                }
+            })
+                .then(function (response) {
+                    console.log(response);
+                    self.props.setFlights(response.data.returnFlightS);
+                    localStorage.setItem("searchedFlights", response.data.returnFlightS);
+                    console.log("in localStorage: ", localStorage.getItem("searchedFlights"));
+                    this.props.history.push('/flights');
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
     }
     searchHotels = () => {
@@ -173,22 +181,27 @@ class NewerHomePage extends Component {
         } else if (rooms == "") {
             window.alert("Please enter number of rooms")
         } else {
+            console.log(hoteldata);
+            let responseStatus;
             API.searchHotels(hoteldata)
                 .then((res) => {
-                    if (res.status === '200') {
-
-                        try {
-                            this.props.storeHotels(res);
-                        }
-                        catch (err) {
-                            window.alert("Some error. Please try again later..")
-                        }
-                        this.props.history.push("/hotelbooking");
-
-                    } else if (res.status === '500') {
-                        window.alert("Bad request. Please try again later..")
+                    responseStatus = res.status;
+                    return res.json();
+                }).then(jsonData => {
+                if (responseStatus === 200) {
+                    console.log(jsonData);
+                    try {
+                        this.props.storeHotels(jsonData.availableHotels);
                     }
-                });
+                    catch (err) {
+                        window.alert("Some error. Please try again later..")
+                    }
+                    this.props.history.push("/hotels");
+
+                } else if (responseStatus === 500) {
+                    window.alert("Bad request. Please try again later..")
+                }
+            });
             //API call here
             //this.props.history.push('/hotels');
         }
@@ -285,7 +298,7 @@ class NewerHomePage extends Component {
         return (
             <div id="fh5co-wrapper">
                 <div id="fh5co-page">
-                    {this.state.isUser?<UserHeader/>:<AdminHeader/>}
+                    {this.state.isUser ? <UserHeader/> : <AdminHeader/>}
 
                     <Route exact path="/" render={() => (
 
@@ -320,8 +333,13 @@ class NewerHomePage extends Component {
                                                                     <div className="input-field">
                                                                         <label for="from">From:</label>
                                                                         <select style={color}
-                                                                                onChange={(event)=>{this.props.setSelectedFrom(event.target.value);this.setState({selectedFrom:event.target.value})}}  className="cs-select cs-skin-border" name="" id="selectedFrom">
-                                                                            <option style={color} name="" id="">City</option>
+                                                                                onChange={(event) => {
+                                                                                    this.props.setSelectedFrom(event.target.value);
+                                                                                    this.setState({selectedFrom: event.target.value})
+                                                                                }} className="cs-select cs-skin-border"
+                                                                                name="" id="selectedFrom">
+                                                                            <option style={color} name="" id="">City
+                                                                            </option>
                                                                             {
                                                                                 /*this.state.fromCity.map(city=>
                                                                                     <option style={color} value={city}>{city}</option>
@@ -337,8 +355,13 @@ class NewerHomePage extends Component {
                                                                         <label for="from">To:</label>
 
                                                                         <select style={color}
-                                                                                onChange={(event)=>{this.props.setSelectedTo(event.target.value);this.setState({selectedTo:event.target.value})}}  className="cs-select cs-skin-border" name="" id="selectedTo">
-                                                                            <option style={color} name="" id="">City</option>
+                                                                                onChange={(event) => {
+                                                                                    this.props.setSelectedTo(event.target.value);
+                                                                                    this.setState({selectedTo: event.target.value})
+                                                                                }} className="cs-select cs-skin-border"
+                                                                                name="" id="selectedTo">
+                                                                            <option style={color} name="" id="">City
+                                                                            </option>
                                                                             {
                                                                                 /*this.state.toCity.map(city=>
                                                                                     <option style={color} value={city}>{city}</option>
@@ -353,14 +376,14 @@ class NewerHomePage extends Component {
                                                                     <div className="input-field">
                                                                         <label for="date-start">Going Date</label>
                                                                         <div className="input-field">
-                                                                            <DateTimeField  mode="date"
-                                                                                            dateTime={this.state.goingDate}
-                                                                                            minDate={this.state.startDate}
-                                                                                            defaultText="Departure Date"
-                                                                                            format={this.state.format}
-                                                                                            viewMode={this.state.mode}
-                                                                                            inputFormat={this.state.inputFormat}
-                                                                                            onChange={this.handleChange}/>
+                                                                            <DateTimeField mode="date"
+                                                                                           dateTime={this.state.goingDate}
+                                                                                           minDate={this.state.startDate}
+                                                                                           defaultText="Departure Date"
+                                                                                           format={this.state.format}
+                                                                                           viewMode={this.state.mode}
+                                                                                           inputFormat={this.state.inputFormat}
+                                                                                           onChange={this.handleChange}/>
 
                                                                         </div>
                                                                     </div>
@@ -392,42 +415,55 @@ class NewerHomePage extends Component {
                                                                             <option value="first">First</option>
                                                                             <option value="business">Business</option>*/}
 
-                                                                            <select style={color}
-                                                                                    onChange={(event)=>this.setState({selectedClass:event.target.value})}  className="cs-select cs-skin-border" name="" id="category">
-                                                                                <option style={color} value="class">Class</option>
-                                                                                <option style={color} value="economy">Economy</option>
-                                                                                <option style={color} value="first">First</option>
-                                                                                <option style={color} value="business">Business</option>
-                                                                            </select>
+                                                                        <select style={color}
+                                                                                onChange={(event) => this.setState({selectedClass: event.target.value})}
+                                                                                className="cs-select cs-skin-border"
+                                                                                name="" id="category">
+                                                                            <option style={color} value="class">Class
+                                                                            </option>
+                                                                            <option style={color} value="economy">
+                                                                                Economy
+                                                                            </option>
+                                                                            <option style={color} value="first">First
+                                                                            </option>
+                                                                            <option style={color} value="business">
+                                                                                Business
+                                                                            </option>
+                                                                        </select>
 
-                                                                      </section>
+                                                                    </section>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt">
                                                                     <section>
                                                                         <label for="class">Adult:</label>
-                                                                        <input style={color} type='number' id="noAdults" onChange={(event) => {
-                                                                            this.setState({
-                                                                                noAdults: event.target.value
-                                                                            });
+                                                                        <input style={color} type='number' id="noAdults"
+                                                                               onChange={(event) => {
+                                                                                   this.setState({
+                                                                                       noAdults: event.target.value
+                                                                                   });
 
-                                                                        }}
+                                                                               }}
                                                                         />
                                                                     </section>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt">
                                                                     <section>
                                                                         <label for="class">Children:</label>
-                                                                        <input style={color} type='number' id="noChild" onChange={(event) => {
-                                                                            this.setState({
-                                                                                noChild: event.target.value
-                                                                            });
+                                                                        <input style={color} type='number' id="noChild"
+                                                                               onChange={(event) => {
+                                                                                   this.setState({
+                                                                                       noChild: event.target.value
+                                                                                   });
 
-                                                                        }}
+                                                                               }}
                                                                         />
                                                                     </section>
                                                                 </div>
                                                                 <div className="col-xs-12">
-                                                                    <button className="btn btn-primary btn-block" onClick={()=>this.searchFlight()}>Search Flight</button>
+                                                                    <button className="btn btn-primary btn-block"
+                                                                            onClick={() => this.searchFlight()}>Search
+                                                                        Flight
+                                                                    </button>
                                                                     {/*<input type="submit"
                                                                            className="btn btn-primary btn-block"
                                                                            value="Search Flight"/>*/}
@@ -482,7 +518,7 @@ class NewerHomePage extends Component {
                                                                 <div className="col-sm-12 mt">
                                                                     <input placeholder="Rooms" style={w} type='number'
                                                                            id="noofrooms" onChange={(event) => {
-                                                                        hoteldata["noofrooms"] = Number(event.target.value)
+                                                                        hoteldata["requiredNoOfRooms"] = Number(event.target.value)
                                                                     }}
                                                                     />
                                                                 </div>
@@ -616,20 +652,20 @@ class NewerHomePage extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return{
+    return {
         hotels: state.reducerHotels,
         cars: state.reducerCars
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return{
+    return {
 
         storeHotels: (data) => {
-            console.log("data is "+data);
+            console.log("data is " + data);
             dispatch({
                 type: "STOREHOTELS",
-                payload :{data:data}
+                payload: {data: data}
             });
         },
 
@@ -637,10 +673,10 @@ const mapDispatchToProps = (dispatch) => {
             console.log("data is " + data);
             dispatch({
                 type: "STORECARS",
-                payload :{data:data}
+                payload: {data: data}
             });
         },
     };
 };
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(NewerHomePage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewerHomePage));
