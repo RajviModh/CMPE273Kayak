@@ -1,7 +1,8 @@
 const reducerHotels = (state = {
     hotels: [],
     selected : {},
-    details : {}
+    details : {},
+    bookingdetails:{}
 }, action) => {
     switch (action.type) {
         case "STOREHOTELS":
@@ -26,6 +27,14 @@ const reducerHotels = (state = {
                 details: action.payload.data
             };
             console.log(state.details);
+            break;
+
+        case "STOREHOTELBOOKINGREQUEST":
+            state = {
+                ...state,
+                bookingdetails: action.payload.data
+            };
+            console.log(state.bookingdetails);
             break;
 
         default:

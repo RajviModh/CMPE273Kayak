@@ -180,8 +180,11 @@ class NewerHomePage extends Component {
             window.alert("Please enter check out date")
         } else if (rooms == "") {
             window.alert("Please enter number of rooms")
+        } else if (rooms <= 0) {
+            window.alert("Please enter valid number of rooms")
         } else {
-            console.log(hoteldata);
+            var bookingdetails = {userid: 1, city:city,rooms:rooms,checkin:this.state.checkindate,checkout:this.state.checkoutdate}
+            this.props.storeHotelBookingRequest(bookingdetails)
             let responseStatus;
             API.searchHotels(hoteldata)
                 .then((res) => {
@@ -189,7 +192,7 @@ class NewerHomePage extends Component {
                     return res.json();
                 }).then(jsonData => {
                 if (responseStatus === 200) {
-                    console.log(jsonData);
+                    //console.log(jsonData);
                     try {
                         this.props.storeHotels(jsonData.availableHotels);
                     }
@@ -669,6 +672,14 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
+        storeHotelBookingRequest: (data) => {
+            console.log("data is " + data);
+            dispatch({
+                type: "STOREHOTELBOOKINGREQUEST",
+                payload: {data: data}
+            });
+        },
+
         storeCars: (data) => {
             console.log("data is " + data);
             dispatch({
@@ -676,6 +687,7 @@ const mapDispatchToProps = (dispatch) => {
                 payload: {data: data}
             });
         },
+
     };
 };
 
