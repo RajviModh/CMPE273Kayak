@@ -6,11 +6,11 @@ var updateCars = function (req, res) {
 
     //columnName , newColumnValue and Id
 
-    console.log("in node " + req.body.columnName + req.body.newValue +req.body );
+    console.log("in node " + req.body.columnName + req.body.newValue +req.body.CID );
     kafka.make_request('adminUpdate_topic', {
         "columnName": req.body.columnName,
         "newValue": req.body.newValue,
-        "":req.body
+        "CID":req.body.CID
     }, function (err, results) {
         console.log('in result');
         console.log(results);

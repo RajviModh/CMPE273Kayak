@@ -27,12 +27,12 @@ function handle_request(msg, callback) {
 
         }, updateHotelsQuery);
     }
-   /* else if (msg.hasOwnProperty('flightId')) {
+    else if (msg.hasOwnProperty('f_id')) {
 
-        console.log("in flight add operations of kafka back-end");
+        console.log("in flight update operations of kafka back-end");
         console.log("In handle request:" + JSON.stringify(msg));
-        var addFlightsQuery = "insert into kayak.flights (flightId,flightDate,startTime,endTime,firstClassFare,buisnessFare,economyFare) VALUES ('" + msg.flightId + "','" + msg.flightDate + "','" + msg.startTime + "','" + msg.endTime + "','"+msg.firstClassFare+"','"+msg.buisnessFare+"','"+msg.economyFare+"')";
-        console.log("Query is:" + addFlightsQuery);
+        var updateFlightsQuery = "UPDATE kayak.flight SET " + msg.columnName + " = '"+msg.newValue+"' where f_id= '"+msg.f_id+"'";
+        console.log("Query is:" + updateFlightsQuery);
 
         mysql.fetchData(function (err, results) {
             if (!err) {
@@ -49,14 +49,14 @@ function handle_request(msg, callback) {
             }
             callback(null, res);
 
-        }, addFlightsQuery);
+        }, updateFlightsQuery);
     }
-    else if (msg.hasOwnProperty('carId')) {
+    else if (msg.hasOwnProperty('CID')) {
 
         console.log("in car add operations of kafka back-end");
         console.log("In handle request:" + JSON.stringify(msg));
-        var addCarsQuery = "insert into kayak.cars (carId,carType,carName,noOfPeople,noOfBags,noOfDoors,carOwner,carLocation) VALUES ('" + msg.carId + "','" + msg.carType + "','" + msg.carName + "','" + msg.noOfPeople + "','"+msg.noOfBags+"','"+msg.noOfDoors+"','"+msg.carOwner+"','"+msg.carLocation+"')";
-        console.log("Query is:" + addCarsQuery);
+        var updateCarsQuery = "UPDATE kayak.car SET " + msg.columnName + " = '"+msg.newValue+"' where CID= '"+msg.CID+"'";
+        console.log("Query is:" + updateCarsQuery);
 
         mysql.fetchData(function (err, results) {
             if (!err) {
@@ -73,8 +73,33 @@ function handle_request(msg, callback) {
             }
             callback(null, res);
 
-        }, addCarsQuery);
-    }*/
+        }, updateCarsQuery);
+    }
+
+    else if (msg.hasOwnProperty('user_id')) {
+
+        console.log("in car add operations of kafka back-end");
+        console.log("In handle request:" + JSON.stringify(msg));
+        var updateUsersQuery = "UPDATE kayak.user SET " + msg.columnName + " = '"+msg.newValue+"' where user_id= '"+msg.user_id+"'";
+        console.log("Query is:" + updateUsersQuery);
+
+        mysql.fetchData(function (err, results) {
+            if (!err) {
+                console.log("After sql query, in results : " + results);
+
+                res.code = "200";
+                res.value = "Added Successfully";
+                res.results=results;
+
+            }
+            else {
+                res.code = "401";
+                res.value = "Failed";
+            }
+            callback(null, res);
+
+        }, updateUsersQuery);
+    }
 }
 
 

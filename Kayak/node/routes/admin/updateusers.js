@@ -1,15 +1,16 @@
 var mysql = require('../mysql');
 var kafka = require('../kafka/client');
 
-var updateFlights = function (req, res) {
+var updateUsers = function (req, res) {
+
 
     //columnName , newColumnValue and Id
 
-    console.log("in node " + req.body.columnName + req.body.newValue +req.body.f_id );
+    console.log("in node " + req.body.columnName + req.body.newValue +req.body.user_id );
     kafka.make_request('adminUpdate_topic', {
         "columnName": req.body.columnName,
         "newValue": req.body.newValue,
-        "f_id":req.body.f_id
+        "user_id":req.body.user_id
     }, function (err, results) {
         console.log('in result');
         console.log(results);
@@ -28,4 +29,4 @@ var updateFlights = function (req, res) {
     })
 };
 
-exports.updateFlights = updateFlights;
+exports.updateUsers = updateUsers;

@@ -4,12 +4,14 @@ var addOperations = require('./services/admin/addOperations');
 var searchOperations = require('./services/admin/searchOperations');
 var updateOperations = require('./services/admin/updateOperations');
 var deleteOperations = require('./services/admin/deleteOperations');
+var viewOperations = require('./services/admin/viewOperations');
 
 var topic_name = 'login_topic';
 var adminAdd_topic = 'adminAdd_topic';
 var adminSearch_topic = 'adminSearch_topic';
 var adminUpdate_topic = 'adminUpdate_topic';
 var adminDelete_topic = 'adminDelete_topic';
+var adminView_topic = 'adminView_topic';
 var consumer = connection.getConsumer(topic_name);
 var producer = connection.getProducer();
 
@@ -21,6 +23,8 @@ consumer.addTopics([adminSearch_topic], function (err,added) {
 consumer.addTopics([adminUpdate_topic], function (err,added) {
 });
 consumer.addTopics([adminDelete_topic], function (err,added) {
+});
+consumer.addTopics([adminView_topic], function (err,added) {
 });
 console.log('server is running');
 consumer.on('message', function (message) {
@@ -107,6 +111,26 @@ consumer.on('message', function (message) {
             return;
         });
     }
+    else if(message.topic == adminView_topic){
+        viewOperations.handle_request(data.data, function (err, res) {
+            console.log('after handle' + JSON.stringify(res));
+            var payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log(data);
+            });
+            return;
+        });
+    }
+
     else {
 
         login.handle_request(data.data, function (err, res) {

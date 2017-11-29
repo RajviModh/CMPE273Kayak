@@ -11,7 +11,6 @@ import AdminHomePage from "./admin/AdminHomePage";
 import AdminAddHotels from "./admin/AdminAddHotels";
 import AdminAddFlights from "./admin/AdminAddFlights";
 import Welcome from "./Welcome";
-import {connect} from "react-redux";
 //import '../css/style.css';
 //import '../css/bootstrap.css';
 import Signup from "./Signup";
@@ -23,7 +22,7 @@ var abc = {backgroundImage: '../images/cover_bg_1.jpg'};
 
 class NewerHomePage extends Component {
 
-    /*state = {
+    state = {
         isLoggedIn: false,
         message: '',
         username: '',
@@ -31,20 +30,18 @@ class NewerHomePage extends Component {
         showSignupModal: false,
         isUser:false
 
-    };*/
+    };
 
     handleSubmit = (userdata) => {
         API.doLogin(userdata)
             .then((res) => {
                 alert("back in newer homepage : " + JSON.stringify(res));
                 if (res.status === '201') {
-                    /*this.setState({
+                    this.setState({
                         isLoggedIn: true,
                         message: "Welcome to my App..!!",
                         //username: userdata.username
-                    });*/
-
-                    this.props.loginChange();
+                    });
                     this.props.history.push("/welcome");
                 } else if (res.status === '401') {
                     this.setState({
@@ -401,29 +398,4 @@ class NewerHomePage extends Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return{
-
-        loginChange: () => {
-            dispatch({
-                type: "CHANGELOGIN"
-            });
-        },
-
-        passChange: (password) => {
-            dispatch({
-                type: "CHANGEPASS",
-                payload : {password:password}
-            });
-        },
-
-    };
-};
-
-const mapStateToProps = (state) => {
-    return{
-        select: state.userReducer
-    };
-};
-
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(NewerHomePage));
+export default withRouter(NewerHomePage);

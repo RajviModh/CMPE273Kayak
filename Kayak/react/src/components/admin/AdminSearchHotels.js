@@ -3,6 +3,7 @@ import {Route, withRouter, Link} from 'react-router-dom';
 import * as API from '../../api/API';
 import ReactDataGrid from 'react-data-grid';
 import update from 'immutability-helper';
+import Message from "../Message";
 const {Toolbar, Data: {Selectors}, Editors, Formatters} = require('react-data-grid-addons');
 const {AutoComplete: AutoCompleteEditor, DropDownEditor} = Editors;
 
@@ -11,15 +12,15 @@ class AdminSearchHotels extends Component {
         super(props, context);
         this._columns = [
             {
-                key: 'hId',
-                name: 'hId',
+                key: 'HID',
+                name: 'Hotel Id',
                 filterable: true,
                 editable: false,
                 sortable: true
             },
             {
-                key: 'hotelName',
-                name: 'HotelName',
+                key: 'name',
+                name: 'Hotel Name',
                 filterable: true,
                 editable: true,
                 sortable: true
@@ -27,6 +28,27 @@ class AdminSearchHotels extends Component {
             {
                 key: 'city',
                 name: 'City',
+                filterable: true,
+                editable: true,
+                sortable: true
+            },
+            {
+                key: 'state',
+                name: 'State',
+                filterable: true,
+                editable: true,
+                sortable: true
+            },
+            {
+                key: 'stars',
+                name: 'Star Ratings',
+                filterable: true,
+                editable: true,
+                sortable: true
+            },
+            {
+                key: 'freebies',
+                name: 'Freebies',
                 filterable: true,
                 editable: true,
                 sortable: true
@@ -41,19 +63,59 @@ class AdminSearchHotels extends Component {
         ];
         this.state =
             {
+                message:'',
                 rows: '',
                 filters: {},
                 sortColumn: null,
                 sortDirection: null,
-                hotelName: 'Chariot',
+                HID: '',
+                name:'',
                 city: '',
-                hId:'',
-                operation: '',
-                searchResult: []
+                state:'',
+                stars:'',
+                freebies:''
             };
     }
 
-    adminSearchHotels = (hoteldata) => {
+    componentWillMount() {
+        this.adminViewHotels(this.state);
+
+    }
+
+    adminViewHotels = (flightdata) => {
+
+        API.adminViewHotels(flightdata)
+            .then((res) => {
+                alert("in Admin view" + JSON.stringify(res));
+                if (res.status === '201') {
+                    console.log("in 201");
+                    alert("searchResult:"+JSON.stringify(res.results));
+                    let rows = this.createRows(res.results);
+                    alert("BeforeStateSetting:" + JSON.stringify(rows));
+                    this.setState({
+                        searchResult: res.results,
+                        rows: rows
+
+                    });
+
+                }
+                else if (res.status === '401') {
+                    this.setState({
+                        message: JSON.stringify(res.errors)
+                    });
+
+                }
+                else{
+                    this.setState({
+                        message: "Nothing to show! Try connecting to server!"
+                    });
+                }
+
+
+            })
+    }
+
+   /* adminSearchHotels = (hoteldata) => {
        // alert("in AdminSearch hotels react" + JSON.stringify(hoteldata));
         let status;
         API.adminSearchHotels(hoteldata)
@@ -76,7 +138,7 @@ class AdminSearchHotels extends Component {
 
 
             })
-    };
+    };*/
 
     adminDeleteHotels =(hoteldata) => {
         alert("in delete" + JSON.stringify(hoteldata));
@@ -86,10 +148,22 @@ class AdminSearchHotels extends Component {
                 if (res.status === '201') {
                     alert("deleted successfully");
                     this.setState({
-                        message: "Displayed successfully",
+                        message: "Record deleted successfully!",
 
                     });
+                    window.location.href = '/adminsearchhotels';
 
+                }
+                else if (res.status === '401') {
+                    this.setState({
+                        message: JSON.stringify(res.errors)
+                    });
+
+                }
+                else{
+                    this.setState({
+                        message: "An error caused! Record could not be deleted!"
+                    });
                 }
             });
     };
@@ -100,9 +174,13 @@ class AdminSearchHotels extends Component {
         for (let i = 0; i < search.length; i++) {
             rows.push({
 
-                hId : search[i].hId,
-                hotelName: search[i].hotelName,
+                HID : search[i].HID,
+                name: search[i].name,
                 city: search[i].city,
+                state : search[i].state,
+                stars: search[i].stars,
+                freebies: search[i].freebies,
+
                 delete : <button className="btn btn-primary" onClick={() => this.adminDeleteHotels(search[i].hId)}>Delete</button>
 
             });
@@ -128,7 +206,8 @@ class AdminSearchHotels extends Component {
         this.setState({sortColumn: sortColumn, sortDirection: sortDirection});
     };
 
-    handleGridRowsUpdated = ({ fromRow, toRow, updated }) => {
+    handleGridRowsUpdated = ({ e }) => {
+        const { fromRow, toRow, updated } = e;
         let rows = this.state.rows.slice();
         let updatedRow;
         // this.rowGetter();
@@ -161,10 +240,21 @@ class AdminSearchHotels extends Component {
                 if (res.status === '201') {
                     console.log("in 201");
                     this.setState({
-                        message: "Displayed successfully",
+                        message: "Record updated successfully"
 
                     });
 
+                }
+                else if (res.status === '401') {
+                    this.setState({
+                        message: JSON.stringify(res.errors)
+                    });
+
+                }
+                else{
+                    this.setState({
+                        message: "An error caused! Record could not be updated!"
+                    });
                 }
             });
 
@@ -188,30 +278,16 @@ class AdminSearchHotels extends Component {
     };
 
 
-    componentWillMount() {
-        this.setState({
-            rows: '',
-            filters: {},
-            sortColumn: null,
-            sortDirection: null,
-            hotelName: 'Chariot',
-            city: '',
-            hId:'',
-            operation: '',
-            searchResult: []
-        });
-    }
+
 
     render() {
 
-        console.log("++++++= rows" + JSON.stringify(this.state.rows));
-
-        console.log("+++++= searchresult" + JSON.stringify(this.state.searchResult));
         return (
             <div className="fh5co-hero">
                 <div className="container">
                     <div className="row justify-content-md-center">
-                        <div className="col-sm-4 col-md-4">
+                        <h2 style={{color:'orange'}}><u>HOTELS</u></h2>
+                        {/*<div className="col-sm-4 col-md-4">
                             <div className="col-sm-4 col-md-4">
                                 <label>Search By Name</label>
                             </div>
@@ -274,7 +350,8 @@ class AdminSearchHotels extends Component {
 
                     </div>
 
-                    <div>
+                    <div>*/}
+                        <div className="col-sm-12 col-md-12">
                         <ReactDataGrid
                             onGridSort={this.handleGridSort}
                             enableCellSelect={true}
@@ -286,6 +363,11 @@ class AdminSearchHotels extends Component {
                             onAddFilter={this.handleFilterChange}
                             onGridRowsUpdated={this.handleGridRowsUpdated}
                             onClearFilters={this.onClearFilters}/>
+                        <br/>
+                    </div>
+                    <div className="col-sm-12 col-md-12">
+                        <Message message={this.state.message} />
+                    </div>
                     </div>
 
                     {/*+ ":" + hotel.city + ":" + hotel.state + ":" + hotel.hotelPrice*/}

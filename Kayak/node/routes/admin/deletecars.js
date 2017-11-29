@@ -4,9 +4,9 @@ var deleteCars = function (req, res) {
 
     //Give CarId
 
-    console.log("in node " +req.body );
+    console.log("in node " +req.body.CID );
     kafka.make_request('adminDelete_topic', {
-        "":req.body
+        "CID":req.body.CID
     }, function (err, results) {
         console.log('in result');
         console.log(results);

@@ -4,9 +4,9 @@ var deleteFlights = function (req, res) {
 
     //Give FlightId
 
-    console.log("in node " +req.body );
+    console.log("in node " +req.body.f_id );
     kafka.make_request('adminDelete_topic', {
-        "":req.body
+        "f_id":req.body.f_id
     }, function (err, results) {
         console.log('in result');
         console.log(results);

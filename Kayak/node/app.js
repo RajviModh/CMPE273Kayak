@@ -16,12 +16,19 @@ var adminAddCars = require('./routes/admin/addcars');
 var adminSearchHotels = require('./routes/admin/searchhotels');
 var adminSearchFlights = require('./routes/admin/searchflights');
 var adminSearchCars = require('./routes/admin/searchcars');
+//var adminSearchBills = require('./routes/admin/');
 var adminUpdateHotels = require('./routes/admin/updatehotels');
 var adminUpdateFlights = require('./routes/admin/updateflights');
 var adminUpdateCars = require('./routes/admin/updatecars');
+var adminUpdateUsers = require('./routes/admin/updateusers');
 var adminDeleteHotels = require('./routes/admin/deletehotels');
 var adminDeleteFlights = require('./routes/admin/deleteflights');
 var adminDeleteCars = require('./routes/admin/deletecars');
+var adminViewHotels = require('./routes/admin/viewhotels');
+var adminViewFlights = require('./routes/admin/viewflights');
+var adminViewCars = require('./routes/admin/viewcars');
+var adminViewUsers = require('./routes/admin/viewusers');
+var adminDashboard = require('./routes/admin/admindashboard');
 
 var app = express();
 
@@ -51,9 +58,18 @@ app.post('/adminSearchCars',adminSearchCars.searchCars);
 app.post('/adminUpdateHotels',adminUpdateHotels.updateHotels);
 app.post('/adminUpdateFlights',adminUpdateFlights.updateFlights);
 app.post('/adminUpdateCars',adminUpdateCars.updateCars);
+app.post('/adminUpdateUsers',adminUpdateUsers.updateUsers);
 app.post('/adminDeleteHotels',adminDeleteHotels.deleteHotels);
 app.post('/adminDeleteFlights',adminDeleteFlights.deleteFlights);
 app.post('/adminDeleteCars',adminDeleteCars.deleteCars);
+app.post('/adminViewHotels',adminViewHotels.viewHotels);
+app.post('/adminViewFlights',adminViewFlights.viewFlights);
+app.post('/adminViewCars',adminViewCars.viewCars);
+app.post('/adminViewUsers',adminViewUsers.viewUsers);
+
+app.post('/adminViewCityByRevenue',adminDashboard.adminDashboard);
+app.post('/adminViewHotelsChart',adminDashboard.adminViewHotelsChart);
+app.post('/adminViewCarsChart',adminDashboard.adminViewCarsChart);
 
 app.post('/login',function(req, res,next) {
     console.log("username in app" + JSON.stringify(req.body));

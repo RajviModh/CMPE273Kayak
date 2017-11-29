@@ -3,10 +3,10 @@ var kafka = require('../kafka/client');
 
 var searchCars = function (req, res) {
 
-    console.log("in node " + req.body + req.body);
+    console.log("in node " + req.body.CID + req.body.make);
     kafka.make_request('adminSearch_topic', {
-        "": req.body,
-        "": req.body
+        "CID": req.body.CID,
+        "make": req.body.make
     }, function (err, results) {
         console.log('in result');
         console.log(results);

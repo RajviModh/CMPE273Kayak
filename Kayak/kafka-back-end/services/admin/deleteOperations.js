@@ -27,12 +27,12 @@ function handle_request(msg, callback) {
 
         }, deleteHotelsQuery);
     }
-    /* else if (msg.hasOwnProperty('flightId')) {
+     else if (msg.hasOwnProperty('f_id')) {
 
-         console.log("in flight add operations of kafka back-end");
+         console.log("in flight delete operations of kafka back-end");
          console.log("In handle request:" + JSON.stringify(msg));
-         var addFlightsQuery = "insert into kayak.flights (flightId,flightDate,startTime,endTime,firstClassFare,buisnessFare,economyFare) VALUES ('" + msg.flightId + "','" + msg.flightDate + "','" + msg.startTime + "','" + msg.endTime + "','"+msg.firstClassFare+"','"+msg.buisnessFare+"','"+msg.economyFare+"')";
-         console.log("Query is:" + addFlightsQuery);
+        var deleteHotelsQuery = "DELETE from kayak.flight WHERE f_id='"+msg.f_id+"'";
+         console.log("Query is:" + deleteHotelsQuery);
 
          mysql.fetchData(function (err, results) {
              if (!err) {
@@ -49,32 +49,32 @@ function handle_request(msg, callback) {
              }
              callback(null, res);
 
-         }, addFlightsQuery);
+         }, deleteHotelsQuery);
      }
-     else if (msg.hasOwnProperty('carId')) {
+     else if (msg.hasOwnProperty('CID')) {
 
-         console.log("in car add operations of kafka back-end");
+         console.log("in car delete operations of kafka back-end");
          console.log("In handle request:" + JSON.stringify(msg));
-         var addCarsQuery = "insert into kayak.cars (carId,carType,carName,noOfPeople,noOfBags,noOfDoors,carOwner,carLocation) VALUES ('" + msg.carId + "','" + msg.carType + "','" + msg.carName + "','" + msg.noOfPeople + "','"+msg.noOfBags+"','"+msg.noOfDoors+"','"+msg.carOwner+"','"+msg.carLocation+"')";
-         console.log("Query is:" + addCarsQuery);
+        var deleteCarsQuery = "DELETE from kayak.car WHERE CID='"+msg.CID+"'";
+        console.log("Query is:" + deleteCarsQuery);
 
-         mysql.fetchData(function (err, results) {
-             if (!err) {
-                 console.log("After sql query, in results : " + results);
+        mysql.fetchData(function (err, results) {
+            if (!err) {
+                console.log("After sql query, in results : " + results);
 
-                 res.code = "200";
-                 res.value = "Added Successfully";
-                 res.results=results;
+                res.code = "200";
+                res.value = "Added Successfully";
+                res.results=results;
 
-             }
-             else {
-                 res.code = "401";
-                 res.value = "Failed";
-             }
-             callback(null, res);
+            }
+            else {
+                res.code = "401";
+                res.value = "Failed";
+            }
+            callback(null, res);
 
-         }, addCarsQuery);
-     }*/
+        }, deleteCarsQuery);
+     }
 }
 
 

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Route, withRouter, Link} from 'react-router-dom';
+
+import AdminWelcomePage from "./admin/AdminWelcomePage";
 import AdminAddHotels from "./admin/AdminAddHotels";
 import AdminAddFlights from "./admin/AdminAddFlights";
 import AdminAddCars from "./admin/AdminAddCars";
@@ -25,7 +27,7 @@ class AdminHeader extends Component{
 
                             <nav id="fh5co-menu-wrap" role="navigation">
                                 <ul className="sf-menu" id="fh5co-primary-menu">
-                                    <li className="active"><a href="/">Home</a></li>
+                                    <li className="active"><a href="/admin">Home</a></li>
                                     <li>
                                         <a href="#" className="fh5co-sub-ddown">Add</a>
                                         <ul className="fh5co-sub-menu">
@@ -49,6 +51,12 @@ class AdminHeader extends Component{
                         </div>
                     </div>
                 </header>
+
+                <Route exact path="/admin" render={() => (
+                    <div>
+                        <AdminWelcomePage/>
+                    </div>
+                )}/>
 
                 <Route exact path="/adminaddhotels" render={() => (
                     <div>

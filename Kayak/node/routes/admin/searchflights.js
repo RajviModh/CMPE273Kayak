@@ -3,10 +3,10 @@ var kafka = require('../kafka/client');
 
 var searchFlights = function (req, res) {
 
-    console.log("in node " + req.body + req.body);
+    console.log("in node " + req.body.f_id + req.body.airline_name);
     kafka.make_request('adminSearch_topic', {
-        "": req.body,
-        "": req.body
+        "f_id": req.body.f_id,
+        "airline_name": req.body.airline_name
     }, function (err, results) {
         console.log('in result');
         console.log(results);
