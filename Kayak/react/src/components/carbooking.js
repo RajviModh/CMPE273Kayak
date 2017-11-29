@@ -182,9 +182,9 @@ class Carbooking extends Component {
                                 <th style={{textAlign: 'center'}}>Total</th>
                             </tr>
                             <tr>
-                                <td> {this.props.select.selected.carname}</td>
-                                <td> {this.props.select.selected.price}</td>
-                                <td> {this.props.select.selected.price}</td>
+                                <td> {this.props.select.selectedcars.carname}</td>
+                                <td> {this.props.select.selectedcars.price}</td>
+                                <td> {this.props.select.selectedcars.price}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -213,9 +213,9 @@ class Carbooking extends Component {
                                 <th style={{textAlign: 'center'}}>Email</th>
                             </tr>
                             <tr>
-                                <td> {this.props.select.details.firstname}</td>
-                                <td> {this.props.select.details.contact}</td>
-                                <td> {this.props.select.details.email}</td>
+                                <td> {this.props.select.cardetails.firstname}</td>
+                                <td> {this.props.select.cardetails.contact}</td>
+                                <td> {this.props.select.cardetails.email}</td>
                             </tr>
                             </tbody>
                         </table>
