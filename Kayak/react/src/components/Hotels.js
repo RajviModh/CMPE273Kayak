@@ -112,7 +112,9 @@ class Hotels extends Component {
     handlehotelChange1 = (newDate) => {
         formdata["checkoutdate"] = newDate;
     };
-    displayhotelbookingmodal = () => {
+    displayhotelbookingmodal = (hotelname,roomtype,rent) => {
+
+        var selectedHotel = {name:hotelname,type:roomtype,rent:rent}
 
         var bookingclick = document.getElementById("modalforhotelbooking");
 
@@ -121,6 +123,8 @@ class Hotels extends Component {
         } else {
             bookingclick.style.display = 'none';
         }
+
+        this.props.selectedOption(selectedHotel);
     }
     searchHotels = () => {
 
@@ -162,7 +166,9 @@ class Hotels extends Component {
             document.getElementById('messcontact').style.display = 'block';
             document.getElementById("messcontact").innerHTML = 'Please enter contact';
         } else {
-            this.props.history.push('/hotelbooking')
+            var details = {firstname:firstname,email:email,contact:contact};
+            this.props.storeDetails(details);
+            this.props.history.push('/hotelbooking');
         }
 
     }
@@ -180,19 +186,20 @@ class Hotels extends Component {
         return stars;
     };
 
-    getRooms = (hotelIndex) => {
+    getRooms = (hotelIndex,hotelname,hotelrent) => {
 
         var rooms = this.props.select.hotels[hotelIndex].rooms;
 
         rooms = rooms.map((room, index) => {
+            if(hotelIndex!=0){
             return ( <tr>
                 <td> {room.type}</td>
                 <td> {room.rent}</td>
                 <td> {room.availableRooms}</td>
                 <button className="btn btn-primary" id="download" type="button"
-                        onClick={() => this.handleBook(room)}>Continue
+                        onClick={() => this.displayhotelbookingmodal(hotelname,room.type,hotelrent)}>Continue
                 </button>
-            </tr>);
+            </tr>)};
         });
         return rooms;
     }
@@ -213,28 +220,6 @@ class Hotels extends Component {
 
         var status, url;
 
-
-        // roomTypes = this.props.select.rooms.map(function (item, index) {
-        //     if (!index == 0) {
-        //         return (
-        //             <tr>
-        //                 <td> {item.type}</td>
-        //                 <td> {item.rent}</td>
-        //                 <td> {item.availableRooms}</td>
-        //                 <button className="btn btn-primary" id="download" type="button"
-        //                         onClick={() => this.handleBook(item)}>Continue
-        //                 </button>
-        //             </tr>
-        //         );
-        //     }
-        // }.bind(this));
-
-        //     freebies = this.props.select.freebies.map(function (item, index) {
-        //     return (
-        //     <span className="glyphicon glyphicon-ok"
-        //     aria-hidden="true"> {item}</span>
-        //     );
-        // }.bind(this));
 
         console.log(this.props.select.hotels);
         return (
@@ -380,7 +365,7 @@ class Hotels extends Component {
                                                     <div className="hotel-right text-right">
                                                         <h4>{item.rooms[0].rent}</h4>
                                                         <p>Best price</p>
-                                                        <a onClick={() => this.displayhotelbookingmodal()}>Continue</a>
+                                                        <a onClick={() => this.displayhotelbookingmodal(item.name,item.rooms[index].type,item.rooms[index].rent)}>Continue</a>
                                                     </div>
                                                     <div className="clearfix"></div>
                                                 </div>
@@ -396,7 +381,7 @@ class Hotels extends Component {
                                                             <th style={{textAlign: 'center'}}>Price</th>
                                                             <th style={{textAlign: 'center'}}></th>
                                                         </tr>
-                                                        {this.getRooms(index)}
+                                                        {this.getRooms(index,item.name,item.rooms[index].rent)}
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -465,9 +450,16 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        storeRestore: () => {
+        selectedOption: (data) => {
             dispatch({
-                type: "RESTORE"
+                type: "STORESELECTEDHOTEL",
+                payload : {data: data}
+            });
+        },
+        storeDetails: (data) => {
+            dispatch({
+                type: "STOREUSERDETAILS",
+                payload : {data: data}
             });
         },
     };
