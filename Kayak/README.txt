@@ -16,5 +16,3 @@ Front-end server
 	1. cd reactlogin
 	2. npm install
 	3. npm start
-
-TestConflicting Anuragll

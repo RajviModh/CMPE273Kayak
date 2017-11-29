@@ -7,8 +7,8 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css';
-import Tooltip from 'rc-tooltip';
 import Slider from 'rc-slider';
+
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
 
@@ -112,9 +112,9 @@ class Hotels extends Component {
     handlehotelChange1 = (newDate) => {
         formdata["checkoutdate"] = newDate;
     };
-    displayhotelbookingmodal = (hotelname,roomtype,rent) => {
+    displayhotelbookingmodal = (HID, RID, hotelname, roomtype, rent) => {
 
-        var selectedHotel = {name:hotelname,type:roomtype,rent:rent}
+        var selectedHotel = {HID, RID, name: hotelname, type: roomtype, rent: rent};
 
         var bookingclick = document.getElementById("modalforhotelbooking");
 
@@ -123,8 +123,9 @@ class Hotels extends Component {
         } else {
             bookingclick.style.display = 'none';
         }
-
+        console.log("before" + selectedHotel);
         this.props.selectedOption(selectedHotel);
+        console.log("after" + JSON.stringify(this.props.select.selected));
     }
     searchHotels = () => {
 
@@ -166,7 +167,7 @@ class Hotels extends Component {
             document.getElementById('messcontact').style.display = 'block';
             document.getElementById("messcontact").innerHTML = 'Please enter contact';
         } else {
-            var details = {firstname:firstname,email:email,contact:contact};
+            var details = {firstname: firstname, email: email, contact: contact};
             this.props.storeDetails(details);
             this.props.history.push('/hotelbooking');
         }
@@ -186,20 +187,21 @@ class Hotels extends Component {
         return stars;
     };
 
-    getRooms = (hotelIndex,hotelname,hotelrent) => {
+    getRooms = (hotelIndex, HID, hotelname) => {
 
         var rooms = this.props.select.hotels[hotelIndex].rooms;
 
         rooms = rooms.map((room, index) => {
-            if(hotelIndex!=0){
+
             return ( <tr>
                 <td> {room.type}</td>
                 <td> {room.rent}</td>
                 <td> {room.availableRooms}</td>
                 <button className="btn btn-primary" id="download" type="button"
-                        onClick={() => this.displayhotelbookingmodal(hotelname,room.type,hotelrent)}>Continue
+                        onClick={() => this.displayhotelbookingmodal(HID, room.RID, hotelname, room.type, room.rent)}>
+                    Continue
                 </button>
-            </tr>)};
+            </tr>);
         });
         return rooms;
     }
@@ -365,7 +367,7 @@ class Hotels extends Component {
                                                     <div className="hotel-right text-right">
                                                         <h4>{item.rooms[0].rent}</h4>
                                                         <p>Best price</p>
-                                                        <a onClick={() => this.displayhotelbookingmodal(item.name,item.rooms[index].type,item.rooms[index].rent)}>Continue</a>
+                                                        <a onClick={() => this.displayhotelbookingmodal(item.HID, item.rooms[0].RID, item.name, item.rooms[0].type, item.rooms[0].rent)}>Continue</a>
                                                     </div>
                                                     <div className="clearfix"></div>
                                                 </div>
@@ -381,7 +383,7 @@ class Hotels extends Component {
                                                             <th style={{textAlign: 'center'}}>Price</th>
                                                             <th style={{textAlign: 'center'}}></th>
                                                         </tr>
-                                                        {this.getRooms(index,item.name,item.rooms[index].rent)}
+                                                        {this.getRooms(index, item.HID, item.name)}
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -452,14 +454,14 @@ const mapDispatchToProps = (dispatch) => {
     return {
         selectedOption: (data) => {
             dispatch({
-                type: "STORESELECTEDHOTEL",
-                payload : {data: data}
+                type: "STORESELECTEDHOTELS",
+                payload: {data: data}
             });
         },
         storeDetails: (data) => {
             dispatch({
                 type: "STOREUSERDETAILS",
-                payload : {data: data}
+                payload: {data: data}
             });
         },
     };
