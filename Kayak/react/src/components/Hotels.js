@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import '../css/hotel-style.css';
 import '../css/bootstrap.css';
+import * as API from '../api/API';
 import ReactStars from 'react-stars';
 import DateTimeField from 'react-bootstrap-datetimepicker';
 import {connect} from 'react-redux';
@@ -98,7 +99,9 @@ class Hotels extends Component {
         comingDate: new Date(),
         format: "YYYY-MM-DD",
         inputFormat: "DD/MM/YYYY",
-        mode: "date"
+        mode: "date",
+        checkindate: "",
+        checkoutdate: ""
         /*selectedClass: '',
         noAdults: 0,
         noChild: 0,
@@ -107,10 +110,12 @@ class Hotels extends Component {
     };
 
     handlehotelChange = (newDate) => {
-        formdata["checkindate"] = newDate;
+        this.state.checkindate = newDate;
+        formdata["fromDate"] = newDate;
     };
     handlehotelChange1 = (newDate) => {
-        formdata["checkoutdate"] = newDate;
+        this.state.checkoutdate = newDate;
+        formdata["toDate"] = newDate;
     };
     displayhotelbookingmodal = (HID, RID, hotelname, roomtype, rent) => {
 
@@ -123,15 +128,52 @@ class Hotels extends Component {
         } else {
             bookingclick.style.display = 'none';
         }
-        console.log("before" + selectedHotel);
         this.props.selectedOption(selectedHotel);
-        console.log("after" + JSON.stringify(this.props.select.selected));
     }
     searchHotels = () => {
+        var city = document.getElementById("city").value;
+        var rooms = document.getElementById("noofrooms").value;
+        //var checkin = document.getElementById("checkin").value;
+        //var children = document.getElementById("noofchildren").value;
 
-        console.log(formdata)
+        if (city == "") {
+            window.alert("Please enter city name")
+        } else if (this.state.checkindate == "") {
+            window.alert("Please enter check in date")
+        } else if (this.state.checkoutdate == "") {
+            window.alert("Please enter check out date")
+        } else if (rooms == "") {
+            window.alert("Please enter number of rooms")
+        } else if (rooms <= 0) {
+            window.alert("Please enter valid number of rooms")
+        } else {
+            var bookingdetails = {userid: 1, city:city,rooms:rooms,checkin:this.state.checkindate,checkout:this.state.checkoutdate}
+            this.props.storeHotelBookingRequest(bookingdetails)
+            let responseStatus;
+            API.searchHotels(formdata)
+                .then((res) => {
+                    responseStatus = res.status;
+                    return res.json();
+                }).then(jsonData => {
+                if (responseStatus === 200) {
+                    //console.log(jsonData);
+                    try {
+                        this.props.storeHotels(jsonData.availableHotels);
+                    }
+                    catch (err) {
+                        window.alert("Some error. Please try again later..")
+                    }
+                    this.props.history.push("/hotels");
 
+                } else if (responseStatus === 500) {
+                    window.alert("Bad request. Please try again later..")
+                }
+            });
+            //API call here
+            //this.props.history.push('/hotels');
+        }
     }
+
     handlehotelbooking = () => {
 
         document.getElementById('messfirstname').style.display = 'none';
@@ -174,9 +216,6 @@ class Hotels extends Component {
 
     }
 
-    componenetWillMount() {
-        this.setState({});
-    }
 
     getStars = (star) => {
         var stars = [];
@@ -241,7 +280,7 @@ class Hotels extends Component {
                                         <div className="input-field">
                                             <select style={optStyle}
                                                     onChange={(event) => formdata["city"] = event.target.value}
-                                                    className="cs-select cs-skin-border" name="" id="">
+                                                    className="cs-select cs-skin-border" name="" id="city">
 
                                                 <option style={color} name="" id="">City</option>
                                                 {
@@ -298,7 +337,7 @@ class Hotels extends Component {
 
                                         &nbsp; &nbsp;
 
-                                        <input placeholder="Rooms" style={w} type='number' onChange={(event) => {
+                                        <input placeholder="Rooms" style={w} type='number' id="noofrooms" onChange={(event) => {
                                             formdata["noofrooms"] = event.target.value
                                         }}
                                         />
