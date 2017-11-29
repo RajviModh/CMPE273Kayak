@@ -46,6 +46,7 @@ router.post('/hotel/search/cities', (request, response, next) => {
 
 router.post('/hotel/book', (request, response, next) => {
     //chech for session
+    console.log("reached node" + request.body.RID + request.body.fromDate);
     kafka.make_request('hotelBook', {
         RID: request.body.RID,
         fromDate: request.body.fromDate,
@@ -60,7 +61,7 @@ router.post('/hotel/book', (request, response, next) => {
             console.log(error);
         }
         else {
-            response.status(kafkaResponse.code);
+            response.status(kafkaResponse.code).end();
 
         }
     });
