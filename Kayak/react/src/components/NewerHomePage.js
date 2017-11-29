@@ -1,10 +1,18 @@
 import React, {Component} from 'react';
-import {Route, withRouter} from 'react-router-dom';
+import {Route, withRouter, Link} from 'react-router-dom';
 import * as API from '../api/API';
+import {DropdownMenu, MenuItem} from 'react-bootstrap-dropdown-menu';
 import UserHeader from "./UserHeader";
 import AdminHeader from "./AdminHeader";
 import UserFooter from "./UserFooter";
 import AdminHomePage from "./admin/AdminHomePage";
+import AdminAddHotels from "./admin/AdminAddHotels";
+import AdminAddFlights from "./admin/AdminAddFlights";
+import Welcome from "./Welcome";
+//import '../css/style.css';
+//import '../css/bootstrap.css';
+import Signup from "./Signup";
+import {Modal} from 'react-bootstrap';
 import Hotels from "./Hotels";
 import Flights from "./Flights";
 import Cars from "./cars";
@@ -28,41 +36,17 @@ var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(
 
 class NewerHomePage extends Component {
 
+    /*state = {
+        isLoggedIn: false,
+        message: '',
+        username: '',
+        showLoginModal: false,
+        showSignupModal: false,
+        isUser:true
     /*componentWillMount(){
 
-        //var self=this;
-        //console.log("in store ",this.props.select);
-        axios.get('http://localhost:3001/flights/from')
-            .then(function (response) {
-                console.log(response);
-                console.log(response.data.from);
-                self.setState({
-                    fromCity:response.data.from
-                    //isLoggedIn: true,
-                    //message: "Welcome to my App..!!",
-                    //username: userdata.username
-                });
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+    };*/
 
-        axios.get('http://localhost:3001/flights/to')
-            .then(function (response) {
-                console.log(response);
-                console.log(response.data.to);
-                self.setState({
-                    toCity:response.data.to
-                    //isLoggedIn: true,
-                    //message: "Welcome to my App..!!",
-                    //username: userdata.username
-                });
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-*/
     handleSubmit = (userdata) => {
         API.doLogin(userdata)
             .then((res) => {
@@ -263,7 +247,7 @@ class NewerHomePage extends Component {
             username: '',
             showLoginModal: false,
             showSignupModal: false,*/
-            isUser: true,
+            isUser: false,
             /*date: "2017-11-21",
             startDate :  moment(this.props.minDate, 'DD/MM/YYYY'),*/
             format: "YYYY-MM-DD",
