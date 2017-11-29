@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import '../css/hotel-style.css';
 import '../css/bootstrap.css';
 import * as API from '../api/API';
-import {Checkbox} from 'react-bootstrap';
 import Slider from 'rc-slider';
-import {Link, Route, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
 
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
@@ -130,28 +129,30 @@ class Hotelbooking extends Component {
         if (!creditCardValidator.validateCard(cardnumber)) {
             document.getElementById('cardvalidator').style.display = 'block';
             document.getElementById('cardvalidator').innerHTML = 'Invalid card number';
-        }else if (cvv.length != 3 || isNaN(Number(cvv))) {
+        } else if (cvv.length != 3 || isNaN(Number(cvv))) {
             console.log(Number(cvv));
             document.getElementById('cvvvalidator').style.display = 'block';
             document.getElementById('cvvvalidator').innerHTML = 'Invalid CVV';
-        }else if (isNaN(Number(part1)) || isNaN(Number(part2)) || expiry.charAt(2) != '/' || part1 > 31) {
+        } else if (isNaN(Number(part1)) || isNaN(Number(part2)) || expiry.charAt(2) != '/' || part1 > 31) {
             document.getElementById('expiryvalidator').style.display = 'block';
             document.getElementById('expiryvalidator').innerHTML = 'Invalid expiry date';
-        }else if (regex.test(name)) {
+        } else if (regex.test(name)) {
             document.getElementById('namevalidator').style.display = 'block';
             document.getElementById('namevalidator').innerHTML = 'Invalid name';
-        }else{
-            var bookingdetails = {roomid:this.props.select.selected.RID,checkin:this.props.select.bookingdetails.checkin,
-                checkout:this.props.select.bookingdetails.checkout,rooms:this.props.select.bookingdetails.rooms,
-                userid:this.props.select.bookingdetails.userid}
+        } else {
+            var bookingdetails = {
+                RID: this.props.select.selected.RID, fromDate: this.props.select.bookingdetails.checkin,
+                toDate: this.props.select.bookingdetails.checkout, noOfRooms: this.props.select.bookingdetails.rooms,
+                UID: this.props.select.bookingdetails.userid
+            };
 
             API.bookHotel(bookingdetails)
                 .then((res) => {
 
-                    if (res.status === '200') {
+                    if (res.status === 200) {
                         window.alert("Booking successful..");
-                        this.props.history.push("/welcome");
-                    } else if (res.status === '500') {
+                        // this.props.history.push("/welcome");
+                    } else if (res.status === 500) {
                         window.alert("Some error..");
                     }
                 });

@@ -13,6 +13,12 @@ var producer = connection.getProducer();
 const hotelSearchTopic = 'hotelSearch';
 const hotelCitiesSearchTopic = 'hotelCitiesSearch';
 const hotelBookTopic = 'hotelBook';
+
+/*const redis = require('redis');
+let redisClient = redis.createClient();
+redisClient.on('connect', function(){
+    console.log('Connected to Redis...');
+});*/
 consumer.addTopics([adminAdd_topic], function (err, added) {
 });
 consumer.addTopics([adminSearch_topic], function (err, added) {
@@ -21,6 +27,9 @@ consumer.addTopics([hotelSearchTopic], function (err, added) {
 });
 consumer.addTopics([hotelCitiesSearchTopic], function (err, added) {
 });
+consumer.addTopics([hotelBookTopic], function (err, added) {
+});
+
 console.log('server is running');
 consumer.on('message', function (message) {
     console.log('message received');
@@ -113,6 +122,7 @@ consumer.on('message', function (message) {
         });
     } else if (message.topic === hotelBookTopic) {
         const actualPayload = data;
+        console.log("in hotelBookTopic");
         hotelBook.handleRequest(actualPayload.data, function (error, response) {
             /*  Here, actualPayload.data points to the content in the message received on the API on kafka-front-end side i.e.:
             {

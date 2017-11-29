@@ -12,7 +12,7 @@ function handleRequest(data, callback) {
     };*/
 
     const hotelBookDML = "INSERT INTO `kayak`.`hotel_booking` (`RID`, `from_date`, `to_date`, `no_rooms`, `booked_by`) VALUES (" + data.RID + ", '" + data.fromDate + "', '" + data.toDate + "'," + data.noOfRooms + " ," + data.UID + ");";
-
+    console.log("inserting");
     mysql.setData((error, rows) => {
         if (error) {
             response.code = 500;
@@ -22,7 +22,8 @@ function handleRequest(data, callback) {
 
 
             response.code = 200;
-            response.message = "Search Successful";
+            response.message = "Insert Successful";
+            console.log("inserted");
             callback(null, response);
         }
 

@@ -382,8 +382,8 @@ class Hotels extends Component {
                                                         <tbody>
                                                         <tr>
                                                             <th style={{textAlign: 'center'}}>Room Type</th>
-                                                            <th style={{textAlign: 'center'}}>Reviews</th>
                                                             <th style={{textAlign: 'center'}}>Price</th>
+                                                            <th style={{textAlign: 'center'}}>Available Rooms</th>
                                                             <th style={{textAlign: 'center'}}></th>
                                                         </tr>
                                                         {this.getRooms(index, item.HID, item.name)}
