@@ -171,12 +171,12 @@ export const bookHotel = (payload) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
-    }).then(res => res.json())
-        .then(res => {
+    }).then(res => {
             alert("back in API  : " + JSON.stringify(res));
             return res;
         })
         .catch(error => {
+            window.alert("Some error occurred, please try again!");
             console.log("This is error");
             return error;
         });
