@@ -182,10 +182,10 @@ class Hotelbooking extends Component {
                                 <th style={{textAlign: 'center'}}>Total</th>
                             </tr>
                             <tr>
-                                <td> this.props.select.selected.name</td>
-                                <td> this.props.select.selected.type</td>
-                                <td> this.props.select.selected.rent</td>
-                                <td> this.props.select.selected.rent</td>
+                                <td> {this.props.select.selected.name}</td>
+                                <td> {this.props.select.selected.type}</td>
+                                <td> {this.props.select.selected.rent}</td>
+                                <td> {this.props.select.selected.rent}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -214,9 +214,9 @@ class Hotelbooking extends Component {
                                 <th style={{textAlign: 'center'}}>Email</th>
                             </tr>
                             <tr>
-                                <td> this.props.select.details.firstname</td>
-                                <td> this.props.select.details.contact</td>
-                                <td> this.props.select.details.email</td>
+                                <td> {this.props.select.details.firstname}</td>
+                                <td> {this.props.select.details.contact}</td>
+                                <td> {this.props.select.details.email}</td>
                             </tr>
                             </tbody>
                         </table>

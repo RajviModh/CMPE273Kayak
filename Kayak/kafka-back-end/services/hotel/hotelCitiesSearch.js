@@ -1,6 +1,5 @@
 const mysql = require('../mysql');
-handleRequest({}, () => {
-});
+
 
 function handleRequest(data, callback) {
 
