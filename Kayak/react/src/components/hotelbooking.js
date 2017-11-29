@@ -177,13 +177,15 @@ class Hotelbooking extends Component {
                             <tbody>
                             <tr>
                                 <th style={{textAlign: 'center'}}>Hotel Name</th>
+                                <th style={{textAlign: 'center'}}>Room type</th>
                                 <th style={{textAlign: 'center'}}>Per Day</th>
                                 <th style={{textAlign: 'center'}}>Total</th>
                             </tr>
                             <tr>
-                                <td> Hilton</td>
-                                <td> $250</td>
-                                <td> $250</td>
+                                <td> this.props.select.selected.name</td>
+                                <td> this.props.select.selected.type</td>
+                                <td> this.props.select.selected.rent</td>
+                                <td> this.props.select.selected.rent</td>
                             </tr>
                             </tbody>
                         </table>
@@ -212,9 +214,9 @@ class Hotelbooking extends Component {
                                 <th style={{textAlign: 'center'}}>Email</th>
                             </tr>
                             <tr>
-                                <td> Rohan Athavale</td>
-                                <td> 510-953-9580</td>
-                                <td> rohana@gmail.com</td>
+                                <td> this.props.select.details.firstname</td>
+                                <td> this.props.select.details.contact</td>
+                                <td> this.props.select.details.email</td>
                             </tr>
                             </tbody>
                         </table>
