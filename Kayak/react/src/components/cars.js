@@ -6,6 +6,7 @@ import {Checkbox} from 'react-bootstrap';
 import Slider from 'rc-slider';
 import {Link, Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
+import * as API from '../api/API';
 
 
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
@@ -52,13 +53,28 @@ const handleClose = () => {
 
 class Cars extends Component {
 
+    state = {
+        goingDate: new Date(),
+        comingDate: new Date(),
+        format: "YYYY-MM-DD",
+        inputFormat: "DD/MM/YYYY",
+        mode: "date",
+        pickupdate: "",
+        dropoffdate: ""
+    };
+
     handlecarChange = (newDate) => {
+        this.state.pickupdate = newDate;
         formdata["pickupdate"] = newDate;
     };
     handlecarChange1 = (newDate) => {
+        this.state.dropoffdate = newDate;
         formdata["dropoffdate"] = newDate;
     };
-    displaycarbookingmodal = () => {
+
+    displaycarbookingmodal = (CID,carname,price) => {
+
+        var selectedCar = {CID,carname:carname,price:price};
 
         var bookingclick = document.getElementById("modalforcarbooking");
 
@@ -67,14 +83,48 @@ class Cars extends Component {
         } else {
             bookingclick.style.display = 'none';
         }
-
-
+        this.props.selectedOption(selectedCar);
     }
+
     searchCars = () => {
 
-        console.log(formdata)
-        //API call here
+        var fromcity = document.getElementById("from-place-car").value;
+        var tocity = document.getElementById("to-place-car").value;
 
+        if (fromcity == "") {
+            window.alert("Please enter pick up location")
+        } else if (tocity == "") {
+            window.alert("Please enter dropoff location")
+        } else if (this.state.pickupdate == "") {
+            window.alert("Please enter pickup date")
+        } else if (this.state.dropoffdate == "") {
+            window.alert("Please enter dropoff date")
+        } else {
+            var bookingdetails = {fromDate:this.state.pickupdate, toDate:this.state.dropoffdate}
+            this.props.storeCarBookingRequest(bookingdetails)
+            let responseStatus;
+            API.searchCars(formdata)
+                .then((res) => {
+                    responseStatus = res.status;
+                    return res.json();
+                }).then(jsonData => {
+                if (responseStatus === 200) {
+                    //console.log(jsonData);
+                    try {
+                        this.props.storeCars(jsonData.availableCars);
+                    }
+                    catch (err) {
+                        window.alert("Some error. Please try again later..")
+                    }
+                    this.props.history.push("/cars");
+
+                } else if (responseStatus === 500) {
+                    window.alert("Bad request. Please try again later..")
+                }
+            });
+            //API call here
+            //this.props.history.push('/hotels');
+        }
     }
     handlecarbooking = () => {
 
@@ -111,80 +161,12 @@ class Cars extends Component {
             document.getElementById('messcontact').style.display = 'block';
             document.getElementById("messcontact").innerHTML = 'Please enter contact';
         } else {
+            var details = {firstname: firstname, email: email, contact: contact};
+            this.props.storeDetails(details);
             this.props.history.push('/carbooking')
         }
     }
 
-    /*state = {
-        flightData: [{
-            f_id: '#AI-1',
-            airline_name: 'Air India',
-            fare_e: 1000000,
-            fare_child_e: 5,
-            capacity_e: 200,
-            time_s: '23:23:00',
-            time_e: '01:25',
-            duration: '2:02:00'
-        },
-            {
-                f_id: '#AI-2',
-                airline_name: 'Jet Airways',
-                fare_e: 1000000,
-                fare_child_e: 5,
-                capacity_e: 200,
-                time_s: '23:23:00',
-                time_e: '01:25',
-                duration: '2:02:00'
-            },
-            {
-                f_id: '#AI-2',
-                airline_name: 'Jet Airways',
-                fare_e: 1000000,
-                fare_child_e: 5,
-                capacity_e: 200,
-                time_s: '23:23:00',
-                time_e: '01:25',
-                duration: '2:02:00'
-            },
-            {
-                f_id: '#AI-2',
-                airline_name: 'Jet Airways',
-                fare_e: 1000000,
-                fare_child_e: 5,
-                capacity_e: 200,
-                time_s: '23:23:00',
-                time_e: '01:25',
-                duration: '2:02:00'
-            },
-            {
-                f_id: '#AI-2',
-                airline_name: 'Jet Airways',
-                fare_e: 1000000,
-                fare_child_e: 5,
-                capacity_e: 200,
-                time_s: '23:23:00',
-                time_e: '01:25',
-                duration: '2:02:00'
-            }
-
-        ],
-        fromCity: ['SFO', 'SJC', 'LAX'],
-        toCity: ['SFO', 'SJC', 'LAX'],
-        selectedFrom: '',
-        selectedTo: '',
-        goingDate: new Date(),
-        comingDate: new Date(),
-        selectedClass: '',
-        noAdults: 0,
-        noChild: 0,
-        return_enable: false,
-        hotel_name: 'Hilton',
-        random: 0
-    };
-*/
-    componenetWillMount() {
-        this.setState({});
-    }
 
     render() {
 
@@ -209,13 +191,13 @@ class Cars extends Component {
                                         <div className="input-field">
                                             <select style={optStyle}
                                                     onChange={(event) => formdata["pickupcity"] = event.target.value}
-                                                    className="cs-select cs-skin-border" name="" id="">
+                                                    className="cs-select cs-skin-border" name="" id="from-place-car">
 
                                                 <option style={color} name="" id="">Pickup</option>
                                                 {
-                                                    this.state.fromCity.map(city =>
+                                                    /*this.state.fromCity.map(city =>
                                                         <option style={color} value={city}>{city}</option>
-                                                    )
+                                                    )*/
                                                 }
 
                                             </select>
@@ -228,13 +210,13 @@ class Cars extends Component {
                                         <div className="input-field">
                                             <select style={optStyle}
                                                     onChange={(event) => formdata["dropoffcity"] = event.target.value}
-                                                    className="cs-select cs-skin-border" name="" id="">
+                                                    className="cs-select cs-skin-border" name="" id="to-place-car">
 
                                                 <option style={color} name="" id="">Dropoff</option>
                                                 {
-                                                    this.state.fromCity.map(city =>
+                                                    /*this.state.fromCity.map(city =>
                                                         <option style={color} value={city}>{city}</option>
-                                                    )
+                                                    )*/
                                                 }
 
                                             </select>
@@ -249,8 +231,8 @@ class Cars extends Component {
                                             <div className="input-field">
                                                 <DateTimeField mode="date"
                                                                style={optStyle1}
-                                                               dateTime={new Date()}
-                                                               minDate={new Date()}
+                                                               dateTime={this.state.goingDate}
+                                                               minDate={this.state.startDate}
                                                                defaultText="Pickup"
                                                                format={this.state.format}
                                                                viewMode={this.state.mode}
@@ -269,8 +251,8 @@ class Cars extends Component {
 
                                             <div className="input-field">
                                                 <DateTimeField mode="date"
-                                                               dateTime={new Date()}
-                                                               minDate={new Date()}
+                                                               dateTime={this.state.goingDate}
+                                                               minDate={this.state.startDate}
                                                                defaultText="Dropoff"
                                                                format={this.state.format}
                                                                viewMode={this.state.mode}
@@ -321,14 +303,13 @@ class Cars extends Component {
 
                             <div className="col-md-9 search-grid-right">
 
-                                {this.state.flightData.map(flight =>
-
+                                {this.props.select.cars.map((item, index) => {
+                                    return(
                                     <div className="col-md-12 search-grid-right">
                                         <div className="hotel-rooms">
                                             <div className="hotel-left">
                                                 <a style={{fontSize: 25, color: '#DC143C'}}><span
-                                                    class="glyphicon glyphicon-bed" aria-hidden="true"></span>Car
-                                                    Type</a><br></br>
+                                                    class="glyphicon glyphicon-bed" aria-hidden="true"></span>{item.type}</a><br></br>
                                                 <p style={{marginRight: 365}} align="left">Car Name</p>
                                                 <div className="hotel-left-grids">
                                                     <div className="hotel-left-one">
@@ -338,10 +319,9 @@ class Cars extends Component {
                                                     <div className="hotel-left-two">
 
                                                         <span className="glyphicon glyphicon-map-marker"
-                                                              aria-hidden="true"></span> Pick up point<br></br><br></br>
-                                                        <p><span className="glyphicon glyphicon-user"></span>No of
-                                                            people</p>
-                                                        <p><span className="glyphicon glyphicon-file"></span>No of doors
+                                                              aria-hidden="true"></span> {item.pickupPoint} <br></br><br></br>
+                                                        <p><span className="glyphicon glyphicon-user"></span>{item.capacity}</p>
+                                                        <p><span className="glyphicon glyphicon-file"></span>{item.doors}
                                                         </p>
                                                     </div>
                                                     <div class="clearfix"></div>
@@ -349,14 +329,16 @@ class Cars extends Component {
                                             </div>
 
                                             <div className="hotel-right text-right">
-                                                <h4>$1,450</h4>
+                                                <h4>{item.price}</h4>
                                                 <p>Best price</p>
-                                                <a onClick={() => this.displaycarbookingmodal()}>Continue</a>
+                                                <a onClick={() => this.displaycarbookingmodal(item.CID,item.model,item.price)}>Continue</a>
                                             </div>
                                             <div className="clearfix"></div>
                                         </div>
 
                                     </div>
+                                    )
+                                }
                                 )}
 
                             </div>
@@ -410,15 +392,24 @@ class Cars extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        select: state.userReducer
+        select: state.reducerCars
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        storeRestore: () => {
+
+        selectedOption: (data) => {
             dispatch({
-                type: "RESTORE"
+                type: "STORESELECTEDCARS",
+                payload: {data: data}
+            });
+        },
+
+        storeDetails: (data) => {
+            dispatch({
+                type: "STOREUSERDETAILS",
+                payload: {data: data}
             });
         },
 

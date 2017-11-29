@@ -69,32 +69,6 @@ const bookHotel = (hotelName) => {
 class Hotels extends Component {
 
     state = {
-        /*flightData: [{
-            f_id: '#AI-1',
-            airline_name: 'Air India',
-            fare_e: 1000000,
-            fare_child_e: 5,
-            capacity_e: 200,
-            time_s: '23:23:00',
-            time_e: '01:25',
-            duration: '2:02:00'
-        },
-            {
-                f_id: '#AI-2',
-                airline_name: 'Jet Airways',
-                fare_e: 1000000,
-                fare_child_e: 5,
-                capacity_e: 200,
-                time_s: '23:23:00',
-                time_e: '01:25',
-                duration: '2:02:00'
-            }
-
-        ],*/
-        /*fromCity: ['SFO', 'SJC', 'LAX'],
-        toCity: ['SFO', 'SJC', 'LAX'],
-        selectedFrom: '',
-        selectedTo: '',*/
         goingDate: new Date(),
         comingDate: new Date(),
         format: "YYYY-MM-DD",
@@ -102,11 +76,6 @@ class Hotels extends Component {
         mode: "date",
         checkindate: "",
         checkoutdate: ""
-        /*selectedClass: '',
-        noAdults: 0,
-        noChild: 0,
-        return_enable: false,
-        hotel_name: 'Hilton'*/
     };
 
     handlehotelChange = (newDate) => {
@@ -133,8 +102,6 @@ class Hotels extends Component {
     searchHotels = () => {
         var city = document.getElementById("city").value;
         var rooms = document.getElementById("noofrooms").value;
-        //var checkin = document.getElementById("checkin").value;
-        //var children = document.getElementById("noofchildren").value;
 
         if (city == "") {
             window.alert("Please enter city name")
@@ -156,7 +123,6 @@ class Hotels extends Component {
                     return res.json();
                 }).then(jsonData => {
                 if (responseStatus === 200) {
-                    //console.log(jsonData);
                     try {
                         this.props.storeHotels(jsonData.availableHotels);
                     }
@@ -169,8 +135,6 @@ class Hotels extends Component {
                     window.alert("Bad request. Please try again later..")
                 }
             });
-            //API call here
-            //this.props.history.push('/hotels');
         }
     }
 

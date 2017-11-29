@@ -82,6 +82,7 @@ class NewerHomePage extends Component {
                 }
             });
     };
+
     handleSignUp = (userdata) => {
         //alert("in signup");
         API.doSignup(userdata)
@@ -103,6 +104,7 @@ class NewerHomePage extends Component {
 
             })
     };
+
     handlehotelChange = (newDate) => {
         this.state.checkindate = newDate;
         hoteldata["fromDate"] = newDate;
@@ -112,11 +114,14 @@ class NewerHomePage extends Component {
         hoteldata["toDate"] = newDate;
     };
     handlecarChange = (newDate) => {
+        this.state.pickupdate = newDate;
         cardata["pickupdate"] = newDate;
     };
     handlecarChange1 = (newDate) => {
+        this.state.dropoffdate = newDate;
         cardata["dropoffdate"] = newDate;
     };
+
     searchFlight = () => {
         //console.log(this.props.select);
         var inputData = "from city " + this.state.selectedFrom + "to city " + this.state.selectedTo + "going date" + this.state.goingDate + "coming date" + this.state.comingDate + " class " + this.state.selectedClass + " Adults" + this.state.noAdults + " Child " + this.state.noChild;
@@ -223,24 +228,30 @@ class NewerHomePage extends Component {
         } else if (this.state.dropoffdate == "") {
             window.alert("Please enter dropoff date")
         } else {
-            API.searchCars(hoteldata)
+            var bookingdetails = {fromDate:this.state.pickupdate, toDate:this.state.dropoffdate} //carid left
+            this.props.storeCarBookingRequest(bookingdetails)
+            let responseStatus;
+            API.searchCars(cardata)
                 .then((res) => {
-                    if (res.status === '200') {
-
-                        try {
-                            this.props.storeCars(res);
-                        }
-                        catch (err) {
-                            window.alert("Some error. Please try again later..")
-                        }
-                        this.props.history.push("/carbooking");
-
-                    } else if (res.status === '500') {
-                        window.alert("Bad request. Please try again later..")
+                    responseStatus = res.status;
+                    return res.json();
+                }).then(jsonData => {
+                if (responseStatus === 200) {
+                    //console.log(jsonData);
+                    try {
+                        this.props.storeCars(jsonData.availableCars);
                     }
-                });
+                    catch (err) {
+                        window.alert("Some error. Please try again later..")
+                    }
+                    this.props.history.push("/cars");
+
+                } else if (responseStatus === 500) {
+                    window.alert("Bad request. Please try again later..")
+                }
+            });
             //API call here
-            //this.props.history.push('/cars');
+            //this.props.history.push('/hotels');
         }
     }
 
@@ -684,6 +695,14 @@ const mapDispatchToProps = (dispatch) => {
             console.log("data is " + data);
             dispatch({
                 type: "STORECARS",
+                payload: {data: data}
+            });
+        },
+
+        storeCarBookingRequest: (data) => {
+            console.log("data is " + data);
+            dispatch({
+                type: "STORECARBOOKINGREQUEST",
                 payload: {data: data}
             });
         },
