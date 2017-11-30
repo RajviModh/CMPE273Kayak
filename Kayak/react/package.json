@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "axios": "^0.17.1",
+    "credit-card": "^3.0.1",
+    "credit-card-validator": "^1.0.8",
     "jquery": "^3.2.1",
     "prop-types": "^15.5.10",
     "rc-slider": "^8.3.5",

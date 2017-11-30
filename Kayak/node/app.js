@@ -15,6 +15,8 @@ var adminAddFlights = require('./routes/admin/addflights');
 var adminAddCars = require('./routes/admin/addcars');
 var adminSearchHotels = require('./routes/admin/searchhotels');
 var flights = require('./routes/flight_search');
+var bookings = require('./routes/bookings');
+var logout = require('./routes/logout')
 
 var app = express();
 
@@ -52,6 +54,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/flights', flights);
 app.use('/signup',signup);
+app.use('/bookings',bookings)
+app.use('/logout',logout)
 
 app.post('/adminAddHotels',adminAddHotels.addHotels);
 app.post('/adminAddFlights',adminAddFlights.addFlights);

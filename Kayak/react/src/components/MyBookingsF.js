@@ -21,11 +21,12 @@ class MyBookingsF extends Component{
     };
 
     componentWillMount(){
-
-        axios.get('http://localhost:3001/bookings/my_bookings')
+        var self=this
+        axios.get('http://localhost:3001/bookings/my_bookings',{withCredentials:true})
             .then(function (response) {
                 console.log("res",response);
                 console.log("res data",response.data);
+                self.setState({flight_booking:response.data})
             })
             .catch(function (error) {
                 console.log(error);
@@ -42,6 +43,19 @@ class MyBookingsF extends Component{
 
                         </div>
 
+                    </div>
+
+                    <div className="col-md-9 ">
+                        <table>
+                            <tr>
+                                <th></th>
+                            </tr>
+                        {this.state.flight_bookings.map(flight=>
+                            <div>
+
+                            </div>
+                        )}
+                        </table>
                     </div>
 
                     <div className="col-md-7 ">

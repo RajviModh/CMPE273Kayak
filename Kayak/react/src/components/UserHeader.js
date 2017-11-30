@@ -1,9 +1,6 @@
 import React, {Component,PropTypes} from 'react';
 import {Route, withRouter, Link} from 'react-router-dom';
-
-import {Modal} from 'react-bootstrap';
-import Login from "./Login";
-import Signup from "./Signup";
+import axios from "axios";
 
 class UserHeader extends Component{
 
@@ -34,6 +31,22 @@ class UserHeader extends Component{
         }
     };
 
+    logout = () => {
+        var self=this
+        axios.get('http://localhost:3001/logout/logout',{withCredentials:true})
+            .then(function (response) {
+                console.log("in logout")
+                localStorage.removeItem("isLoggedIn")
+                localStorage.removeItem("isUser")
+                console.log("res", response);
+                console.log("res data", response.data);
+                self.props.history.push('/')
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
     render() {
         return (
             <div>
@@ -54,18 +67,24 @@ class UserHeader extends Component{
                                             <ul className="fh5co-sub-menu">
                                                 <li><a href="/view_profile">View Profile</a></li>
                                                 <li><a href="/edit_profile">Edit Profile</a></li>
-                                                <li><a href="/my_bookings">My Bookings</a></li>
                                             </ul>
                                         </li>
                                         <li>
                                             <a href="vacation.html" className="fh5co-sub-ddown">Bookings</a>
                                             <ul className="fh5co-sub-menu">
                                                 <li><a href="/car_bookings">Car</a></li>
-                                                <li><a href="/hotel_booking">Hotel</a></li>
-                                                <li><a href="/flight_booking">Flight</a></li>
+                                                <li><a href="/hotel_bookings">Hotel</a></li>
+                                                <li><a href="/flight_bookings">Flight</a></li>
                                             </ul>
                                         </li>
-                                        <li className="active"><a href="/">Logout</a></li>
+
+                                        <li>
+                                            <a href="vacation.html" className="fh5co-sub-ddown">Account</a>
+                                            <ul className="fh5co-sub-menu">
+                                                <li><button onClick={this.logout}>Logout</button></li>
+                                                <li><a href="/edit_profile">Delete My Account</a></li>
+                                            </ul>
+                                        </li>
                                     </ul>
                                 </nav>
 

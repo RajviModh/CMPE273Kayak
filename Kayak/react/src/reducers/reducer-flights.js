@@ -1,6 +1,5 @@
 const reducerFlights = (state = {
   selectedFrom:"",
-<<<<<<< HEAD
   fromCity:[],
   toCity:[],
   selectedTo:"",
@@ -10,10 +9,6 @@ const reducerFlights = (state = {
   Adult:[],
   Child:[],
   return_enable:false,
-=======
-  selectedTo:"",
-  flights:[],
->>>>>>> 16f52ff8c981810205616013d3de2d15fbe3b143
 }, action) => {
   switch(action.type){
     case "setSelectedFrom":
@@ -38,7 +33,6 @@ const reducerFlights = (state = {
         };
         console.log("after setting reducer",state);
     break;
-<<<<<<< HEAD
     case "setFromCity":
         state={
           ...state,
@@ -81,8 +75,6 @@ const reducerFlights = (state = {
           return_enable: action.payload.data
         };
     break;
-=======
->>>>>>> 16f52ff8c981810205616013d3de2d15fbe3b143
     default:
     break;
   }

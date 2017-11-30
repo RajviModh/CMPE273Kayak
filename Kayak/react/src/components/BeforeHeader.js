@@ -24,6 +24,7 @@ class BeforeHeader extends Component{
         }
         else
         {
+            var self=this
             API.doLogin(userdata)
                 .then((res) => {
                     //alert("back in newer homepage : " + JSON.stringify(res));
@@ -33,7 +34,7 @@ class BeforeHeader extends Component{
                         localStorage.setItem("isUser",true)
                         alert(localStorage.getItem("isUser"))
                         this.close('login')
-                        this.props.history.push('/')
+                        self.props.history.push('/')
                     } else if (res.status === '401') {
                         localStorage.setItem("isLoggedIn",false)
                         alert(localStorage.getItem("isLoggedIn"))
