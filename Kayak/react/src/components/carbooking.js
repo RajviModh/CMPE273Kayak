@@ -3,6 +3,7 @@ import '../css/hotel-style.css';
 import '../css/bootstrap.css';
 import {Checkbox} from 'react-bootstrap';
 import Slider from 'rc-slider';
+import * as API from '../api/API';
 import {Link, Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
 
@@ -125,25 +126,29 @@ class Carbooking extends Component {
         if (!creditCardValidator.validateCard(cardnumber)) {
             document.getElementById('cardvalidator').style.display = 'block';
             document.getElementById('cardvalidator').innerHTML = 'Invalid card number';
-        }
-        console.log(Number(cvv));
-        console.log(typeof Number(cvv));
-        if (cvv.length != 3 || isNaN(Number(cvv))) {
+        }else if (cvv.length != 3 || isNaN(Number(cvv))) {
             console.log(Number(cvv));
             document.getElementById('cvvvalidator').style.display = 'block';
             document.getElementById('cvvvalidator').innerHTML = 'Invalid CVV';
-        } else {
-            console.log(Number(cvv))
-        }
-
-        if (isNaN(Number(part1)) || isNaN(Number(part2)) || expiry.charAt(2) != '/' || part1 > 31) {
+        }else if (isNaN(Number(part1)) || isNaN(Number(part2)) || expiry.charAt(2) != '/' || part1 > 31) {
             document.getElementById('expiryvalidator').style.display = 'block';
             document.getElementById('expiryvalidator').innerHTML = 'Invalid expiry date';
-        }
-
-        if (regex.test(name)) {
+        }else if (regex.test(name)) {
             document.getElementById('namevalidator').style.display = 'block';
             document.getElementById('namevalidator').innerHTML = 'Invalid name';
+        }else{
+            var carbookingdetails = {carid:this.props.select.selected.CID,pickup:this.props.select.carbookingdetails.fromDate,
+                dropoff:this.props.select.carbookingdetails.toDate}
+
+            API.bookCar(carbookingdetails)
+                .then((res) => {
+
+                    if (res.status === '200') {
+                        window.alert("Booking successful..");
+                    } else if (res.status === '500') {
+                        window.alert("Some error..");
+                    }
+                });
         }
 
     }
@@ -177,9 +182,9 @@ class Carbooking extends Component {
                                 <th style={{textAlign: 'center'}}>Total</th>
                             </tr>
                             <tr>
-                                <td> Rental Car Total</td>
-                                <td> $25</td>
-                                <td> $25</td>
+                                <td> {this.props.select.selectedcars.carname}</td>
+                                <td> {this.props.select.selectedcars.price}</td>
+                                <td> {this.props.select.selectedcars.price}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -208,9 +213,9 @@ class Carbooking extends Component {
                                 <th style={{textAlign: 'center'}}>Email</th>
                             </tr>
                             <tr>
-                                <td> Rohan Athavale</td>
-                                <td> 510-953-9580</td>
-                                <td> rohana@gmail.com</td>
+                                <td> {this.props.select.cardetails.firstname}</td>
+                                <td> {this.props.select.cardetails.contact}</td>
+                                <td> {this.props.select.cardetails.email}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -369,7 +374,7 @@ class Carbooking extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        select: state.reducercars
+        select: state.reducerCars
     };
 };
 
