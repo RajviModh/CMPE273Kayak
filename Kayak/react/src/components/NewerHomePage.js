@@ -28,8 +28,14 @@ var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(
 
 class NewerHomePage extends Component {
 
+<<<<<<< HEAD
     //super(props)
     state = {
+=======
+  constructor (props) {
+    super(props)
+    this.state = {
+>>>>>>> 16f52ff8c981810205616013d3de2d15fbe3b143
         isLoggedIn: false,
         message: '',
         username: '',
@@ -50,8 +56,48 @@ class NewerHomePage extends Component {
         selectedClass:'',
         noAdults:0,
         noChild:0,
+<<<<<<< HEAD
         return_enable:false,
   }
+=======
+    }
+  }
+
+    componentWillMount(){
+
+        var self=this;
+        console.log("in store ",this.props.select);
+        axios.get('http://localhost:3001/flights/from')
+            .then(function (response) {
+                console.log(response);
+                console.log(response.data.from);
+                self.setState({
+                    fromCity:response.data.from
+                    //isLoggedIn: true,
+                    //message: "Welcome to my App..!!",
+                    //username: userdata.username
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios.get('http://localhost:3001/flights/to')
+            .then(function (response) {
+                console.log(response);
+                console.log(response.data.to);
+                self.setState({
+                    toCity:response.data.to
+                    //isLoggedIn: true,
+                    //message: "Welcome to my App..!!",
+                    //username: userdata.username
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+>>>>>>> 16f52ff8c981810205616013d3de2d15fbe3b143
 
     componentWillMount(){
 
@@ -132,6 +178,7 @@ class NewerHomePage extends Component {
                     }
                 });}
     };
+
     handleSignUp = (userdata) => {
 
         var isEmailValid = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(userdata.username)
@@ -177,10 +224,10 @@ class NewerHomePage extends Component {
         }
     };
 
-
     handleChange = (newDate) => {
         //alert(newDate)
         return this.setState({goingDate: newDate});
+<<<<<<< HEAD
     };
 
     handleChange1 = (newDate) => {
@@ -294,6 +341,52 @@ class NewerHomePage extends Component {
                 });
           }
       }
+=======
+    };
+
+    handleChange1 = (newDate) => {
+        //alert(newDate);
+        return this.setState({comingDate: newDate});
+    };
+
+    searchFlight = () => {
+      console.log(this.props.select);
+        var inputData = "from city " + this.state.selectedFrom + "to city " + this.state.selectedTo + "going date" + this.state.goingDate + "coming date" + this.state.comingDate +" class " + this.state.selectedClass +" Adults"+ this.state.noAdults + " Child " + this.state.noChild;
+        var today =new Date()
+        var now = new Date(this.state.goingDate)
+        var going = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+        var coming = new Date(this.state.comingDate)
+
+        var from = this.state.selectedFrom
+        var to = this.state.selectedTo
+        var goingD = this.state.goingDate
+        var comingD = this.state.comingDate
+        var Sclass = this.state.selectedClass
+        var adult = this.state.noAdults
+        var child = this.state.noChild
+
+        if(from==="" || to==="" || goingD==="" || comingD==="" || Sclass==="" || adult==="")
+            alert("Please select all the fields")
+        else if(from===to)
+            alert("From city cannot be same as To city")
+        else if((new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))<(new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate())))
+            alert("Selected date cannot be less than today's date")
+        else if(coming<=going)
+            alert("Arrival date cannot be less than Departure date");
+        else{
+          var self=this;
+          axios.get('http://localhost:3001/flights/search',{params:{from:document.getElementById('selectedFrom').value,to:document.getElementById('selectedTo').value,number_of_seats:document.getElementById('noAdults').value,number_of_seats_c:document.getElementById('noChild').value,category:document.getElementById('category').value,date:this.state.goingDate}})
+              .then(function (response) {
+                  console.log(response);
+                  self.props.setFlights(response.data.returnFlightS);
+                  localStorage.setItem("searchedFlights",response.data.returnFlightS);
+                  console.log("in localStorage: ",localStorage.getItem("searchedFlights"));
+              })
+              .catch(function (error) {
+                  console.log(error);
+              });
+        }
+>>>>>>> 16f52ff8c981810205616013d3de2d15fbe3b143
     }
 
     close = (data) => {
@@ -323,7 +416,11 @@ class NewerHomePage extends Component {
         return (
             <div id="fh5co-wrapper">
                 <div id="fh5co-page">
+<<<<<<< HEAD
                     {this.state.isLoggedIn ?  (this.state.isUser?<UserHeader/>:<AdminHeader/>) : <BeforeHeader/> }
+=======
+                    {this.state.isUser?<UserHeader/>:<AdminHeader/>}
+>>>>>>> 16f52ff8c981810205616013d3de2d15fbe3b143
 
                     <Route exact path="/" render={() => (
 
@@ -367,11 +464,15 @@ class NewerHomePage extends Component {
                                                                     <div className="input-field">
                                                                         <label for="from">From:</label>
                                                                         <select style={color}
+<<<<<<< HEAD
                                                                                 onChange={(event)=>{
                                                                                   this.props.setSelectedFrom(event.target.value);
                                                                                   this.setState({selectedFrom:event.target.value})
                                                                                 }
                                                                               }  className="cs-select cs-skin-border" name="" id="selectedFrom">
+=======
+                                                                                onChange={(event)=>{this.props.setSelectedFrom(event.target.value);this.setState({selectedFrom:event.target.value})}}  className="cs-select cs-skin-border" name="" id="selectedFrom">
+>>>>>>> 16f52ff8c981810205616013d3de2d15fbe3b143
                                                                             <option style={color} name="" id="">City</option>
                                                                             {
                                                                                 this.state.fromCity.map(city=>
@@ -388,7 +489,11 @@ class NewerHomePage extends Component {
                                                                         <label for="from">To:</label>
 
                                                                         <select style={color}
+<<<<<<< HEAD
                                                                             onChange={(event)=>{this.props.setSelectedTo(event.target.value);this.setState({selectedTo:event.target.value})}}  className="cs-select cs-skin-border" name="" id="selectedTo">
+=======
+                                                                                onChange={(event)=>{this.props.setSelectedTo(event.target.value);this.setState({selectedTo:event.target.value})}}  className="cs-select cs-skin-border" name="" id="selectedTo">
+>>>>>>> 16f52ff8c981810205616013d3de2d15fbe3b143
                                                                             <option style={color} name="" id="">City</option>
                                                                             {
                                                                                 this.state.toCity.map(city=>
@@ -416,6 +521,7 @@ class NewerHomePage extends Component {
                                                                         </div>
                                                                     </div>
                                                                 </div>
+<<<<<<< HEAD
                                                                 {
                                                                   this.state.return_enable
                                                                   ?
@@ -438,6 +544,24 @@ class NewerHomePage extends Component {
                                                                   :
                                                                   null
                                                                 }
+=======
+                                                                <div className="col-xxs-12 col-xs-6 mt alternate">
+                                                                    <div className="input-field">
+                                                                        <label for="date-end">Coming Date:</label>
+                                                                        <div className="input-field">
+                                                                            <DateTimeField  mode="date"
+                                                                                            dateTime={this.state.comingDate}
+                                                                                            minDate={this.state.startDate}
+                                                                                            defaultText="Arrival Date"
+                                                                                            format={this.state.format}
+                                                                                            viewMode={this.state.mode}
+                                                                                            inputFormat={this.state.inputFormat}
+                                                                                            onChange={this.handleChange1}/>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+>>>>>>> 16f52ff8c981810205616013d3de2d15fbe3b143
                                                                 <div className="col-sm-12 mt">
                                                                     <section>
                                                                         <label for="class">Class:</label>
@@ -669,6 +793,7 @@ class NewerHomePage extends Component {
                             <AdminHomePage/>
                         </div>
                     )}/>
+<<<<<<< HEAD
 
                     <Route exact path="/flight_booking" render={() => (
                         <div>
@@ -676,6 +801,8 @@ class NewerHomePage extends Component {
                         </div>
                     )}/>
 
+=======
+>>>>>>> 16f52ff8c981810205616013d3de2d15fbe3b143
                     <UserFooter/>
                 </div>
             </div>
@@ -712,6 +839,7 @@ const mapDispatchToProps = (dispatch) => {
                 payload :{data:data}
             });
         },
+<<<<<<< HEAD
         setFromCity: (data) => {
           dispatch({
               type: "setFromCity",
@@ -730,6 +858,8 @@ const mapDispatchToProps = (dispatch) => {
               payload :{data:data}
           });
         },
+=======
+>>>>>>> 16f52ff8c981810205616013d3de2d15fbe3b143
     };
 };
 
