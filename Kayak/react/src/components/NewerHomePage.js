@@ -98,11 +98,11 @@ class NewerHomePage extends Component {
     };
     handlecarChange = (newDate) => {
         this.state.pickupdate = newDate;
-        cardata["pickupdate"] = newDate;
+        cardata["fromDate"] = newDate;
     };
     handlecarChange1 = (newDate) => {
         this.state.dropoffdate = newDate;
-        cardata["dropoffdate"] = newDate;
+        cardata["toDate"] = newDate;
     };
 
     searchFlight = () => {
@@ -212,8 +212,9 @@ class NewerHomePage extends Component {
             window.alert("Please enter dropoff date")
         } else {
             var bookingdetails = {fromDate:this.state.pickupdate, toDate:this.state.dropoffdate} //carid left
-            this.props.storeCarBookingRequest(bookingdetails)
+            this.props.storeCarBookingRequest(bookingdetails);
             let responseStatus;
+            console.log("car search data:" + cardata);
             API.searchCars(cardata)
                 .then((res) => {
                     responseStatus = res.status;
@@ -537,7 +538,7 @@ class NewerHomePage extends Component {
                                                                         <input type="text" className="form-control"
                                                                                id="from-place-car"
                                                                                placeholder="Los Angeles, USA"
-                                                                               onChange={(event) => cardata["pickupcity"] = event.target.value}/>
+                                                                               onChange={(event) => cardata["pickUpPoint"] = event.target.value}/>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt">
@@ -546,7 +547,7 @@ class NewerHomePage extends Component {
                                                                         <input type="text" className="form-control"
                                                                                id="to-place-car"
                                                                                placeholder="Tokyo, Japan"
-                                                                               onChange={(event) => cardata["dropoffcity"] = event.target.value}/>
+                                                                               onChange={(event) => cardata["dropOffPoint"] = event.target.value}/>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-xxs-12 col-xs-6 mt alternate">

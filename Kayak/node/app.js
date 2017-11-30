@@ -17,6 +17,7 @@ var adminSearchHotels = require('./routes/admin/searchhotels');
 
 var app = express();
 const hotelRoutes = require('./routes/hotel/hotelRoutes');
+const carRoutes = require('./routes/car/carRoutes');
 //Enable CORS
 app.use(cors());
 
@@ -32,6 +33,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(hotelRoutes);
+app.use(carRoutes);
 
 app.use('/', index);
 app.post('/doSignUp', signup.doSignUp);

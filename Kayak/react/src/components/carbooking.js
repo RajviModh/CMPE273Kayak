@@ -126,7 +126,7 @@ class Carbooking extends Component {
         if (!creditCardValidator.validateCard(cardnumber)) {
             document.getElementById('cardvalidator').style.display = 'block';
             document.getElementById('cardvalidator').innerHTML = 'Invalid card number';
-        }else if (cvv.length != 3 || isNaN(Number(cvv))) {
+        }else if (cvv.length !== 3 || isNaN(Number(cvv))) {
             console.log(Number(cvv));
             document.getElementById('cvvvalidator').style.display = 'block';
             document.getElementById('cvvvalidator').innerHTML = 'Invalid CVV';
@@ -137,15 +137,14 @@ class Carbooking extends Component {
             document.getElementById('namevalidator').style.display = 'block';
             document.getElementById('namevalidator').innerHTML = 'Invalid name';
         }else{
-            var carbookingdetails = {carid:this.props.select.selected.CID,pickup:this.props.select.carbookingdetails.fromDate,
-                dropoff:this.props.select.carbookingdetails.toDate}
-
+            var carbookingdetails = {CID:this.props.select.selectedcars.CID,fromDate:this.props.select.carbookingdetails.fromDate,
+                toDate:this.props.select.carbookingdetails.toDate, UID: 1};
             API.bookCar(carbookingdetails)
                 .then((res) => {
 
-                    if (res.status === '200') {
+                    if (res.status === 200) {
                         window.alert("Booking successful..");
-                    } else if (res.status === '500') {
+                    } else if (res.status === 500) {
                         window.alert("Some error..");
                     }
                 });

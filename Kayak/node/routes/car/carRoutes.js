@@ -3,13 +3,17 @@ const path = require('path');
 const router = require('express').Router();
 var kafka = require('../kafka/client');
 
-router.post('/hotel/search', (request, response, next) => {
+router.post('/car/search', (request, response, next) => {
     //chech for session
-    kafka.make_request('hotelSearch', {
-        "city": request.body.city,
-        "fromDate": request.body.fromDate,
-        "toDate": request.body.toDate,
-        "requiredNoOfRooms": request.body.requiredNoOfRooms
+    console.log("search data:" + JSON.stringify({
+        pickUpPoint: request.body.pickUpPoint,
+        fromDate: request.body.fromDate,
+        toDate: request.body.toDate
+    }));
+    kafka.make_request('carSearch', {
+        pickUpPoint: request.body.pickUpPoint,
+        fromDate: request.body.fromDate,
+        toDate: request.body.toDate
     }, (error, kafkaResponse) => {
         console.log('in result');
         console.log(kafkaResponse);
@@ -18,8 +22,9 @@ router.post('/hotel/search', (request, response, next) => {
             console.log(error);
         }
         else {
+            console.log("car search response:" + JSON.stringify(kafkaResponse.payload));
             response.status(kafkaResponse.code).json({
-                availableHotels: kafkaResponse.payload
+                availableCars: kafkaResponse.payload
             });
 
         }
@@ -27,9 +32,9 @@ router.post('/hotel/search', (request, response, next) => {
 });
 
 
-router.post('/hotel/search/cities', (request, response, next) => {
+router.post('/car/search/pickUpPoints', (request, response, next) => {
     //chech for session
-    kafka.make_request('hotelCitiesSearch', {}, (error, kafkaResponse) => {
+    kafka.make_request('carPickUpPointsSearch', {}, (error, kafkaResponse) => {
         console.log('in result');
         console.log(kafkaResponse);
         if (error) {
@@ -38,20 +43,25 @@ router.post('/hotel/search/cities', (request, response, next) => {
         }
         else {
             response.status(kafkaResponse.code).json({
-                cities: kafkaResponse.payload
+                pickUpPoints: kafkaResponse.payload
             });
 
         }
     });
 });
 
-router.post('/hotel/book', (request, response, next) => {
+router.post('/car/book', (request, response, next) => {
     //chech for session
-    kafka.make_request('hotelBook', {
-        RID: request.body.RID,
+    console.log("car book data:" + JSON.stringify({
+        CID: request.body.CID,
         fromDate: request.body.fromDate,
         toDate: request.body.toDate,
-        noOfRooms: request.body.noOfRooms,
+        UID: request.body.UID
+    }));
+    kafka.make_request('carBook', {
+        CID: request.body.CID,
+        fromDate: request.body.fromDate,
+        toDate: request.body.toDate,
         UID: request.body.UID
     }, (error, kafkaResponse) => {
         console.log('in result');
@@ -61,7 +71,7 @@ router.post('/hotel/book', (request, response, next) => {
             console.log(error);
         }
         else {
-            response.status(kafkaResponse.code);
+            response.status(kafkaResponse.code).end();
 
         }
     });

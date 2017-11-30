@@ -542,11 +542,8 @@ export const searchCars = (payload) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
-    }).then(res => res.json())
-        .then(res => {
-            alert("back in API  : " + JSON.stringify(res));
-            return res;
-        })
+    }).then(res => res)
+
         .catch(error => {
             console.log("This is error");
             return error;
@@ -580,11 +577,7 @@ export const bookCar = (payload) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
-    }).then(res => res.json())
-        .then(res => {
-            alert("back in API  : " + JSON.stringify(res));
-            return res;
-        })
+    }).then(res => res)
         .catch(error => {
             console.log("This is error");
             return error;
