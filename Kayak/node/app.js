@@ -14,15 +14,32 @@ var adminAddHotels = require('./routes/admin/addhotels');
 var adminAddFlights = require('./routes/admin/addflights');
 var adminAddCars = require('./routes/admin/addcars');
 var adminSearchHotels = require('./routes/admin/searchhotels');
+var flights = require('./routes/flight_search');
 
 var app = express();
 
 //Enable CORS
-app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+
+var corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+//Enable CORS
+app.use(cors(corsOptions));
+
+app.use(session({
+    cookieName: 'session',
+    secret: 'cmpe273_dropbox',
+    duration: 30 * 60 * 1000,    //setting the time for active session
+    activeDuration: 5 * 60 * 1000,  }));
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -33,37 +50,39 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.post('/doSignUp',signup.doSignUp);
+app.use('/flights', flights);
+app.use('/signup',signup);
+
 app.post('/adminAddHotels',adminAddHotels.addHotels);
 app.post('/adminAddFlights',adminAddFlights.addFlights);
 app.post('/adminAddCars',adminAddCars.addCars);
 app.post('/adminSearchHotels',adminSearchHotels.searchHotels)
 
 app.post('/login',function(req, res,next) {
+    var session = req.session;
     console.log("username in app" + JSON.stringify(req.body));
     passport.authenticate('login', function(err, user) {
         if(err) {
-            res.status(500).send();
+            res.status(500).send({status:500});
         }
-
         if(!user) {
-            res.status(401).send();
+            res.status(401).send({status:401});
         }
-        //req.session.user = user.username;
-        //console.log(req.session.user);
-        console.log("session initialized");
-       // console.log("back in app.js root : " +user.root);
-        //console.log("back in app.js userid : "+user.userid);
-        console.log("back in app.js" + JSON.stringify(user));
+        if(user) {
+            session.user = user.userid;
+            console.log("user is ", user)
+            console.log("i am in session ", req.session.user);
+            console.log("session initialized");
+            // console.log("back in app.js root : " +user.root);
+            //console.log("back in app.js userid : "+user.userid);
+            console.log("back in app.js" + JSON.stringify(user));
 
-        return res.status(201).send({
-            //results: user,
-            //username: user.username,
-            //userid: user.userid,
-            //root: user.root,
-            userid : user.userid,
-            email:user.email,
-            status: '201'});
+            return res.status(201).send({
+                userid: user.user_id,
+                email: user.email,
+                status: '201'
+            });
+        }
     })(req, res,next);
 });
 

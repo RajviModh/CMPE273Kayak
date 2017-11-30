@@ -5,6 +5,8 @@ import '../css/bootstrap.css';
 import CustomizedRange from './CustomizedRange';
 import ReactStars from 'react-stars'
 import hotel1 from '../images/21.jpg';
+import {connect} from "react-redux";
+import {Route, withRouter, Link} from 'react-router-dom';
 
 var amount = {border: 0, color:'#ffffff'};
 var amount1 ={border: '0', color:'#ffffff'};
@@ -19,10 +21,8 @@ class Hotels extends Component {
         hotelname: ''
     };
 
-    componenetWillMount(){
-        this.setState({
-
-        });
+    componentWillMount(){
+        console.log(this.props.select.selectedFrom);
     }
 
 
@@ -273,4 +273,35 @@ class Hotels extends Component {
         );
 }
 }
-export default Hotels;
+const mapStateToProps = (state) => {
+    return{
+        select: state.reducerFlights
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        setSelectedFrom: (data) => {
+            console.log("data is "+data);
+            dispatch({
+                type: "setSelectedFrom",
+                payload :{data:data}
+            });
+        },
+        setSelectedTo: (data) => {
+            dispatch({
+                type: "setSelectedTo",
+                payload :{data:data}
+            });
+        },
+        setFlights: (data) => {
+          console.log("flights are ",data);
+            dispatch({
+                type: "setFlights",
+                payload :{data:data}
+            });
+        },
+    };
+};
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Hotels));
