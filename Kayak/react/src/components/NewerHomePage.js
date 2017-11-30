@@ -36,16 +36,15 @@ var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(
 
 class NewerHomePage extends Component {
 
-    /*state = {
+    state = {
         isLoggedIn: false,
         message: '',
         username: '',
         showLoginModal: false,
         showSignupModal: false,
-        isUser:true
-    /*componentWillMount(){
+        isUser:false
 
-    };*/
+    };
 
     handleSubmit = (userdata) => {
         API.doLogin(userdata)
@@ -82,7 +81,7 @@ class NewerHomePage extends Component {
                     this.setState({
                         message: JSON.stringify(res.errors)
                     });
-                    //console.log(this.state.message);
+                    console.log(this.state.message);
 
                 }
 
