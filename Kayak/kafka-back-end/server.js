@@ -5,6 +5,9 @@ var searchOperations = require('./services/admin/searchOperations');
 const hotelSearch = require('./services/hotel/hotelSearch');
 const hotelCitiesSearch = require('./services/hotel/hotelCitiesSearch');
 const hotelBook = require('./services/hotel/hotelBook');
+const carSearch = require('./services/car/carSearch');
+const carPickUpPointsSearch = require('./services/car/carPickUpPointsSearch');
+const carBook = require('./services/car/carBook');
 var topic_name = 'login_topic';
 var adminAdd_topic = 'adminAdd_topic';
 var adminSearch_topic = 'adminSearch_topic';
@@ -13,6 +16,9 @@ var producer = connection.getProducer();
 const hotelSearchTopic = 'hotelSearch';
 const hotelCitiesSearchTopic = 'hotelCitiesSearch';
 const hotelBookTopic = 'hotelBook';
+const carSearchTopic = 'carSearch';
+const carPickUpPointsSearchTopic = 'carPickUpPointsSearch';
+const carBookTopic = 'carBook';
 
 /*const redis = require('redis');
 let redisClient = redis.createClient();
@@ -28,6 +34,12 @@ consumer.addTopics([hotelSearchTopic], function (err, added) {
 consumer.addTopics([hotelCitiesSearchTopic], function (err, added) {
 });
 consumer.addTopics([hotelBookTopic], function (err, added) {
+});
+consumer.addTopics([carSearchTopic], function (err, added) {
+});
+consumer.addTopics([carPickUpPointsSearchTopic], function (err, added) {
+});
+consumer.addTopics([carBookTopic], function (err, added) {
 });
 
 console.log('server is running');
@@ -132,6 +144,64 @@ consumer.on('message', function (message) {
         noOfRooms: request.body.noOfRooms,
         UID: request.body.UID
     }*/
+            console.log('after handle' + JSON.stringify(response));
+            let payloads = [
+                {
+                    topic: actualPayload.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: actualPayload.correlationId,
+                        data: response
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (error, response) {
+                console.log(response);
+            });
+        });
+    } else if (message.topic === carSearchTopic) {
+        const actualPayload = data;
+        carSearch.handleRequest(actualPayload.data, function (error, response) {
+
+            console.log('after handle' + JSON.stringify(response));
+            let payloads = [
+                {
+                    topic: actualPayload.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: actualPayload.correlationId,
+                        data: response
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (error, response) {
+                console.log(response);
+            });
+        });
+    } else if (message.topic === carPickUpPointsSearchTopic) {
+        const actualPayload = data;
+        carPickUpPointsSearch.handleRequest(actualPayload.data, function (error, response) {
+
+            console.log('after handle' + JSON.stringify(response));
+            let payloads = [
+                {
+                    topic: actualPayload.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: actualPayload.correlationId,
+                        data: response
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (error, response) {
+                console.log(response);
+            });
+        });
+    } else if (message.topic === carBookTopic) {
+        const actualPayload = data;
+        console.log("in carBookTopic");
+        carBook.handleRequest(actualPayload.data, function (error, response) {
+
             console.log('after handle' + JSON.stringify(response));
             let payloads = [
                 {

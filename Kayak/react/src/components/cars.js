@@ -65,11 +65,11 @@ class Cars extends Component {
 
     handlecarChange = (newDate) => {
         this.state.pickupdate = newDate;
-        formdata["pickupdate"] = newDate;
+        formdata["fromDate"] = newDate;
     };
     handlecarChange1 = (newDate) => {
         this.state.dropoffdate = newDate;
-        formdata["dropoffdate"] = newDate;
+        formdata["toDate"] = newDate;
     };
 
     displaycarbookingmodal = (CID,carname,price) => {
@@ -100,9 +100,11 @@ class Cars extends Component {
         } else if (this.state.dropoffdate == "") {
             window.alert("Please enter dropoff date")
         } else {
-            var bookingdetails = {fromDate:this.state.pickupdate, toDate:this.state.dropoffdate}
-            this.props.storeCarBookingRequest(bookingdetails)
+            console.log("asjfsj;sd");
+            var bookingdetails = {fromDate:this.state.pickupdate, toDate:this.state.dropoffdate};
+            this.props.storeCarBookingRequest(bookingdetails);
             let responseStatus;
+            console.log("car search data:" + formdata);
             API.searchCars(formdata)
                 .then((res) => {
                     responseStatus = res.status;
@@ -190,7 +192,7 @@ class Cars extends Component {
                                     <div className="col-xs-2 mt" style={padding}>
                                         <div className="input-field">
                                             <select style={optStyle}
-                                                    onChange={(event) => formdata["pickupcity"] = event.target.value}
+                                                    onChange={(event) => formdata["pickUpPoint"] = event.target.value}
                                                     className="cs-select cs-skin-border" name="" id="from-place-car">
 
                                                 <option style={color} name="" id="">Pickup</option>
@@ -209,7 +211,7 @@ class Cars extends Component {
                                     <div className="col-xs-2 mt" style={padding}>
                                         <div className="input-field">
                                             <select style={optStyle}
-                                                    onChange={(event) => formdata["dropoffcity"] = event.target.value}
+                                                    onChange={(event) => formdata["dropOffPoint"] = event.target.value}
                                                     className="cs-select cs-skin-border" name="" id="to-place-car">
 
                                                 <option style={color} name="" id="">Dropoff</option>
