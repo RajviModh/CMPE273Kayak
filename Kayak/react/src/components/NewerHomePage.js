@@ -47,7 +47,7 @@ class NewerHomePage extends Component {
         username: '',
         showLoginModal: false,
         showSignupModal: false,
-        isUser: true,
+        isUser: false,
         date: "2017-11-21",
         startDate: moment(this.props.minDate, 'DD/MM/YYYY'),
         format: "YYYY-MM-DD",
@@ -66,8 +66,6 @@ class NewerHomePage extends Component {
     }
 
     componentWillMount() {
-        this.props.setFromCity([])
-        this.props.setToCity([])
 
         this.setState({isLoggedIn: localStorage.getItem("isLoggedIn"), isUser: localStorage.getItem("isUser")})
 
@@ -497,9 +495,9 @@ class NewerHomePage extends Component {
             <div id="fh5co-wrapper">
                 <div id="fh5co-page">
 
-                    <UserHeader/>
+                    {/*<AdminHeader/>*/}
 
-                   {/* {this.state.isLoggedIn ? (this.state.isUser ? <UserHeader/> : <AdminHeader/>) : <BeforeHeader/>}*/}
+                   {this.state.isLoggedIn ? (this.state.isUser ? <UserHeader/> : <AdminHeader/>) : <BeforeHeader/>}
 
                     <Route exact path="/" render={() => (
 

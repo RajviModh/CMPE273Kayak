@@ -80,17 +80,10 @@ class FlightBooking extends Component {
             document.getElementById('namevalidator').style.display = 'block';
             document.getElementById('namevalidator').innerHTML = 'Invalid name';
         } else {
-        var re="false";
-        if(localStorage.getItem("return_enable")!==null && localStorage.getItem("return_enable")!=='' && localStorage.getItem("return_enable")!==undefined){
-            re=localStorage.getItem("return_enable");
-        }
-        console.log(localStorage.getItem("return_enable"));
-        console.log("checking value for booking (direct or round) "+re);
-        console.log(localStorage.getItem('goingD'));
-        console.log(this.props.select.selectedFlight.fare);
-        console.log(((this.props.select.Adult.length*this.props.select.selectedFlight.fare)+(this.props.select.Child.length*this.props.select.selectedFlight.fare/10)));
-        var self=this;
-        if(re==="false"){
+            console.log(localStorage.getItem('goingD'));
+            console.log(this.props.select.selectedFlight.fare);
+            console.log(((this.props.select.Adult.length*this.props.select.selectedFlight.fare)+(this.props.select.Child.length*this.props.select.selectedFlight.fare/10)));
+            var self=this;
             axios.get('http://localhost:3001/flights/flight_booking_direct',{withCredentials:true,params:{f_id:this.props.select.selectedFlight.f_id,flight_start_s:localStorage.getItem('goingD'),class:localStorage.getItem('Sclass'),duration:this.props.select.selectedFlight.duration,booked_seats:this.props.select.Adult.length,passenger:this.props.select.Adult.concat(this.props.select.Child),fare:((this.props.select.Adult.length*this.props.select.selectedFlight.fare)+(this.props.select.Child.length*this.props.select.selectedFlight.fare_child))}})
                 .then(function (response) {
                     console.log(response);
@@ -98,17 +91,13 @@ class FlightBooking extends Component {
                 .catch(function (error) {
                     console.log(error);
                 });
-        }else if(re==="true"){
-            console.log("true");
-            axios.get('http://localhost:3001/flights/flight_booking_round',{withCredentials:true,params:{f_id:this.props.select.selectedFlight.f_id,f_id_r:this.props.select.selectedFlightR.f_id,flight_start_s:localStorage.getItem('goingD'),flight_start_s_r:localStorage.getItem('comingD'),class:localStorage.getItem('Sclass'),duration:this.props.select.selectedFlight.duration,duration_r:this.props.select.selectedFlightR.duration,booked_seats:this.props.select.Adult.length,passenger:this.props.select.Adult.concat(this.props.select.Child),fare:((this.props.select.Adult.length*this.props.select.selectedFlight.fare)+(this.props.select.Child.length*this.props.select.selectedFlight.fare_child)),fare_r:((this.props.select.Adult.length*this.props.select.selectedFlightR.fare)+(this.props.select.Child.length*this.props.select.selectedFlightR.fare_child))}})
-                .then(function (response) {
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
-        };
+
+
+             };
+
+
+
+
     }
 
     render() {
@@ -134,55 +123,49 @@ class FlightBooking extends Component {
                         <table id="tableMenu" className="table">
                             <tbody>
                             <tr>
-                                <th style={{textAlign: 'center'}}>Name</th>
-                                <th style={{textAlign: 'center'}}>Age</th>
+                                <th style={{textAlign: 'center'}}>Name of the Passengers:</th>
+                                <th style={{textAlign: 'center'}}>Age : &nbsp;</th>
                             </tr>
-                            {
-                                this.props.select.Adult.map
-                                (Adult=>
-
-                                                <tr className="spaceUnder">
-                                                    <td style={{textAlign: 'center'}}>{Adult.name}</td>
-                                                    <td style={{textAlign: 'center'}}>{Adult.age}</td>
-                                                </tr>
-
-                                )
-                            }
-                            {
-                                this.props.select.Child.map
-                                (Child=>
-
-                                                <tr>
-                                                    <td style={{textAlign: 'center', 'border-collapse': 'collapse'}}>{Child.name}</td>
-                                                    <td style={{textAlign: 'center'}}>{Child.age}</td>
-                                                </tr>
-
-                                )
-                            }
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-               {/* {
-                    this.props.select.Adult.map
-                    (Adult=>
-                        <div className="row">
-                            <div className="center-block col-md-5">
-                                <table id="tableMenu" className="table">
-                                    <tbody>
-                                    <tr className="spaceUnder">
-                                        <th style={{textAlign: 'center'}}>{Adult.name}</th>
-                                        <th style={{textAlign: 'center'}}>{Adult.age}</th>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                {
+                  this.props.select.Adult.map
+                  (Adult=>
+                    <div className="row">
+                        <div className="center-block col-md-5">
+                            <table id="tableMenu" className="table">
+                                <tbody>
+                                <tr className="spaceUnder">
+                                    <th style={{textAlign: 'center'}}>{Adult.name}</th>
+                                    <th style={{textAlign: 'center'}}>{Adult.age}</th>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
-                    )
-                }*/}
+                    </div>
+                  )
+                }
 
-
+                {
+                  this.props.select.Child.map
+                  (Child=>
+                    <div className="row">
+                        <div className="center-block col-md-5">
+                            <table id="tableMenu" className="table">
+                                <tbody>
+                                <tr>
+                                    <th style={{textAlign: 'center', 'border-collapse': 'collapse'}}>{Child.name}</th>
+                                    <th style={{textAlign: 'center'}}>{Child.age}</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                  )
+                }
 
                 <div className="row">
                     <div className="col-md-12">
@@ -347,23 +330,23 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
         setFlights: (data) => {
-            console.log("flights are ",data);
+          console.log("flights are ",data);
             dispatch({
                 type: "setFlights",
                 payload :{data:data}
             });
         },
         setFromCity: (data) => {
-            dispatch({
-                type: "setFromCity",
-                payload :{data:data}
-            });
+          dispatch({
+              type: "setFromCity",
+              payload :{data:data}
+          });
         },
         setSelectedFlight: (data) => {
-            dispatch({
-                type: "setSelectedFlight",
-                payload :{data:data}
-            });
+          dispatch({
+              type: "setSelectedFlight",
+              payload :{data:data}
+          });
         },
         setSelectedFlightR: (data) => {
             dispatch({
@@ -372,16 +355,16 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
         setAdult: (data) => {
-            dispatch({
-                type: "setAdult",
-                payload :{data:data}
-            });
+          dispatch({
+              type: "setAdult",
+              payload :{data:data}
+          });
         },
         setChild: (data) => {
-            dispatch({
-                type: "setChild",
-                payload :{data:data}
-            });
+          dispatch({
+              type: "setChild",
+              payload :{data:data}
+          });
         },
     };
 };

@@ -40,7 +40,8 @@ class UserHeader extends Component{
                 localStorage.removeItem("isUser")
                 console.log("res", response);
                 console.log("res data", response.data);
-                self.props.history.push('/')
+                //self.props.history.push('/')
+                window.location.replace('/');
             })
             .catch(function (error) {
                 console.log(error);

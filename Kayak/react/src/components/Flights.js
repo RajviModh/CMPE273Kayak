@@ -89,82 +89,82 @@ class Flights extends Component {
     };
 
     componentWillMount(){
-        var self=this;
-        if(localStorage.getItem("return_enable")===null || localStorage.getItem("return_enable")===undefined || localStorage.getItem("return_enable")===''){
-            self.setState({
-                return_enable:false
-            })
-        }else{
-            self.setState({
-                return_enable:localStorage.getItem("return_enable")
-            })
+      var self=this;
+      if(localStorage.getItem("return_enable")===null || localStorage.getItem("return_enable")===undefined || localStorage.getItem("return_enable")===''){
+        self.setState({
+          return_enable:false
+        })
+      }else{
+        self.setState({
+          return_enable:localStorage.getItem("return_enable")
+        })
+      }
+      setTimeout(function(){
+        self.setState({
+          return_enable:self.props.select.return_enable
+        })
+        console.log("before ",self.props.select);
+        console.log("localStorage ",typeof localStorage.getItem("fromCity"));
+          var roundData = []
+          //var len = this.state.flightData
+          //var len1 = this.state.flightData1
+          var len = [];
+          var len1 = [];
+          if(JSON.parse(localStorage.getItem("searchedFlights"))!==null){
+            len = JSON.parse(localStorage.getItem("searchedFlights"))
+          }
+          if(JSON.parse(localStorage.getItem("searchedFlightsR"))!==null){
+            len1  = JSON.parse(localStorage.getItem("searchedFlightsR"))
+          }
+
+          console.log("len ",len);
+          console.log("len1 ",len1);
+          for(var i=0;i<len.length;i++)
+          {
+              for(var j=0;j<len1.length;j++)
+              {
+                  var jsonObj = {}
+                  jsonObj.flight1 = len[i]
+                  jsonObj.flight2 = len1[j]
+                  jsonObj.total  = len[i].fare+ len1[j].fare
+                  roundData.push(jsonObj);
+              }
+          }
+        console.log("outside.. ",roundData)
+        //for caluculating number of text boxes for adults and children from localStorage
+
+        var passData = []
+        var passData1 = []
+        var pass = {}
+        var value = localStorage.getItem("adult")
+        var valueC = localStorage.getItem("child");
+
+        for(var i=0;i<value;i++){
+            pass.name = ""
+            pass.age = 0
+            passData.push(pass)
         }
-        setTimeout(function(){
-            self.setState({
-                return_enable:self.props.select.return_enable
-            })
-            console.log("before ",self.props.select);
-            console.log("localStorage ",typeof localStorage.getItem("fromCity"));
-            var roundData = []
-            //var len = this.state.flightData
-            //var len1 = this.state.flightData1
-            var len = [];
-            var len1 = [];
-            if(JSON.parse(localStorage.getItem("searchedFlights"))!==null){
-                len = JSON.parse(localStorage.getItem("searchedFlights"))
-            }
-            if(JSON.parse(localStorage.getItem("searchedFlightsR"))!==null){
-                len1  = JSON.parse(localStorage.getItem("searchedFlightsR"))
-            }
+        for(var i=0;i<valueC;i++){
+            pass.name = ""
+            pass.age = 0
+            passData1.push(pass)
+        }
 
-            console.log("len ",len);
-            console.log("len1 ",len1);
-            for(var i=0;i<len.length;i++)
-            {
-                for(var j=0;j<len1.length;j++)
-                {
-                    var jsonObj = {}
-                    jsonObj.flight1 = len[i]
-                    jsonObj.flight2 = len1[j]
-                    jsonObj.total  = len[i].fare+ len1[j].fare
-                    roundData.push(jsonObj);
-                }
-            }
-            console.log("outside.. ",roundData)
-            //for caluculating number of text boxes for adults and children from localStorage
+        self.setState({noAdults : value,noChild : valueC, passengers:passData,children:passData1, selectedClass:localStorage.getItem("Sclass"), fromCity:self.props.select.fromCity, toCity:self.props.select.toCity})
+        self.setState({
+            flightData : JSON.parse(localStorage.getItem("searchedFlights")),
+            flightData1: JSON.parse(localStorage.getItem("searchedFlightsR")),
+            origFlightData : JSON.parse(localStorage.getItem("searchedFlights"))
+            //flightData:self.props.select.flights,
+            //origFlightData:self.props.select.flights,
+        });
 
-            var passData = []
-            var passData1 = []
-            var pass = {}
-            var value = localStorage.getItem("adult")
-            var valueC = localStorage.getItem("child");
+        //over
 
-            for(var i=0;i<value;i++){
-                pass.name = ""
-                pass.age = 0
-                passData.push(pass)
-            }
-            for(var i=0;i<valueC;i++){
-                pass.name = ""
-                pass.age = 0
-                passData1.push(pass)
-            }
-
-            self.setState({noAdults : value,noChild : valueC, passengers:passData,children:passData1, selectedClass:localStorage.getItem("Sclass"), fromCity:self.props.select.fromCity, toCity:self.props.select.toCity})
-            self.setState({
-                flightData : JSON.parse(localStorage.getItem("searchedFlights")),
-                flightData1: JSON.parse(localStorage.getItem("searchedFlightsR")),
-                origFlightData : JSON.parse(localStorage.getItem("searchedFlights"))
-                //flightData:self.props.select.flights,
-                //origFlightData:self.props.select.flights,
-            });
-
-            //over
-
-            self.setState({
-                roundData:roundData
-            },function(){console.log("roundData ",this.state.roundData);});
-        }, 500);
+          self.setState({
+              roundData:roundData
+          },function(){console.log("roundData ",this.state.roundData);});
+      }, 500);
 
     }
 
@@ -253,67 +253,67 @@ class Flights extends Component {
         if(this.state.e2){
             console.log("In e2")
 
-            for(var i=0;i<flight.length;i++)
-            {
-                if(flight[i].time_e>="06:00" && flight[i].time_e<="11:59")
+                for(var i=0;i<flight.length;i++)
                 {
-                    newData2.push(flight[i])
+                    if(flight[i].time_e>="06:00" && flight[i].time_e<="11:59")
+                    {
+                        newData2.push(flight[i])
+                    }
                 }
-            }
 
         }
         if(this.state.e3){
 
-            for(var i=0;i<flight.length;i++)
-            {
-                if(flight[i].time_e>="12:00" && flight[i].time_e<="17:59")
+                for(var i=0;i<flight.length;i++)
                 {
-                    newData2.push(flight[i])
+                    if(flight[i].time_e>="12:00" && flight[i].time_e<="17:59")
+                    {
+                        newData2.push(flight[i])
+                    }
                 }
-            }
         }
         if(this.state.e4){
             console.log("In 41")
 
-            for(var i=0;i<flight.length;i++)
-            {
-                if(flight[i].time_e>="18:00" && flight[i].time_e<="23:59")
+                for(var i=0;i<flight.length;i++)
                 {
-                    newData2.push(flight[i])
+                    if(flight[i].time_e>="18:00" && flight[i].time_e<="23:59")
+                    {
+                        newData2.push(flight[i])
+                    }
                 }
-            }
         }
         if(selectedClass==="Economy")
         {
             console.log("In economy")
 
-            for (var i = 0; i < flight.length; i++) {
-                if (flight[i].fare >= newRange[0] && flight[i].fare <= newRange[1]) {
-                    newData3.push(flight[i])
+                for (var i = 0; i < flight.length; i++) {
+                    if (flight[i].fare >= newRange[0] && flight[i].fare <= newRange[1]) {
+                        newData3.push(flight[i])
+                    }
                 }
-            }
 
             console.log("Changed Data",newData)
         }
         else if(selectedClass==="First")
         {
 
-            for (var i = 0; i < flight.length; i++) {
-                if (flight[i].fare_f >= newRange[0] && flight[i].fare_f <= newRange[1]) {
-                    newData3.push(flight[i])
+                for (var i = 0; i < flight.length; i++) {
+                    if (flight[i].fare_f >= newRange[0] && flight[i].fare_f <= newRange[1]) {
+                        newData3.push(flight[i])
+                    }
                 }
-            }
 
             console.log("Changed Data",newData)
         }
         else if(selectedClass==="Business")
         {
 
-            for (var i = 0; i < flight.length; i++) {
-                if (flight[i].fare_b >= newRange[0] && flight[i].fare_b <= newRange[1]) {
-                    newData3.push(flight[i])
+                for (var i = 0; i < flight.length; i++) {
+                    if (flight[i].fare_b >= newRange[0] && flight[i].fare_b <= newRange[1]) {
+                        newData3.push(flight[i])
+                    }
                 }
-            }
 
             console.log("Changed Data",newData)
         }
@@ -359,16 +359,16 @@ class Flights extends Component {
             }
         }
 
-        /*  var arr1 = [1,5,3]
-          var arr2 = [2,3,5]
-          var arr3 = [3,5,9]
+      /*  var arr1 = [1,5,3]
+        var arr2 = [2,3,5]
+        var arr3 = [3,5,9]
 
-          /!*var arrays = arr1.concat(arr2, arr3);*!/
-          var arrays = []
-          arrays[0] = arr1
-          arrays[1] = arr2
-          arrays[2] = arr3
-          alert(arrays.length)*/
+        /!*var arrays = arr1.concat(arr2, arr3);*!/
+        var arrays = []
+        arrays[0] = arr1
+        arrays[1] = arr2
+        arrays[2] = arr3
+        alert(arrays.length)*/
 
         if(this.state.e1===false && this.state.e2===false && this.state.e3===false && this.state.e4===false && this.state.c1===false && this.state.c2===false && this.state.c3===false && this.state.c4===false && newRange[0]===100 && newRange===2000)
         {
@@ -396,25 +396,25 @@ class Flights extends Component {
     }
 
     open = () => {
-        alert("in open")
-        this.setState({show_modal: true})
+            alert("in open")
+           this.setState({show_modal: true})
     }
 
     close = () => {
-        this.setState({show_modal: false});
+            this.setState({show_modal: false});
     };
 
     passenger = (e) => {
-        var passData = []
-        var pass = {}
+      var passData = []
+      var pass = {}
 
-        for(var i=0;i<e.target.value;i++){
-            pass.name = ""
-            pass.age = 0
-            pass.email = "",
-                pass.number = ""
-            passData.push(pass)
-        }
+      for(var i=0;i<e.target.value;i++){
+          pass.name = ""
+          pass.age = 0
+          pass.email = "",
+          pass.number = ""
+         passData.push(pass)
+      }
 
         this.setState({noAdults : e.target.value, passengers:passData})
 
@@ -424,51 +424,51 @@ class Flights extends Component {
 
 
 
-        var self=this;
-        var passData = this.state.passengers
-        var finalPassData = []
-        for(var i=0;i<passData.length;i++)
-        {
-            var obj = {name:name[i],age:age[i]}
-            if(name[i]===undefined || age[i]===undefined || name[i]===null || age[i]===null || name[i]==='' || age[i]==='')
-            { continue; }
-            else
-                finalPassData.push(obj)
-        }
+      var self=this;
+      var passData = this.state.passengers
+      var finalPassData = []
+      for(var i=0;i<passData.length;i++)
+      {
+          var obj = {name:name[i],age:age[i]}
+          if(name[i]===undefined || age[i]===undefined || name[i]===null || age[i]===null || name[i]==='' || age[i]==='')
+          { continue; }
+          else
+              finalPassData.push(obj)
+      }
 
-        var passData1 = this.state.children
-        var finalPassData1 = []
-        for(var i=0;i<passData1.length;i++)
-        {
-            var obj = {name:name1[i],age:age1[i]}
-            if(name1[i]===undefined || age1[i]===undefined || name1[i]===null || age1[i]===null || name1[i]==='' || age1[i]==='')
-            { continue; }
-            else
-                finalPassData1.push(obj)
-        }
-        if(finalPassData.length===0){
-            alert("Please insert at least one passenger!!")
-        }else{
-
-
-            this.setState({passengers:finalPassData})
-            this.props.setAdult(finalPassData);
-            this.setState({children:finalPassData1})
-            this.props.setChild(finalPassData1);
+      var passData1 = this.state.children
+      var finalPassData1 = []
+      for(var i=0;i<passData1.length;i++)
+      {
+          var obj = {name:name1[i],age:age1[i]}
+          if(name1[i]===undefined || age1[i]===undefined || name1[i]===null || age1[i]===null || name1[i]==='' || age1[i]==='')
+          { continue; }
+          else
+              finalPassData1.push(obj)
+      }
+      if(finalPassData.length===0){
+          alert("Please insert at least one passenger!!")
+      }else{
 
 
-            var isLoggedIn = localStorage.getItem("isLoggedIn")
-            if(isLoggedIn)
-            {
-                self.props.history.push("/flight_booking")
-                console.log("adults",this.props.select.Adult);
-                console.log("child",this.props.select.Child);
-            }
-            else
-            {
-                this.open1('login')
-            }
-        }
+          this.setState({passengers:finalPassData})
+          this.props.setAdult(finalPassData);
+          this.setState({children:finalPassData1})
+          this.props.setChild(finalPassData1);
+
+
+          var isLoggedIn = localStorage.getItem("isLoggedIn")
+          if(isLoggedIn)
+          {
+            self.props.history.push("/flight_booking")
+            console.log("adults",this.props.select.Adult);
+            console.log("child",this.props.select.Child);
+          }
+          else
+          {
+              this.open1('login')
+          }
+      }
     }
 
     handleSubmit = (userdata) => {
@@ -493,7 +493,8 @@ class Flights extends Component {
                         localStorage.setItem("isUser",true)
                         alert(localStorage.getItem("isUser"))
                         this.close1('login')
-                        self.props.history.push('/flight_booking')
+                        window.location.replace()
+                       // self.props.history.push('/flight_booking')
                     } else if (res.status === '401') {
                         localStorage.setItem("isLoggedIn",false)
                         alert(localStorage.getItem("isLoggedIn"))
@@ -718,7 +719,7 @@ class Flights extends Component {
                                                                    onChange={(event) =>
                                                                    {    name[i] =event.target.value
                                                                    }}
-                                                            />
+                                                                       />
                                                         </tr>
                                                         &nbsp;
                                                         <tr>
@@ -1256,26 +1257,26 @@ class Flights extends Component {
 
                                         return (
                                             <div>
-                                                <div className="col-md-12 search-grid-right" data-toggle="collapse">
-                                                    <div class="container vertical-divider">
-                                                        <div class="column one-third">
-                                                            <div className="col-md-3">
-                                                                <img src="../images/place-4.jpg" height={50} width={50} alt="" />
-                                                            </div>
-                                                            <div className="col-md-7">
-                                                                <span className="glyphicon glyphicon-bed" aria-hidden="true"></span>{flight.flight1.f_id}
-                                                                <span className="dot-inner" aria-hidden="true"> &nbsp; {flight.flight1.time_s}----{flight.flight1.time_e}</span>
-                                                                &nbsp; &nbsp;
-                                                                <p>Duration : {flight.flight1.duration} Hours</p>
-                                                            </div>
-                                                            <div className="col-md-2 text-right">
-                                                                <h4>${flight.flight1.fare}</h4>
-                                                                <p>Price</p>
-                                                                <br/>
-                                                            </div>
+                                            <div className="col-md-12 search-grid-right" data-toggle="collapse">
+                                                <div class="container vertical-divider">
+                                                    <div class="column one-third">
+                                                        <div className="col-md-3">
+                                                            <img src="../images/place-4.jpg" height={50} width={50} alt="" />
+                                                        </div>
+                                                        <div className="col-md-7">
+                                                            <span className="glyphicon glyphicon-bed" aria-hidden="true"></span>{flight.flight1.f_id}
+                                                            <span className="dot-inner" aria-hidden="true"> &nbsp; {flight.flight1.time_s}----{flight.flight1.time_e}</span>
+                                                            &nbsp; &nbsp;
+                                                            <p>Duration : {flight.flight1.duration} Hours</p>
+                                                        </div>
+                                                        <div className="col-md-2 text-right">
+                                                            <h4>${flight.flight1.fare}</h4>
+                                                            <p>Price</p>
+                                                            <br/>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
 
                                                 <div className="col-md-12 search-grid-right" data-toggle="collapse">
                                                     <div class="container vertical-divider">
@@ -1360,23 +1361,23 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
         setFlights: (data) => {
-            console.log("flights are ",data);
+          console.log("flights are ",data);
             dispatch({
                 type: "setFlights",
                 payload :{data:data}
             });
         },
         setFromCity: (data) => {
-            dispatch({
-                type: "setFromCity",
-                payload :{data:data}
-            });
+          dispatch({
+              type: "setFromCity",
+              payload :{data:data}
+          });
         },
         setSelectedFlight: (data) => {
-            dispatch({
-                type: "setSelectedFlight",
-                payload :{data:data}
-            });
+          dispatch({
+              type: "setSelectedFlight",
+              payload :{data:data}
+          });
         },
         setSelectedFlightR: (data) => {
             dispatch({
@@ -1385,16 +1386,16 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
         setAdult: (data) => {
-            dispatch({
-                type: "setAdult",
-                payload :{data:data}
-            });
+          dispatch({
+              type: "setAdult",
+              payload :{data:data}
+          });
         },
         setChild: (data) => {
-            dispatch({
-                type: "setChild",
-                payload :{data:data}
-            });
+          dispatch({
+              type: "setChild",
+              payload :{data:data}
+          });
         },
     };
 };
