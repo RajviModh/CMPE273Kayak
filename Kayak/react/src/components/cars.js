@@ -312,7 +312,7 @@ class Cars extends Component {
                                             <div className="hotel-left">
                                                 <a style={{fontSize: 25, color: '#DC143C'}}><span
                                                     class="glyphicon glyphicon-bed" aria-hidden="true"></span>{item.type}</a><br></br>
-                                                <p style={{marginRight: 365}} align="left">Car Name</p>
+                                                <p style={{marginRight: 365}} align="left">{item.make + " " +item.model}</p>
                                                 <div className="hotel-left-grids">
                                                     <div className="hotel-left-one">
                                                         <img src={imgs[Math.floor(Math.random() * imgs.length)]}
@@ -321,7 +321,7 @@ class Cars extends Component {
                                                     <div className="hotel-left-two">
 
                                                         <span className="glyphicon glyphicon-map-marker"
-                                                              aria-hidden="true"></span> {item.pickupPoint} <br></br><br></br>
+                                                              aria-hidden="true"></span> {item.pickUpPoint} <br></br><br></br>
                                                         <p><span className="glyphicon glyphicon-user"></span>{item.capacity}</p>
                                                         <p><span className="glyphicon glyphicon-file"></span>{item.doors}
                                                         </p>

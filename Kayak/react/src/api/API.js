@@ -11,7 +11,8 @@ export const doLogin = (payload) => {
             ...headers,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        credentials:'include'
     }).then(res => res.json())
         .then(res => {
             alert("back in API  : " + JSON.stringify(res));
@@ -23,7 +24,7 @@ export const doLogin = (payload) => {
         });
 };
 export const doSignup = (payload) => {
-    return fetch(`${api}/doSignUp`, {
+    return fetch(`${api}/signup/doSignup`, {
             method: 'POST',
             headers: {
                 ...headers,

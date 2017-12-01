@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-//import { FormWithConstraints, FieldFeedbacks, FieldFeedback } from 'react-form-with-constraints';
-
 
 class Signup extends Component {
 
@@ -25,15 +23,15 @@ class Signup extends Component {
         return (
             <div className="row justify-content-md-center">
                 <div className="col-sm-9 col-md-9">
-                    <form onSubmit={this.props.handleSignUp(this.state)}>
+                    <form>
                         <div className="form-group">
                             <hr/>
-                            <p>---------------or create a KAYAK account--------------</p>
+                            <p>---------------create a KAYAK account--------------</p>
                         </div>
                         <div className="input-field">
                             <input
                                 className="form-control"
-                                type="text"
+                                type="email"
                                 label="Username"
                                 placeholder="Username"
                                 required
@@ -62,10 +60,11 @@ class Signup extends Component {
                             />
                         </div>
                         <br/>
-                        <div className="input-field">
+                        <div>
                             <button
                                 className="btn btn-primary"
-                                type="submit">
+                                type="button"
+                                onClick={() => this.props.handleSignUp(this.state)}>
                                 Sign Up
                             </button>
                         </div>
