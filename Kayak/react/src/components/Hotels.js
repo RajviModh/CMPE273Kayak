@@ -9,6 +9,7 @@ import {withRouter} from 'react-router-dom';
 import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css';
 import Slider from 'rc-slider';
+import {Modal} from 'react-bootstrap';
 
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -30,6 +31,8 @@ const emailRegex = require('email-regex')
 var re = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 var regex = /\d/g;
 var formdata = {};
+var newRange=[100,2000];
+var newRating1=0;
 
 
 const ratingChanged = (newRating) => {
@@ -69,14 +72,113 @@ const bookHotel = (hotelName) => {
 class Hotels extends Component {
 
     state = {
+        origHotelData : [],
+        HotelData :[],
         goingDate: new Date(),
         comingDate: new Date(),
         format: "YYYY-MM-DD",
         inputFormat: "DD/MM/YYYY",
         mode: "date",
         checkindate: "",
-        checkoutdate: ""
+        checkoutdate: "",
+        showLoginModal: false,
+        showSignupModal: false,
     };
+
+    componentWillMount(){
+        this.setState({
+            origHotelData : this.props.select.hotels,
+            HotelData: this.props.select.hotels
+        })
+
+    }
+
+    close1 = (data) => {
+
+        if (data === 'login') {
+            //alert("in login of close");
+            this.setState({showLoginModal: false});
+        }
+        else if (data === 'signup') {
+            alert("in signup of close");
+            this.setState({showSignupModal: false});
+        }
+    };
+    open1 = (data) => {
+        if (data === 'login') {
+            alert("in login of open");
+            this.setState({showLoginModal: true});
+        }
+        else if (data === 'signup') {
+            alert("in signup of open");
+            this.setState({showSignupModal: true});
+        }
+    };
+    handleSubmit = (userdata) => {
+        var isEmailValid = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(userdata.username)
+
+        if(userdata.userdata==="" || userdata.password===""){
+            alert("Please insert all the fields")
+        }
+        else if(!isEmailValid)
+        {
+            alert("Email id invalid. Please try again.")
+        }
+        else
+        {
+            var self=this
+            API.doLogin(userdata)
+                .then((res) => {
+                    //alert("back in newer homepage : " + JSON.stringify(res));
+                    if (res.status === '201') {
+                        localStorage.setItem("isLoggedIn",true)
+                        alert(localStorage.getItem("isLoggedIn"))
+                        localStorage.setItem("isUser",true)
+                        alert(localStorage.getItem("isUser"))
+                        this.close1('login')
+                        window.location.replace()
+                        // self.props.history.push('/flight_booking')
+                    } else if (res.status === '401') {
+                        localStorage.setItem("isLoggedIn",false)
+                        alert(localStorage.getItem("isLoggedIn"))
+                        alert("Wrong username or password. Try again..!!")
+                    }
+                });}
+    };
+    handleSignUp = (userdata) => {
+
+        var isEmailValid = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(userdata.username)
+
+        if(userdata.userdata==="" || userdata.password===""){
+            alert("Please insert all the fields")
+        }
+        else if(!isEmailValid)
+        {
+            alert("Email id invalid. Please try again.")
+        }
+        else
+        {
+
+            API.doSignup(userdata)
+                .then((res) => {
+                    alert("back in handle signup response : " + JSON.stringify(res));
+                    if (res.code === '201') {
+                        alert("You have sign up successfully")
+                        this.open1('login')
+                    }
+                    else if (res.code === '401' && res.value === "User already exists") {
+                        alert("You cannot regiister. User already exists with this email id.")
+
+                    }
+                    else {
+                        alert("Try Again. Error happened.")
+
+                    }
+
+                })
+        }
+    };
+
 
     handlehotelChange = (newDate) => {
         this.state.checkindate = newDate;
@@ -137,7 +239,6 @@ class Hotels extends Component {
             });
         }
     }
-
     handlehotelbooking = () => {
 
         document.getElementById('messfirstname').style.display = 'none';
@@ -173,14 +274,23 @@ class Hotels extends Component {
             document.getElementById('messcontact').style.display = 'block';
             document.getElementById("messcontact").innerHTML = 'Please enter contact';
         } else {
-            var details = {firstname: firstname, email: email, contact: contact};
-            this.props.storeDetails(details);
-            this.props.history.push('/hotelbooking');
+
+            var isLoggedIn = localStorage.getItem("isLoggedIn")
+            if(isLoggedIn)
+            {
+                var details = {firstname: firstname, email: email, contact: contact};
+                this.props.storeDetails(details);
+                this.props.history.push('/hotelbooking');
+            }
+            else
+            {
+                this.open1('login')
+            }
+
+
         }
 
     }
-
-
     getStars = (star) => {
         var stars = [];
 
@@ -189,7 +299,6 @@ class Hotels extends Component {
         }
         return stars;
     };
-
     getRooms = (hotelIndex, HID, hotelname) => {
 
         var rooms = this.props.select.hotels[hotelIndex].rooms;
@@ -208,7 +317,6 @@ class Hotels extends Component {
         });
         return rooms;
     }
-
     getFreebies = (hotelIndex) => {
         var freebies = this.props.select.hotels[hotelIndex].freebies;
 
@@ -219,6 +327,55 @@ class Hotels extends Component {
         return freebies;
 
     }
+
+    sliderChanged = (newRange1) => {
+        newRange=newRange1
+        this.handleFilter()
+    }
+
+    ratingChanged = (newRating) => {
+        console.log(newRating);
+        newRating1=newRating
+        this.handleFilter()
+    }
+
+    handleFilter = () => {
+        var newData = []
+        var newData1 = []
+        var newData2 = []
+
+        for (var i = 0; i < this.state.origHotelData.length; i++) {
+            if (this.state.origHotelData[i].rooms.rent >= newRange[0] && this.state.origHotelData[i].rooms.rent <= newRange[1]) {
+                newData1.push(this.state.origHotelData[i])
+            }
+        }
+
+        for (var i = 0; i < this.state.origHotelData.length; i++) {
+            if (this.state.origHotelData[i].stars === newRating1) {
+                newData2.push(this.state.origHotelData[i])
+            }
+        }
+
+
+        var newArr = []
+            newArr[0]=newData1
+            newArr[1]=newData2
+
+        if(newArr.length!=0){
+            var result = newArr.shift().filter(function(v) {
+                return newArr.every(function(a) {
+                    return a.indexOf(v) !== -1;
+                });
+            });
+            newData=result
+        }
+
+        console.log("Changed Data",newData)
+
+        this.setState({HotelData:newData})
+
+    }
+
 
     render() {
 
@@ -328,12 +485,12 @@ class Hotels extends Component {
                                 <div className="range">
                                     <h3 className="sear-head">Filter by Price</h3><br/>
                                     <Range min={100} max={2000} defaultValue={[150, 500]}
-                                           tipFormatter={value => `$${value}`} onChange={sliderChanged}/>
+                                           tipFormatter={value => `$${value}`} onChange={this.sliderChanged}/>
                                 </div>
 
                                 <div className="range-two">
                                     <h3 className="sear-head">Filter by Stars</h3>
-                                    <ReactStars count={5} onChange={ratingChanged} size={24} color2={'#ffd700'}/>
+                                    <ReactStars count={5} onChange={this.ratingChanged} size={24} color2={'#ffd700'}/>
 
                                 </div>
                             </div>
@@ -341,7 +498,7 @@ class Hotels extends Component {
 
                             <div className="col-md-9 search-grid-right">
 
-                                {this.props.select.hotels.map((item, index) => {
+                                {this.state.HotelData.map((item, index) => {
                                         return (
                                             <div className="col-md-12 search-grid-right" data-toggle="collapse">
                                                 <div className="hotel-rooms">
@@ -397,6 +554,59 @@ class Hotels extends Component {
                                 )}
 
                             </div>
+
+                            <div>
+                                <Modal show={this.state.showLoginModal} onHide={() => {
+                                    this.close('login')
+                                }}>
+                                    {/* <Modal.Header closeButton>
+                        <Modal.Title>Login</Modal.Title>
+                    </Modal.Header>*/}
+                                    <Modal.Body>
+                                        <Login handleSubmit={this.handleSubmit}/>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <div className="col-sm-10 col-md-10">
+                                            Don't have an account ?
+                                            <button onClick={() => {
+                                                this.close1('login')
+                                                this.open1('signup')
+                                            }}>Sign Up
+                                            </button>
+                                            <button onClick={() => {
+                                                this.close1('login')
+                                            }}>Close
+                                            </button>
+                                        </div>
+                                    </Modal.Footer>
+                                </Modal>
+
+                            </div>
+                            <div>
+                                <Modal show={this.state.showSignupModal} onHide={() => {
+                                    this.close('signup')
+                                }}>
+                                    <Modal.Body>
+                                        <Signup handleSignUp={this.handleSignUp}/>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <div className="col-sm-10 col-md-10">
+                                            Already have an account ?
+                                            <button onClick={() => {
+                                                this.close1('signup')
+                                                this.open1('login')
+                                            }}>Sign in
+                                            </button>
+                                            <button onClick={() => {
+                                                this.close1('signup')
+                                            }}>Close
+                                            </button>
+                                        </div>
+                                    </Modal.Footer>
+                                </Modal>
+
+                            </div>
+
 
                             <div id="modalforhotelbooking" className="modal" style={{display: 'none'}}>
                                 <div className="modal-dialog" role="document">
