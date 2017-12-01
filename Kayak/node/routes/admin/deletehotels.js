@@ -5,7 +5,7 @@ var deleteHotels = function (req, res) {
 
     console.log("in node " +req.body.hId );
     kafka.make_request('adminDelete_topic', {
-        "hId":req.body.hId
+        "HID":req.body.HID
     }, function (err, results) {
         console.log('in result');
         console.log(results);

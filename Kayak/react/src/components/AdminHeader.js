@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Route, withRouter, Link} from 'react-router-dom';
+
+import AdminWelcomePage from "./admin/AdminWelcomePage";
 import AdminAddHotels from "./admin/AdminAddHotels";
 import AdminAddFlights from "./admin/AdminAddFlights";
 import AdminAddCars from "./admin/AdminAddCars";
@@ -7,6 +9,8 @@ import AdminAddCars from "./admin/AdminAddCars";
 import AdminSearchHotels from "./admin/AdminSearchHotels";
 import AdminSearchFlights from "./admin/AdminSearchFlights";
 import AdminSearchCars from "./admin/AdminSearchCars";
+import AdminSearchUsers from "./admin/AdminSearchUsers";
+import AdminSearchBills from "./admin/AdminSearchBills";
 
 import AdminViewUsers from "./admin/AdminViewUsers";
 
@@ -23,7 +27,7 @@ class AdminHeader extends Component{
 
                             <nav id="fh5co-menu-wrap" role="navigation">
                                 <ul className="sf-menu" id="fh5co-primary-menu">
-                                    <li className="active"><a href="/">Home</a></li>
+                                    <li className="active"><a href="/admin">Home</a></li>
                                     <li>
                                         <a href="#" className="fh5co-sub-ddown">Add</a>
                                         <ul className="fh5co-sub-menu">
@@ -40,11 +44,11 @@ class AdminHeader extends Component{
                                            <li><Link to='/adminsearchcars'>Cars</Link></li>
                                        </ul>
                                    </li>
-                                    <li>
-                                        <a href="#" className="fh5co-sub-ddown">User</a>
+                                    <li><Link to='/adminsearchusers'>Users</Link></li>
+                                    <li> <a href="#" className="fh5co-sub-ddown">Search Bills</a>
                                         <ul className="fh5co-sub-menu">
-                                            <li><a href="#">View Users</a></li>
-                                            <li><a href="#">Modify Users</a></li>
+                                            <li><Link to='/adminsearchbills'>By Month</Link></li>
+                                            <li><Link to='/adminsearchbills'>By Date</Link></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -52,6 +56,12 @@ class AdminHeader extends Component{
                         </div>
                     </div>
                 </header>
+
+                <Route exact path="/admin" render={() => (
+                    <div>
+                        <AdminWelcomePage/>
+                    </div>
+                )}/>
 
                 <Route exact path="/adminaddhotels" render={() => (
                     <div>
@@ -85,6 +95,17 @@ class AdminHeader extends Component{
                     </div>
                 )}/>
 
+                <Route exact path="/adminsearchusers" render={() => (
+                    <div>
+                        <AdminSearchUsers/>
+                    </div>
+                )}/>
+
+                <Route exact path="/adminsearchbills" render={() => (
+                    <div>
+                        <AdminSearchBills/>
+                    </div>
+                )}/>
             </div>
         )
 

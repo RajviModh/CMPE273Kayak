@@ -4,11 +4,11 @@ var kafka = require('../kafka/client');
 var updateHotels = function (req, res) {
 
 
-    console.log("in node " + req.body.columnName + req.body.newValue +req.body.hId );
+    console.log("in node " + req.body.columnName + req.body.newValue +req.body.HID );
     kafka.make_request('adminUpdate_topic', {
         "columnName": req.body.columnName,
         "newValue": req.body.newValue,
-        "hId":req.body.hId
+        "HID":req.body.HID
     }, function (err, results) {
         console.log('in result');
         console.log(results);

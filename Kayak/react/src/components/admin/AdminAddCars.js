@@ -1,51 +1,70 @@
 import React, {Component} from 'react';
 import {Route, withRouter, Link} from 'react-router-dom';
 import * as API from '../../api/API';
+import Message from "../Message";
 
 class AdminAddCars extends Component {
 
     state = {
-        car_id: '',
-        car_type: '',
-        car_name: '',
-        no_of_people:'',
-        no_of_bags:'',
-        no_of_doors: '',
-        car_owner: '',
-        car_location: ''
+        message:'',
+        cId: '',
+        carModel: '',
+        carMake: '',
+        carBags:'',
+        carType:'',
+        carCategory: '',
+        carCapacity: '',
+        carDoors: '',
+        pickupPoint:''
     };
     adminAddCars = (cardata) => {
-        alert("in AdminAdd cars react" + JSON.stringify(cardata));
-        API.adminAddCars(cardata)
-            .then((res) => {
-                alert("back in AdminAdd cars react response : " + JSON.stringify(res));
-                if (res.status === '201') {
-                    this.setState({
-                        message: "Added successfully"
-                    });
+        if(this.state.carModel==="" || this.state.carMake==="" || this.state.carBags==="" || this.state.carType==="" || this.state.carCategory==="" || this.state.carCapacity==="" || this.state.carDoors==="" || this.state.pickupPoint==="")
+            alert("Please add all the fields");
 
-                }
-                else if (res.status === '401') {
-                    this.setState({
-                        message: JSON.stringify(res.errors)
-                    });
-                    console.log(this.state.message);
+        else {
+            // alert("in AdminAdd cars react" + JSON.stringify(cardata));
+            API.adminAddCars(cardata)
+                .then((res) => {
+                    alert("back in AdminAdd cars react response : " + JSON.stringify(res));
+                    if (res.status === '201') {
+                        this.setState({
+                            message: "Data Added successfully",
+                            cId: '',
+                            carModel: '',
+                            carMake: '',
+                            carBags: '',
+                            pickupPoint: ''
+                        });
 
-                }
+                    }
+                    else if (res.status === '401') {
+                        this.setState({
+                            message: JSON.stringify(res.errors)
+                        });
 
-            })
+                    }
+                    else{
+                        this.setState({
+                            message: "Data couldn't be added. Try Adding details Again!"
+                        });
+                    }
+
+                })
+        }
     };
 
     componentWillMount() {
         this.setState({
-            car_id: '',
-            car_type: '',
-            car_name: '',
-            no_of_people:'',
-            no_of_bags:'',
-            no_of_doors: '',
-            car_owner: '',
-            car_location: ''
+            message:'',
+            cId: '',
+            carModel: '',
+            carMake: '',
+            carBags:'',
+            carType:'',
+            carCategory: '',
+            carCapacity: '',
+            carDoors: '',
+            pickupPoint:''
         });
     }
     render() {
@@ -66,11 +85,11 @@ class AdminAddCars extends Component {
                                             className="form-control"
                                             type="text"
                                             label="carId"
-                                            placeholder="Enter Car Id"
-                                            value={this.state.car_id}
+                                            placeholder="Enter car id"
+                                            value={this.state.cId}
                                             onChange={(event) => {
                                                 this.setState({
-                                                    car_id: event.target.value
+                                                    cId: event.target.value
                                                 });
                                             }}
                                         />
@@ -81,18 +100,18 @@ class AdminAddCars extends Component {
 
 
                             <div className="row">
-                                <div className="col-sm-4 col-md-4"><label>Car Type</label></div>
+                                <div className="col-sm-4 col-md-4"><label>Car Model</label></div>
                                 <div className="col-sm-8 col-md-8">
 
                                     <input
                                         className="form-control"
                                         type="text"
-                                        label="carType"
-                                        placeholder="Enter car type"
-                                        value={this.state.car_type}
+                                        label="carModel"
+                                        placeholder="Enter car model"
+                                        value={this.state.carModel}
                                         onChange={(event) => {
                                             this.setState({
-                                                car_type: event.target.value
+                                                carModel: event.target.value
                                             });
                                         }}
                                     />
@@ -101,21 +120,98 @@ class AdminAddCars extends Component {
 
                             <br/>
                             <div className="row">
-                                <div className="col-sm-4 col-md-4"><label>Car Location</label></div>
+                                <div className="col-sm-4 col-md-4"><label>Car Doors</label></div>
+                                <div className="col-sm-8 col-md-8">
+
+                                    <select name="select" onChange={(event) => {
+                                        this.setState({
+                                            carDoors: event.target.value
+                                        });
+                                    }} style={{width: 300}}>
+                                        <option>select</option>
+                                        <option>2</option>
+                                        <option>4</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br/>
+                            <div className="row">
+                                <div className="col-sm-4 col-md-4"><label>Car Type</label></div>
+                                <div className="col-sm-8 col-md-8">
+                                    <select name="select" onChange={(event) => {
+                                        this.setState({
+                                            carType: event.target.value
+                                        });
+                                    }} style={{width: 300}}>
+                                        <option>select</option>
+                                        <option>small</option>
+                                        <option>medium</option>
+                                        <option>large</option>
+                                        <option>SUV</option>
+                                        <option>luxury</option>
+                                        <option>van</option>
+                                        <option>convertible</option>
+                                        <option>PickupTruck</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br/>
+                            <div className="row">
+                                <div className="col-sm-4 col-md-4"><label>Pickup Point</label></div>
+                                <div className="col-sm-8 col-md-8">
+                                    <input
+                                        className="form-control"
+                                        type="text"
+                                        label="pickupPoint"
+                                        placeholder="Enter pickup point"
+                                        value={this.state.pickupPoint}
+                                        onChange={(event) => {
+                                            this.setState({
+                                                pickupPoint: event.target.value
+                                            });
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                            <br/>
+                        </div>
+                        <br/>
+
+                        <div className="col-sm-6 col-md-6">
+                            <div className="form-group">
+                            </div>
+                            <div className="row">
+                                <div className="col-sm-4 col-md-4"><label>Car Make</label></div>
                                 <div className="col-sm-8 col-md-8">
 
                                     <input
                                         className="form-control"
                                         type="text"
-                                        label="carLocation"
-                                        placeholder="Enter car location"
-                                        value={this.state.car_location}
+                                        label="carMake"
+                                        placeholder="Enter car make"
+                                        value={this.state.carMake}
                                         onChange={(event) => {
                                             this.setState({
-                                                car_location: event.target.value
+                                                carMake: event.target.value
                                             });
                                         }}
                                     />
+                                </div>
+                            </div>
+                            <br/>
+                            <div className="row">
+                                <div className="col-sm-4 col-md-4"><label>Car Capacity</label></div>
+                                <div className="col-sm-8 col-md-8">
+                                    <select name="select" onChange={(event) => {
+                                        this.setState({
+                                            carCapacity: event.target.value
+                                        });
+                                    }} style={{width: 300}}>
+                                        <option>select</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                    </select>
                                 </div>
                             </div>
                             <br/>
@@ -123,102 +219,42 @@ class AdminAddCars extends Component {
                                 <div className="col-sm-4 col-md-4"><label>Number Of Bags</label></div>
                                 <div className="col-sm-8 col-md-8">
 
-                                    <input
-                                        className="form-control"
-                                        type="text"
-                                        label="numberOfBags"
-                                        placeholder="Enter number of bags"
-                                        value={this.state.no_of_bags}
-                                        onChange={(event) => {
-                                            this.setState({
-                                                no_of_bags: event.target.value
-                                            });
-                                        }}
-                                    />
+
+                                    <select name="select" onChange={(event) => {
+                                        this.setState({
+                                            carBags: event.target.value
+                                        });
+                                    }} style={{width: 300}}>
+                                        <option>select</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                    </select>
                                 </div>
                             </div>
+
+                            <br/>
+
+                            <div className="row">
+                                <div className="col-sm-4 col-md-4"><label>Car Category</label></div>
+                                <div className="col-sm-8 col-md-8">
+
+                                    <select name="select" onChange={(event) => {
+                                        this.setState({
+                                            carCategory: event.target.value
+                                        });
+                                    }} style={{width: 300}}>
+                                        <option>select</option>
+                                        <option>economy</option>
+                                        <option>compact</option>
+                                        <option>intermediate</option>
+                                        <option>standard</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br/>
                         </div>
-                        <br/>
-                        <div className="col-sm-6 col-md-6">
-                            <div className="form-group">
-                            </div>
-                            <div className="row">
-                                <div className="col-sm-4 col-md-4"><label>Car Name</label></div>
-                                <div className="col-sm-8 col-md-8">
-
-                                    <input
-                                        className="form-control"
-                                        type="text"
-                                        label="carName"
-                                        placeholder="Enter car name"
-                                        value={this.state.car_name}
-                                        onChange={(event) => {
-                                            this.setState({
-                                                car_name: event.target.value
-                                            });
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                            <br/>
-                            <div className="row">
-                                <div className="col-sm-4 col-md-4"><label>Car Owner</label></div>
-                                <div className="col-sm-8 col-md-8">
-
-                                    <input
-                                        className="form-control"
-                                        type="text"
-                                        label="carOwner"
-                                        placeholder="Enter car owner"
-                                        value={this.state.car_owner}
-                                        onChange={(event) => {
-                                            this.setState({
-                                                car_owner: event.target.value
-                                            });
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                            <br/>
-                            <div className="row">
-                                <div className="col-sm-4 col-md-4"><label>Number Of People</label></div>
-                                <div className="col-sm-8 col-md-8">
-                                    <input
-                                        className="form-control"
-                                        type="text"
-                                        label="numberOfPeople"
-                                        placeholder="Enter number of people"
-                                        value={this.state.no_of_people}
-                                        onChange={(event) => {
-                                            this.setState({
-                                                no_of_people: event.target.value
-                                            });
-                                        }}
-                                    />
-                                </div>
-                            </div>
-
-                            <br/>
-
-                            <div className="row">
-                                <div className="col-sm-4 col-md-4"><label>Number Of Doors</label></div>
-                                <div className="col-sm-8 col-md-8">
-
-                                    <input
-                                        className="form-control"
-                                        type="text"
-                                        label="numberOfDoors"
-                                        placeholder="Enter number of doors"
-                                        value={this.state.no_of_doors}
-                                        onChange={(event) => {
-                                            this.setState({
-                                                no_of_doors: event.target.value
-                                            });
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                            <br/>
                             <div className="col-sm-6 col-md-6">
 
                                 <div className="input-field">
@@ -229,11 +265,15 @@ class AdminAddCars extends Component {
                                         Add Cars
                                     </button>
                                 </div>
+                                <br/>
+                            </div>
+                            <div className="col-sm-12 col-md-12">
+                                <Message message={this.state.message} />
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
                 );
     }
 }
