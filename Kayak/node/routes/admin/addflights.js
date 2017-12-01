@@ -31,6 +31,7 @@ var addFlights = function (req, res) {
         if (err) {
             res.end('An error occurred');
             console.log(err);
+
         }
         else {
             res.status(201).json({
