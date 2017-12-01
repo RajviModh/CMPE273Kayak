@@ -8,6 +8,9 @@ import AdminHeader from "./AdminHeader";
 import BeforeHeader from "./BeforeHeader"
 import UserFooter from "./UserFooter";
 import AdminHomePage from "./admin/AdminHomePage";
+import AdminAddHotels from "./admin/AdminAddHotels";
+import AdminAddFlights from "./admin/AdminAddFlights";
+import Welcome from "./Welcome";
 //import '../css/style.css';
 //import '../css/bootstrap.css';
 import FlightBooking from "./FlightBooking";
@@ -44,7 +47,7 @@ class NewerHomePage extends Component {
         username: '',
         showLoginModal: false,
         showSignupModal: false,
-        isUser: true,
+        isUser: false,
         date: "2017-11-21",
         startDate: moment(this.props.minDate, 'DD/MM/YYYY'),
         format: "YYYY-MM-DD",
@@ -442,7 +445,7 @@ class NewerHomePage extends Component {
             username: '',
             showLoginModal: false,
             showSignupModal: false,*/
-            isUser: false,
+           // isUser: false,
             /*date: "2017-11-21",
             startDate :  moment(this.props.minDate, 'DD/MM/YYYY'),*/
             format: "YYYY-MM-DD",
@@ -491,7 +494,10 @@ class NewerHomePage extends Component {
         return (
             <div id="fh5co-wrapper">
                 <div id="fh5co-page">
-                    {this.state.isLoggedIn ? (this.state.isUser ? <UserHeader/> : <AdminHeader/>) : <BeforeHeader/>}
+
+                    <AdminHeader/>
+
+                   {/* {this.state.isLoggedIn ? (this.state.isUser ? <UserHeader/> : <AdminHeader/>) : <BeforeHeader/>}*/}
 
                     <Route exact path="/" render={() => (
 

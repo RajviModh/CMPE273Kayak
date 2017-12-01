@@ -1,54 +1,74 @@
 import React, {Component} from 'react';
 import {Route, withRouter, Link} from 'react-router-dom';
 import * as API from '../../api/API';
+import ReactStars from 'react-stars'
+import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
+import Message from '../Message';
 
 var DateTimeField = require('react-bootstrap-datetimepicker');
+
 
 
 class AdminAddHotels extends Component {
     static propTypes = {};
 
     state = {
-        hotelname: '',
-        roomtype: '',
+        message:'',
+        name: '',
+        street:'',
         city: '',
-        states: '',
-        hotelprice: '',
-        date: "2017-06-05",
-        format: "YYYY-MM-DD",
-        inputFormat: "DD/MM/YYYY",
-        mode: "date"
+        state: '',
+        stars:'',
+        freebies:'',
+        type: '',
+        total_rooms:'',
+        rent: ''
     };
 
     adminAddHotels = (hoteldata) => {
-        alert("in AdminAdd hotels react" + JSON.stringify(hoteldata));
-        API.adminAddHotels(hoteldata)
-            .then((res) => {
-                alert("back in AdminAdd hotels react response : " + JSON.stringify(res));
-                if (res.status === '201') {
-                    this.setState({
-                        message: "Added successfully"
-                    });
 
-                }
-                else if (res.status === '401') {
-                    this.setState({
-                        message: JSON.stringify(res.errors)
-                    });
-                    console.log(this.state.message);
+        if(this.state.name==="" || this.state.street==="" || this.state.city==="" || this.state.state==="" || this.state.stars==="" || this.state.freebies==="" || this.state.type==="" || this.state.total_rooms==="" || this.state.rent==="")
+            alert("Please add all the fields");
 
-                }
+        else {
+            alert("in AdminAdd hotels react" + JSON.stringify(hoteldata));
+            API.adminAddHotels(hoteldata)
+                .then((res) => {
+                    alert("back in AdminAdd hotels react response : " + JSON.stringify(res));
+                    if (res.status === '201') {
+                        this.setState({
+                            message: "Added successfully"
+                        });
 
-            })
+                    }
+                    else if (res.status === '401') {
+                        this.setState({
+                            message: JSON.stringify(res.errors)
+                        });
+                    }
+                    else{
+                        this.setState({
+                            message: "Data couldn't be added. Try Adding details Again!"
+                        });
+                    }
+
+                })
+        }
     };
 
     componentWillMount() {
         this.setState({
-            hotelname: '',
-            roomtype: '',
+            message:'',
+            name: '',
+            street:'',
             city: '',
             state: '',
-            hotelprice: ''
+            stars:'',
+            freebies:'',
+            type: '',
+            total_rooms:'',
+            rent: ''
+
         });
     }
     handleChange = (newDate) => {
@@ -56,13 +76,23 @@ class AdminAddHotels extends Component {
         return this.setState({date: newDate});
     };
 
+    ratingChanged = (newRating) => {
+        console.log(newRating)
+      this.setState({stars:newRating});
+    }
+
+    freebiesChanged = (newFreebies) => {
+        this.setState({
+            freebies: newFreebies
+        });
+    }
+
     render() {
         const {date, format, mode, inputFormat} = this.state;
         return (
             <div className="fh5co-hero">
                 <div className="container">
                     <div className="row justify-content-md-center">
-
                         <div className="col-sm-6 col-md-6">
                             <div className="form-group">
                             </div>
@@ -75,121 +105,176 @@ class AdminAddHotels extends Component {
                                         <input
                                             className="form-control"
                                             type="text"
-                                            label="hotelname"
-                                            placeholder="Enter Hotel name"
-                                            value={this.state.hotelname}
+                                            label="name"
+                                            placeholder="Enter hotel name"
+                                            value={this.state.name}
+                                            required
                                             onChange={(event) => {
                                                 this.setState({
-                                                    hotelname: event.target.value
+                                                    name: event.target.value
                                                 });
                                             }}
                                         />
                                     </div>
                                 </div>
                             </div>
+
                             <br/>
                             <div className="row">
-                                <div className="col-sm-4 col-md-4"><label>Room Type</label></div>
+                                <div className="col-sm-4 col-md-4"><label>Hotel City</label></div>
                                 <div className="col-sm-8 col-md-8">
 
-                                    <div className="input-field">
-                                        <select name="select" onChange={(event) => {
+                                    <input
+                                        className="form-control"
+                                        type="text"
+                                        label="city"
+                                        placeholder="Enter hotel city"
+                                        value={this.state.city}
+                                        onChange={(event) => {
                                             this.setState({
-                                                roomtype: event.target.value
+                                                city: event.target.value
                                             });
-                                        }} style={{width: 300}}>
-                                            <option>Regular</option>
-                                            <option>Deluxe</option>
-                                            <option>etc</option>
-                                        </select>
-                                    </div>
+                                        }}
+                                    />
                                 </div>
                             </div>
                             <br/>
                             <div className="row">
-                                <div className="col-sm-4 col-md-4"><label>State</label></div>
+                                <div className="col-sm-4 col-md-4"><label>Star Ratings</label></div>
+                                <div className="col-sm-8 col-md-8">
+
+                                        <ReactStars count={5} onChange={this.ratingChanged} size={24} color2={'#ffd700'} />
+
+
+                                </div>
+                            </div>
+                            <br/>
+                            <div className="row">
+                                <div className="col-sm-4 col-md-4"><label>Hotel Rent</label></div>
+                                <div className="col-sm-8 col-md-8">
+
+                                    <input
+                                        className="form-control"
+                                        type="number"
+                                        label="rent"
+                                        min="1"
+                                        max="1000"
+                                        placeholder="Enter hotel rent"
+                                        value={this.state.rent}
+                                        onChange={(event) => {
+                                            this.setState({
+                                                rent: event.target.value
+                                            });
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                            <br/>
+                            <div className="row">
+                                <div className="col-sm-4 col-md-4"><label>Hotel Type</label></div>
+                                <div className="col-sm-8 col-md-8">
+
+                                    <input
+                                        className="form-control"
+                                        type="text"
+                                        label="type"
+                                        placeholder="Enter hotel type"
+                                        value={this.state.type}
+                                        onChange={(event) => {
+                                            this.setState({
+                                                type: event.target.value
+                                            });
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                            <br/>
+                        </div>
+                        <br/>
+
+                        <div className="col-sm-6 col-md-6">
+                            <div className="form-group">
+                            </div>
+                            <div className="row">
+                                <div className="col-sm-4 col-md-4"><label>Hotel Street</label></div>
+                                <div className="col-sm-8 col-md-8">
+
+                                    <input
+                                        className="form-control"
+                                        type="text"
+                                        label="street"
+                                        placeholder="Enter hotel street"
+                                        value={this.state.street}
+                                        onChange={(event) => {
+                                            this.setState({
+                                                street: event.target.value
+                                            });
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                            <br/>
+                            <div className="row">
+                                <div className="col-sm-4 col-md-4"><label>Hotel State</label></div>
                                 <div className="col-sm-8 col-md-8">
 
                                     <input
                                         className="form-control"
                                         type="text"
                                         label="state"
-                                        placeholder="Enter State"
-                                        value={this.state.states}
+                                        placeholder="Enter hotel state"
+                                        value={this.state.state}
                                         onChange={(event) => {
                                             this.setState({
-                                                states: event.target.value
+                                                state: event.target.value
                                             });
                                         }}
-                                        required
                                     />
                                 </div>
                             </div>
-
                             <br/>
-                        </div>
-                        <div className="col-sm-6 col-md-6">
-                            <div className="form-group">
-                            </div>
                             <div className="row">
-                                <div className="col-sm-4 col-md-4"><label>Hotel Price</label></div>
+                                <div className="col-sm-4 col-md-4"><label>Hotel Freebies</label></div>
                                 <div className="col-sm-8 col-md-8">
 
+                                    <CheckboxGroup
+                                        checkboxDepth={2}
+                                        name="freebies"
+                                        value={this.state.freebies}
+                                        onChange={this.freebiesChanged}>
 
+                                        <Checkbox value="free breakfast"/> Free Breakfast
+                                      <Checkbox value="free wifi"/> Free Wifi
+                                        <Checkbox value="free parking"/> Free Parking
+                                       <Checkbox value="free internet"/> Free Internet
+                                        <Checkbox value="free airport shuttle"/> Free Airport Shuttle
+                                        <Checkbox value="free cancellation"/> Free Cancellation
+                                    </CheckboxGroup>
+                                </div>
+                            </div>
+                            <br/>
+                            <div className="row">
+                                <div className="col-sm-4 col-md-4"><label>Total Rooms</label></div>
+                                <div className="col-sm-8 col-md-8">
                                     <input
                                         className="form-control"
-                                        type="text"
-                                        label="hotelprice"
-                                        placeholder="Enter Hotel price"
-                                        value={this.state.hotelprice}
+                                        type="number"
+                                        label="total_rooms"
+                                        min="0"
+                                        max="1000"
+                                        placeholder="Enter hotel total rooms"
+                                        value={this.state.total_rooms}
                                         onChange={(event) => {
                                             this.setState({
-                                                hotelprice: event.target.value
+                                                total_rooms: event.target.value
                                             });
                                         }}
-                                        required
                                     />
+
                                 </div>
                             </div>
                             <br/>
-                            <div className="row">
-                                <div className="col-sm-4 col-md-4"><label>Date</label></div>
-                                <div className="col-sm-8 col-md-8">
-                                    <div className="input-field">
-                                        <DateTimeField  dateTime={date}
-                                                        format={format}
-                                                        viewMode={mode}
-                                                        inputFormat={inputFormat} onChange={this.handleChange}/>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                            <br/>
-                            <div className="row">
-                                <div className="col-sm-4 col-md-4"><label>City</label></div>
-                                <div className="col-sm-8 col-md-8">
-                                    <div className="input-field">
-
-                                        <input
-                                            className="form-control"
-                                            type="text"
-                                            label="city"
-                                            placeholder="Enter City"
-                                            value={this.state.city}
-                                            onChange={(event) => {
-                                                this.setState({
-                                                    city: event.target.value
-                                                });
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <br/>
-
-
+                        </div>
                             <div className="col-sm-6 col-md-6">
 
                                 <div className="input-field">
@@ -200,8 +285,13 @@ class AdminAddHotels extends Component {
                                         Add Hotels
                                     </button>
                                 </div>
+                                <br/>
                             </div>
+                        <div className="col-sm-12 col-md-12">
+                            <Message message={this.state.message}/>
+
                         </div>
+
                     </div>
                 </div>
             </div>

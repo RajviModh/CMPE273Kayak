@@ -1,7 +1,7 @@
 var mysql = require('../mysql');
 var kafka = require('../kafka/client');
 
-var adminDashboard = function (req, res) {
+var adminViewFlightsChart = function (req, res) {
 
     console.log("in node ");
     kafka.make_request('adminView_topic', {
@@ -25,7 +25,29 @@ var adminDashboard = function (req, res) {
 
 };
 
-var adminViewCarsChart = function(req,res){
+/*var adminViewHotelsChart = function(req,res){
+    console.log("in node ");
+    kafka.make_request('adminView_topic', {
+        "hotelsChart" : 'hotelsChart'
+    }, function (err, results) {
+        console.log('in result');
+        console.log(results);
+        if (err) {
+            res.end('An error occurred');
+            console.log(err);
+        }
+        else {
+            res.status(201).json({
+                results: results.results,
+                status: '201'
+
+            });
+
+        }
+    })
+}*/
+
+/*var adminViewCarsChart = function(req,res){
     console.log("in node ");
     kafka.make_request('adminView_topic', {
         "carsChart" : 'carsChart'
@@ -46,30 +68,9 @@ var adminViewCarsChart = function(req,res){
         }
     })
 }
-
-var adminViewHotelsChart = function(req,res){
-    console.log("in node ");
-    kafka.make_request('adminView_topic', {
-        "hotelsChart" : 'hotelsChart'
-    }, function (err, results) {
-        console.log('in result');
-        console.log(results);
-        if (err) {
-            res.end('An error occurred');
-            console.log(err);
-        }
-        else {
-            res.status(201).json({
-                results: results.results,
-                status: '201'
-
-            });
-
-        }
-    })
-}
+*/
 
 
-exports.adminDashboard = adminDashboard;
-exports.adminViewCarsChart = adminViewCarsChart;
-exports.adminViewHotelsChart = adminViewHotelsChart;
+exports.adminViewFlightsChart = adminViewFlightsChart;
+//exports.adminViewCarsChart = adminViewCarsChart;
+//exports.adminViewHotelsChart = adminViewHotelsChart;

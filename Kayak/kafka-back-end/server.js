@@ -9,10 +9,16 @@ const carSearch = require('./services/car/carSearch');
 const carPickUpPointsSearch = require('./services/car/carPickUpPointsSearch');
 const carBook = require('./services/car/carBook');
 var sign_up = require('./services/signup');
+var updateOperations = require('./services/admin/updateOperations');
+var deleteOperations = require('./services/admin/deleteOperations');
+var viewOperations = require('./services/admin/viewOperations');
 
 var topic_name = 'login_topic';
 var adminAdd_topic = 'adminAdd_topic';
 var adminSearch_topic = 'adminSearch_topic';
+var adminUpdate_topic = 'adminUpdate_topic';
+var adminDelete_topic = 'adminDelete_topic';
+var adminView_topic = 'adminView_topic';
 var consumer = connection.getConsumer(topic_name);
 var producer = connection.getProducer();
 const hotelSearchTopic = 'hotelSearch';
@@ -32,6 +38,12 @@ var topic_signup = 'signup_topic';
 consumer.addTopics([adminAdd_topic], function (err, added) {
 });
 consumer.addTopics([adminSearch_topic], function (err, added) {
+});
+consumer.addTopics([adminUpdate_topic], function (err,added) {
+});
+consumer.addTopics([adminDelete_topic], function (err,added) {
+});
+consumer.addTopics([adminView_topic], function (err,added) {
 });
 consumer.addTopics([hotelSearchTopic], function (err, added) {
 });
@@ -93,7 +105,66 @@ consumer.on('message', function (message) {
             });
             return;
         });
-    } else if (message.topic === hotelSearchTopic) {
+    } else if(message.topic == adminUpdate_topic){
+        updateOperations.handle_request(data.data, function (err, res) {
+            console.log('after handle' + JSON.stringify(res));
+            var payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log(data);
+            });
+            return;
+        });
+    }
+    else if(message.topic == adminDelete_topic){
+        deleteOperations.handle_request(data.data, function (err, res) {
+            console.log('after handle' + JSON.stringify(res));
+            var payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log(data);
+            });
+            return;
+        });
+    }
+    else if(message.topic == adminView_topic){
+        viewOperations.handle_request(data.data, function (err, res) {
+            console.log('after handle' + JSON.stringify(res));
+            var payloads = [
+                {
+                    topic: data.replyTo,
+                    messages: JSON.stringify({
+                        correlationId: data.correlationId,
+                        data: res
+                    }),
+                    partition: 0
+                }
+            ];
+            producer.send(payloads, function (err, data) {
+                console.log(data);
+            });
+            return;
+        });
+    }
+
+
+    else if (message.topic === hotelSearchTopic) {
         const actualPayload = data;
         hotelSearch.handleRequest(actualPayload.data, function (error, response) {
             /*  Here, actualPayload.data points to the content in the message received on the API on kafka-front-end side i.e.:

@@ -418,8 +418,8 @@ export const adminDeleteCars = (payload) => {
 
 // -----------------------------------------------Admin Dashboard Operations-----------------------------------------------
 
-export const adminViewCityByRevenue = (payload) => {
-    return fetch(`${api}/adminViewCityByRevenue`, {
+export const adminViewFlightsChart = (payload) => {
+    return fetch(`${api}/adminViewFlightsChart`, {
             method: 'POST',
             headers: {
                 ...headers,
@@ -438,45 +438,9 @@ export const adminViewCityByRevenue = (payload) => {
         });
 };
 
-export const adminViewHotelsChart = (payload) => {
-    return fetch(`${api}/adminViewHotelsChart`, {
-            method: 'POST',
-            headers: {
-                ...headers,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        }
-    ).then(res => res.json())
-        .then(res => {
-            //alert("in api response : "+JSON.stringify(res));
-            return res;
-        })
-        .catch(error => {
-            console.log("This is error");
-            return error;
-        });
-};
 
-export const adminViewCarsChart = (payload) => {
-    return fetch(`${api}/adminViewCarsChart`, {
-            method: 'POST',
-            headers: {
-                ...headers,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        }
-    ).then(res => res.json())
-        .then(res => {
-            //alert("in api response : "+JSON.stringify(res));
-            return res;
-        })
-        .catch(error => {
-            console.log("This is error");
-            return error;
-        });
-};
+
+
 //----------------------------------------------------Hotel API calls---------------------------------------------------
 
 export const searchHotels = (payload) => {
