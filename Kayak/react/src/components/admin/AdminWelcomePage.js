@@ -379,7 +379,7 @@ class AdminWelcomePage extends Component {
                                         options={{
                                             title: {
                                                 display: true,
-                                                text: 'Top 10 properties by last year',
+                                                text: 'Top 10 Flight carriers by revenue/year',
                                                 fontSize: 20
                                             },
                                             maintainAspectRatio: false
@@ -392,7 +392,7 @@ class AdminWelcomePage extends Component {
                                     <Line data={this.state.flightschartData1} options={{
                                         title: {
                                             display: true,
-                                            text: 'City Wise Revenue',
+                                            text: 'Top 10 cities by revenue',
                                             fontSize: 20
                                         },
                                         maintainAspectRatio: false
@@ -404,7 +404,7 @@ class AdminWelcomePage extends Component {
                                 <Doughnut data={this.state.flightschartData2} options={{
                                     title: {
                                         display: true,
-                                        text: 'Top 10 properties by last month',
+                                        text: 'Top 10 Flight carriers by revenue/month',
                                         fontSize: 20
                                     },
                                     maintainAspectRatio: false
@@ -428,7 +428,7 @@ class AdminWelcomePage extends Component {
                                             options={{
                                                 title: {
                                                     display: true,
-                                                    text: 'Top 10 properties by last year',
+                                                    text: 'Top 10 Hotels by revenue/year',
                                                     fontSize: 20
                                                 },
                                                 maintainAspectRatio: false
@@ -441,7 +441,7 @@ class AdminWelcomePage extends Component {
                                         <Line data={this.state.hotelschartData1} options={{
                                             title: {
                                                 display: true,
-                                                text: 'City Wise Revenue',
+                                                text: 'Top 10 cities by revenue',
                                                 fontSize: 20
                                             },
                                             maintainAspectRatio: false
@@ -453,7 +453,7 @@ class AdminWelcomePage extends Component {
                                     <Doughnut data={this.state.hotelschartData2} height={300} options={{
                                         title: {
                                             display: true,
-                                            text: 'Top 10 properties by last month',
+                                            text: 'Top 10 Hotels by revenue/month',
                                             fontSize: 20
                                         },
                                         maintainAspectRatio: false
@@ -479,7 +479,7 @@ class AdminWelcomePage extends Component {
                                             options={{
                                                 title: {
                                                     display: true,
-                                                    text: 'Top 10 properties by last year',
+                                                    text: 'Top 10 Car companies by revenue/year',
                                                     fontSize: 20
                                                 },
                                                 maintainAspectRatio: false
@@ -492,7 +492,7 @@ class AdminWelcomePage extends Component {
                                         <Line data={this.state.carschartData1} options={{
                                             title: {
                                                 display: true,
-                                                text: 'City Wise Revenue',
+                                                text: 'Top 10 cities by revenue',
                                                 fontSize: 20
                                             },
                                             maintainAspectRatio: false
@@ -504,7 +504,7 @@ class AdminWelcomePage extends Component {
                                     <Doughnut data={this.state.carschartData2} height={300} options={{
                                         title: {
                                             display: true,
-                                            text: 'Top 10 properties by last month',
+                                            text: 'Top 10 Car companies by revenue/month',
                                             fontSize: 20
                                         },
                                         maintainAspectRatio: false

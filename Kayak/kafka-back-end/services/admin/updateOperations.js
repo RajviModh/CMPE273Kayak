@@ -9,13 +9,13 @@ function handle_request(msg, callback) {
         console.log("In handle request:" + JSON.stringify(msg));
 
         var updateHotelsQuery;
-
-        if(msg.columnName='name' || 'street'|| 'city' || "state" ||'stars' || 'freebies') {
+        console.log("---------------"+msg.columnName);
+        if(msg.columnName==='name' || msg.columnName==='street'|| msg.columnName==='city' || msg.columnName==="state" ||msg.columnName=='stars' || msg.columnName==='freebies') {
             console.log("################in first");
             updateHotelsQuery = "UPDATE kayak.hotel SET " + msg.columnName + " = '" + msg.newValue + "' where HID=" + msg.HID + "";
             console.log("Query is:" + updateHotelsQuery);
         }
-        else if(msg.columnName='type' || 'total_rooms' || 'rent')
+        else if(msg.columnName==='type' || msg.columnName==='total_rooms' || msg.columnName==='rent')
         {
             console.log("################in second");
             updateHotelsQuery = "UPDATE kayak.hotel_room SET " + msg.columnName + " = '" + msg.newValue + "' where HID=" + msg.HID + "";

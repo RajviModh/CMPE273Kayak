@@ -16,77 +16,89 @@ class AdminSearchHotels extends Component {
                 name: 'Hotel Id',
                 filterable: true,
                 editable: false,
-                sortable: true
+                sortable: true,
+                width:100,
+                height:500
             },
             {
                 key: 'name',
                 name: 'Hotel Name',
                 filterable: true,
                 editable: true,
-                sortable: true
+                sortable: true,
+                width:100
             },
             {
                 key: 'city',
                 name: 'City',
                 filterable: true,
                 editable: true,
-                sortable: true
+                sortable: true,
+                width:100
             },
             {
                 key: 'state',
                 name: 'State',
                 filterable: true,
                 editable: true,
-                sortable: true
+                sortable: true,
+                width:100
             },
             {
                 key: 'stars',
                 name: 'Star Ratings',
                 filterable: true,
                 editable: true,
-                sortable: true
+                sortable: true,
+                width:100
             },
             {
                 key: 'freebies',
                 name: 'Freebies',
                 filterable: true,
                 editable: true,
-                sortable: true
+                sortable: true,
+                width:100
             },
             {
                 key: 'RID',
                 name: 'Room Id',
                 filterable: true,
                 editable: false,
-                sortable: true
+                sortable: true,
+                width:100
             },
             {
                 key: 'type',
                 name: 'Room Type',
                 filterable: true,
                 editable: true,
-                sortable: true
+                sortable: true,
+                width:100
             },
             {
                 key: 'total_rooms',
                 name: 'Total Rooms',
                 filterable: true,
                 editable: true,
-                sortable: true
+                sortable: true,
+                width:100
             },
             {
                 key: 'rent',
                 name: 'Rent',
                 filterable: true,
                 editable: true,
-                sortable: true
+                sortable: true,
+                width:100
             },
             {
                 key: 'delete',
                 name: 'Delete',
                 filterable: true,
-                editable: true,
-                sortable: true
+                editable: false,
+                sortable: true,
+                width:200
             }
         ];
         this.state =
@@ -217,7 +229,7 @@ class AdminSearchHotels extends Component {
                 total_rooms:search[i].total_rooms,
                 rent:search[i].rent,
 
-                delete : <button className="btn btn-primary" onClick={() => this.adminDeleteHotels(search[i].HID)}>Delete</button>
+                delete : <button className="btn btn-primary" style={{height:20, paddingTop:0, paddingBottom:18}} onClick={() => this.adminDeleteHotels(search[i].HID)}>Delete</button>
 
             });
             // alert("rows" + JSON.stringify(rows));
@@ -225,16 +237,17 @@ class AdminSearchHotels extends Component {
         return rows;
     };
     getRows = () => {
-        return this.state.rows;
+        return Selectors.getRows(this.state);
     };
 
     getSize = () => {
-        return this.state.rows.length;
+        return this.getRows().length;
     };
 
     rowGetter = (rowIdx) => {
-        const rows = this.state.rows;
-        //alert("in row getter" + rows[rowIdx]);
+        // const rows = this.state.rows;
+        let rows = this.getRows();
+        // alert("in row getter" + JSON.stringify(rows[rowIdx])+"------------"+ JSON.stringify(rows));
         return rows[rowIdx];
     };
 
@@ -393,7 +406,7 @@ class AdminSearchHotels extends Component {
                             enableCellSelect={true}
                             columns={this._columns}
                             rowGetter={this.rowGetter}
-                            rowsCount={this.state.rows.length}
+                            rowsCount={this.getSize()}
                             minHeight={500}
                             toolbar={<Toolbar enableFilter={true}/>}
                             onAddFilter={this.handleFilterChange}

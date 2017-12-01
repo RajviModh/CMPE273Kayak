@@ -162,16 +162,17 @@ class AdminSearchUsers extends Component {
         return rows;
     };
     getRows = () => {
-        return this.state.rows;
+        return Selectors.getRows(this.state);
     };
 
     getSize = () => {
-        return this.state.rows.length;
+        return this.getRows().length;
     };
 
     rowGetter = (rowIdx) => {
-        const rows = this.state.rows;
-        //alert("in row getter" + rows[rowIdx]);
+        // const rows = this.state.rows;
+        let rows = this.getRows();
+        // alert("in row getter" + JSON.stringify(rows[rowIdx])+"------------"+ JSON.stringify(rows));
         return rows[rowIdx];
     };
 
@@ -249,7 +250,7 @@ class AdminSearchUsers extends Component {
                             enableCellSelect={true}
                             columns={this._columns}
                             rowGetter={this.rowGetter}
-                            rowsCount={this.state.rows.length}
+                            rowsCount={this.getSize()}
                             minHeight={500}
                             toolbar={<Toolbar enableFilter={true}/>}
                             onAddFilter={this.handleFilterChange}

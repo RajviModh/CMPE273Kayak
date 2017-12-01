@@ -45,7 +45,12 @@ class AdminHeader extends Component{
                                        </ul>
                                    </li>
                                     <li><Link to='/adminsearchusers'>Users</Link></li>
-                                    <li><Link to='/adminsearchbills'>Bills</Link></li>
+                                    <li> <a href="#" className="fh5co-sub-ddown">Search Bills</a>
+                                        <ul className="fh5co-sub-menu">
+                                            <li><Link to='/adminsearchbills'>By Month</Link></li>
+                                            <li><Link to='/adminsearchbills'>By Date</Link></li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
