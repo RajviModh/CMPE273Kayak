@@ -54,6 +54,34 @@ class AdminSearchHotels extends Component {
                 sortable: true
             },
             {
+                key: 'RID',
+                name: 'Room Id',
+                filterable: true,
+                editable: false,
+                sortable: true
+            },
+            {
+                key: 'type',
+                name: 'Room Type',
+                filterable: true,
+                editable: true,
+                sortable: true
+            },
+            {
+                key: 'total_rooms',
+                name: 'Total Rooms',
+                filterable: true,
+                editable: true,
+                sortable: true
+            },
+            {
+                key: 'rent',
+                name: 'Rent',
+                filterable: true,
+                editable: true,
+                sortable: true
+            },
+            {
                 key: 'delete',
                 name: 'Delete',
                 filterable: true,
@@ -73,7 +101,11 @@ class AdminSearchHotels extends Component {
                 city: '',
                 state:'',
                 stars:'',
-                freebies:''
+                freebies:'',
+                RID:'',
+                type:'',
+                total_rooms:'',
+                rent:''
             };
     }
 
@@ -86,12 +118,12 @@ class AdminSearchHotels extends Component {
 
         API.adminViewHotels(flightdata)
             .then((res) => {
-                alert("in Admin view" + JSON.stringify(res));
+                //alert("in Admin view" + JSON.stringify(res));
                 if (res.status === '201') {
                     console.log("in 201");
-                    alert("searchResult:"+JSON.stringify(res.results));
+                    //alert("searchResult:"+JSON.stringify(res.results));
                     let rows = this.createRows(res.results);
-                    alert("BeforeStateSetting:" + JSON.stringify(rows));
+                    //alert("BeforeStateSetting:" + JSON.stringify(rows));
                     this.setState({
                         searchResult: res.results,
                         rows: rows
@@ -142,7 +174,7 @@ class AdminSearchHotels extends Component {
 
     adminDeleteHotels =(hoteldata) => {
         alert("in delete" + JSON.stringify(hoteldata));
-        var payload={hId:hoteldata};
+        var payload={HID:hoteldata};
         API.adminDeleteHotels(payload)
             .then((res) => {
                 if (res.status === '201') {
@@ -180,8 +212,12 @@ class AdminSearchHotels extends Component {
                 state : search[i].state,
                 stars: search[i].stars,
                 freebies: search[i].freebies,
+                RID:search[i].RID,
+                type:search[i].type,
+                total_rooms:search[i].total_rooms,
+                rent:search[i].rent,
 
-                delete : <button className="btn btn-primary" onClick={() => this.adminDeleteHotels(search[i].hId)}>Delete</button>
+                delete : <button className="btn btn-primary" onClick={() => this.adminDeleteHotels(search[i].HID)}>Delete</button>
 
             });
             // alert("rows" + JSON.stringify(rows));
@@ -206,8 +242,7 @@ class AdminSearchHotels extends Component {
         this.setState({sortColumn: sortColumn, sortDirection: sortDirection});
     };
 
-    handleGridRowsUpdated = ({ e }) => {
-        const { fromRow, toRow, updated } = e;
+    handleGridRowsUpdated = ({ fromRow, toRow, updated }) => {
         let rows = this.state.rows.slice();
         let updatedRow;
         // this.rowGetter();
@@ -230,7 +265,7 @@ class AdminSearchHotels extends Component {
         //Get value from JSON Object
         var newValue = updated[columnName]
 
-        var payload = {hId:updatedRow.hId, newValue:newValue, columnName:columnName};
+        var payload = {HID:updatedRow.HID, newValue:newValue, columnName:columnName};
         console.log("========== payload : " + JSON.stringify(payload));
 
         //-------------------------------------API Call
@@ -240,7 +275,8 @@ class AdminSearchHotels extends Component {
                 if (res.status === '201') {
                     console.log("in 201");
                     this.setState({
-                        message: "Record updated successfully"
+                        message: "Record updated successfully",
+                        columnName:''
 
                     });
 

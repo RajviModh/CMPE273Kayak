@@ -67,9 +67,9 @@ app.post('/adminViewFlights',adminViewFlights.viewFlights);
 app.post('/adminViewCars',adminViewCars.viewCars);
 app.post('/adminViewUsers',adminViewUsers.viewUsers);
 
-app.post('/adminViewCityByRevenue',adminDashboard.adminDashboard);
-app.post('/adminViewHotelsChart',adminDashboard.adminViewHotelsChart);
-app.post('/adminViewCarsChart',adminDashboard.adminViewCarsChart);
+app.post('/adminViewFlightsChart',adminDashboard.adminViewFlightsChart);
+//app.post('/adminViewHotelsChart',adminDashboard.adminViewHotelsChart);
+//app.post('/adminViewCarsChart',adminDashboard.adminViewCarsChart);
 
 app.post('/login',function(req, res,next) {
     console.log("username in app" + JSON.stringify(req.body));

@@ -4,10 +4,10 @@ function handle_request(msg, callback) {
 
     var res = {};
 
-    if (msg.hasOwnProperty('hId')) {
+    if (msg.hasOwnProperty('HID')) {
         console.log("in delete operations of kafka back-end");
         console.log("In handle request:" + JSON.stringify(msg));
-        var deleteHotelsQuery = "DELETE from kayak.hotels WHERE hId='"+msg.hId+"'";
+        var deleteHotelsQuery = "DELETE from kayak.hotel WHERE HID='"+msg.HID+"'";
         console.log("Query is:" + deleteHotelsQuery);
 
         mysql.fetchData(function (err, results) {

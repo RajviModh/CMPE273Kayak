@@ -3,7 +3,7 @@ var mysql = require('../mysql');
 function handle_request(msg, callback) {
     var res = {};
     if (msg.hasOwnProperty('hotel')) {
-        var viewHotelsQuery = "select * from kayak.hotel";
+        var viewHotelsQuery = "select hotel.HID, `name`, street, city, state, stars, freebies, RID, `type`, total_rooms, rent from kayak.hotel left join kayak.hotel_room on hotel.HID=hotel_room.HID order by hotel.HID";
 
         console.log("Query is:" + viewHotelsQuery);
 
@@ -96,17 +96,23 @@ function handle_request(msg, callback) {
 
 
 
-        var query = " select SUM(flight_booking.fare) as fare, flight.airline_name from kayak.flight_booking inner join kayak.flight where flight.f_id = flight_booking.f_id AND MONTH(flight_booking.flight_date_s)='11' group by flight.airline_name limit 10";
+        var query = "CALL kayak.admin_stuff()";
         console.log("Query is:" + query);
 
 
         mysql.fetchData(function (err, results) {
             if (!err) {
-                console.log("After sql query, in results : " + results) ;
+                let responseData = [results[0], results[1], results[2], results[3], results[4], results[5], results[6], results[7], results[8]];
+                console.log(responseData[0]);
+                console.log(responseData[1]);
+                console.log(responseData[2]);
+                console.log(responseData[3]);
+                console.log(responseData[4]);
+                console.log(responseData[5]);
 
                 res.code = "200";
                 res.value = "Searched Successfully";
-                res.results=results;
+                res.results=responseData;
 
             }
             else {
@@ -118,54 +124,7 @@ function handle_request(msg, callback) {
         }, query);
 
     }
-    else if (msg.hasOwnProperty('carsChart')) {
 
-       var query = "select `to`, fare_e from kayak.flight";
-       console.log("Query is:" + query);
-
-        //var secondquery = "select flight_booking.fare, flight.`from` from flight inner join flight_booking";
-
-        mysql.fetchData(function (err, results) {
-            if (!err) {
-                console.log("After sql query, in results : " + results) ;
-
-                res.code = "200";
-                res.value = "Searched Successfully";
-                res.results=results;
-
-            }
-            else {
-                res.code = "401";
-                res.value = "Failed";
-            }
-            callback(null, res);
-
-        }, query);
-
-    }
-    else if (msg.hasOwnProperty('hotelsChart')) {
-
-        var query = "select `from`, fare_e from kayak.flight";
-        console.log("Query is:" + query);
-        //var secondquery = "select flight_booking.fare, flight.`from` from flight inner join flight_booking";
-        mysql.fetchData(function (err, results) {
-            if (!err) {
-                console.log("After sql query, in results : " + results) ;
-
-                res.code = "200";
-                res.value = "Searched Successfully";
-                res.results=results;
-
-            }
-            else {
-                res.code = "401";
-                res.value = "Failed";
-            }
-            callback(null, res);
-
-        }, query);
-
-    }
 
 }
 exports.handle_request = handle_request;

@@ -417,8 +417,8 @@ export const adminDeleteCars = (payload) => {
 
 // -----------------------------------------------Admin Dashboard Operations-----------------------------------------------
 
-export const adminViewCityByRevenue = (payload) => {
-    return fetch(`${api}/adminViewCityByRevenue`, {
+export const adminViewFlightsChart = (payload) => {
+    return fetch(`${api}/adminViewFlightsChart`, {
             method: 'POST',
             headers: {
                 ...headers,

@@ -4,14 +4,26 @@ function handle_request(msg, callback) {
 
     var res = {};
 
-    if (msg.hasOwnProperty('hId')) {
+    if (msg.hasOwnProperty('HID')) {
         console.log("in update operations of kafka back-end");
         console.log("In handle request:" + JSON.stringify(msg));
-        var updateHotelsQuery = "UPDATE kayak.hotels SET " + msg.columnName + " = '"+msg.newValue+"' where hId="+msg.hId+"";
-        console.log("Query is:" + updateHotelsQuery);
 
+        var updateHotelsQuery;
+
+        if(msg.columnName='name' || 'street'|| 'city' || "state" ||'stars' || 'freebies') {
+            console.log("################in first");
+            updateHotelsQuery = "UPDATE kayak.hotel SET " + msg.columnName + " = '" + msg.newValue + "' where HID=" + msg.HID + "";
+            console.log("Query is:" + updateHotelsQuery);
+        }
+        else if(msg.columnName='type' || 'total_rooms' || 'rent')
+        {
+            console.log("################in second");
+            updateHotelsQuery = "UPDATE kayak.hotel_room SET " + msg.columnName + " = '" + msg.newValue + "' where HID=" + msg.HID + "";
+            console.log("Query is:" + updateHotelsQuery);
+        }
         mysql.fetchData(function (err, results) {
             if (!err) {
+                msg.columnName='';
                 console.log("After sql query, in results : " + results);
 
                 res.code = "200";
