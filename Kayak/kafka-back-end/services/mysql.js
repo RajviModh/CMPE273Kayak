@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-
+var bcrypt = require('bcrypt');
 
 var pool = mysql.createPool({
     connectionLimit: 100,
@@ -47,5 +47,18 @@ var setData = function (callback, sqlQuery, data) {
 
 };
 
-exports.fetchData = fetchData;
+var hashing = function(passwd) {
+    var salt = bcrypt.genSaltSync(10);
+    var newPass = bcrypt.hashSync(passwd, salt);
+    return newPass;
+};
+
+var compareHashed = function(passwd,hash){
+    return bcrypt.compareSync(passwd, hash);
+};
+
+exports.hashing=hashing;
+exports.compareHashed=compareHashed;
+
+exports.fetchData=fetchData;
 exports.setData = setData;
