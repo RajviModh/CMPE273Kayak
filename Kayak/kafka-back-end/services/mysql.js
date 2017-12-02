@@ -5,7 +5,7 @@ var pool = mysql.createPool({
     connectionLimit: 100,
     host: '127.0.0.1',
     user: 'root',
-    password: 'iamatsjsu1',
+    password: '9998',
     database: 'kayak',
     port: 3306,
     debug: false
@@ -17,6 +17,10 @@ function fetchData(callback, sqlQuery, data) {
     console.log("\nSQL Query::" + sqlQuery);
 
     pool.getConnection(function (err, connection) {
+        if (err) {
+            console.log(err);
+            throw err;
+        }
         connection.query(sqlQuery, data, function (err, rows) {
 
             if (err) {
