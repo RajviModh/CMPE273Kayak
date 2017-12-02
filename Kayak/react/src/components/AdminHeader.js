@@ -11,6 +11,7 @@ import AdminSearchFlights from "./admin/AdminSearchFlights";
 import AdminSearchCars from "./admin/AdminSearchCars";
 import AdminSearchUsers from "./admin/AdminSearchUsers";
 import AdminSearchBills from "./admin/AdminSearchBills";
+import logo from '../images/logo.png'
 
 import AdminViewUsers from "./admin/AdminViewUsers";
 
@@ -19,11 +20,11 @@ class AdminHeader extends Component{
     render() {
         return (
             <div>
-                <header id="fh5co-header-section" className="sticky-banner">
-                    <div className="container">
+
+                    <div className="container" style={{height:0, margin: 0, marginLeft: 240, marginRight: 240}}>
                         <div className="nav-header">
                             <a href="#" className="js-fh5co-nav-toggle fh5co-nav-toggle dark"/>
-                            <h1 id="fh5co-logo"><a href="#"><i className="icon-airplane"/>KAYAK</a></h1>
+                            <h1 id="fh5co-logo"><a href="#"><img src={logo} style={{height:27, width:126}}/> </a></h1>
 
                             <nav id="fh5co-menu-wrap" role="navigation">
                                 <ul className="sf-menu" id="fh5co-primary-menu">
@@ -55,7 +56,7 @@ class AdminHeader extends Component{
                             </nav>
                         </div>
                     </div>
-                </header>
+
 
                 <Route exact path="/admin" render={() => (
                     <div>

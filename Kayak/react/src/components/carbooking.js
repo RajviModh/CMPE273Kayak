@@ -21,7 +21,7 @@ var optStyle1 = {height: 30}
 var padding = {padding: 0}
 var btnStyle = {height: 40, width: 20}
 var btnStyle1 = {height: 30, textAlign: "center"}
-var borderStyle = {border: "thin solid #ff5c24", padding: 0}
+var borderStyle = {border: "thin solid #F78536", padding: 0}
 
 var imgs = ["../images/car-2.jpg", "../images/car-3.jpg", "../images/car-4.jpg", "../images/car-5.jpg"];
 

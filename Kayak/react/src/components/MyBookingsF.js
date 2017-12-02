@@ -6,7 +6,7 @@ var padding = {padding:0}
 
 var align = {float:'left'}
 
-var color = {color:"#ff5c24"}
+var color = {color:"#F78536",'text-align':'right'}
 
 var left = {'text-align':'left'}
 
@@ -26,7 +26,7 @@ class MyBookingsF extends Component{
             .then(function (response) {
                 console.log("res",response);
                 console.log("res data",response.data);
-                self.setState({flight_bookings:response.data.data})
+                self.setState({flight_booking:response.data})
             })
             .catch(function (error) {
                 console.log(error);
@@ -38,55 +38,24 @@ class MyBookingsF extends Component{
         return(
             <div className="search-page" style={padding}>
                 <div className="container">
-                    {/*<div className="search-grids">
-                        <div className="col-md-3">
+                    <div className="search-grids">
+                        <div className="col-md-3 search-grid-left">
 
                         </div>
 
-                    </div>*/}
-                    <div><br/></div>
-                    <div className="col-md-12 ">
-                        <table id="tableMenu" className="table">
-                            <tbody>
-                            <tr>
-                                <th style={color}>Booking ID </th>
-                                <th style={color}>Booked On</th>
-                                <th style={color}>Flight ID </th>
-                                <th style={color}>Airline </th>
-                                <th style={color}><tr>Departure City</tr><tr>(Time)</tr></th>
-                                <th style={color}><tr>Arrival City</tr><tr>(Time)</tr></th>
-                                <th style={color}>Duration</th>
-                                <th style={color}>Journey Date</th>
-                                <th style={color}><tr>Seats</tr><tr>(Economy/Business/First)</tr></th>
-                                <th style={color}>Name</th>
-                                <th style={color}>Age</th>
-                            </tr>
-                            </tbody>
-                        </table>
-                        {this.state.flight_bookings.map(flight=>
-                            <div className="row" style={padding}>
+                    </div>
 
-                                    <table id="tableMenu" className="table">
-                                        <tbody>
-                                        <tr >
-                                            <td style={padding}>{flight.bid}</td>
-                                            <td style={padding}>{flight.booking_date.slice(0,10)}</td>
-                                            <td style={padding}>{flight.f_id}</td>
-                                            <td style={padding}>{flight.airline_name}</td>
-                                            <td style={padding}><tr>{flight.from}</tr><tr>{flight.time_s}</tr></td>
-                                            <td style={padding}><tr>{flight.to}</tr><tr>{flight.time_e}</tr></td>
-                                            <td style={padding}>{flight.duration}</td>
-                                            <td style={padding}>{flight.flight_date_s.slice(0,10)}</td>
-                                            <td style={padding}>{flight.booked_seats_e}/{flight.booked_seats_b}/{flight.booked_seats_f}</td>
-                                            <td style={padding}>{flight.p_name}</td>
-                                            <td style={padding}>{flight.p_age}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                    <div className="col-md-9 ">
+                        <table>
+                            <tr>
+                                <th></th>
+                            </tr>
+                        {this.state.flight_bookings.map(flight=>
+                            <div>
 
                             </div>
                         )}
-
+                        </table>
                     </div>
 
                     <div className="col-md-7 ">

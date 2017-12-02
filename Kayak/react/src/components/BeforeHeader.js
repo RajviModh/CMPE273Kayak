@@ -34,8 +34,7 @@ class BeforeHeader extends Component{
                         localStorage.setItem("isUser",true)
                         alert(localStorage.getItem("isUser"))
                         this.close('login')
-                        //self.props.history.push('/')
-                        window.location.replace('/');
+                        self.props.history.push('/')
                     } else if (res.status === '401') {
                         localStorage.setItem("isLoggedIn",false)
                         alert(localStorage.getItem("isLoggedIn"))

@@ -26,12 +26,14 @@ import MyBookingsH from './MyBookingsH';
 import MyBookingsC from './MyBookingsC';
 import axios from "axios";
 import {connect} from "react-redux";
+import car from '../images/car.svg';
+import hotel from '../images/hotel.svg';
+import flight from '../images/flight.svg';
 
 var abc = {backgroundImage: '../images/cover_bg_1.jpg'};
-var w = {width: 80, height: 40, color: "black"}
 var hoteldata = {}, cardata = {};
 
-var color = {color: "black"}
+var color = {color: "black", width:150, height:42}
 
 var date = new Date();
 date.setDate(date.getDate() - 1, 'YYYY-MM-DD');
@@ -495,9 +497,9 @@ class NewerHomePage extends Component {
             <div id="fh5co-wrapper">
                 <div id="fh5co-page">
 
-                    {/*<AdminHeader/>*/}
+                    <AdminHeader/>
 
-                   {this.state.isLoggedIn ? (this.state.isUser ? <UserHeader/> : <AdminHeader/>) : <BeforeHeader/>}
+                   {/* {this.state.isLoggedIn ? (this.state.isUser ? <UserHeader/> : <AdminHeader/>) : <BeforeHeader/>}*/}
 
                     <Route exact path="/" render={() => (
 
@@ -507,27 +509,215 @@ class NewerHomePage extends Component {
                                 <div className="desc">
                                     <div className="container">
                                         <div className="row">
+
+                                            <div className="col-sm-4 col-md-4"></div>
+                                            <div className="col-sm-5 col-md-5">
+                                                <div className="tabbable-panel">
+                                                    <div className="tabbable-line">
+
+                                                            <ul className="nav nav-tabs ">
+                                                                <li className="active">
+                                                                    <a href="#flights" data-toggle="tab"><img src={flight}/> Flights</a></li>
+                                                                <li>  <a href="#hotels" data-toggle="tab"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="17" fill="currentColor" viewBox="0 0 25 17"><path d="M2 14.77h21v2H2z"></path><path d="M6 7.07V6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1.07h1V6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1.07h2V0H4v7.07h2zM21 8.67H4a4.06 4.06 0 0 0-4 4.07v2.43h25v-2.43a4.06 4.06 0 0 0-4-4.07z"></path></svg> Hotels</a></li>
+
+                                                                <li>  <a href="#packages" data-toggle="tab"><img src={car}/>Cars</a></li>
+                                                            </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div className="col-sm-5 col-md-5">
                                                 <div className="tabulation animate-box">
 
+                                                   {/* <ul className="nav nav-tabs ">
+                                                        <li className="active">
 
-                                                    <ul className="nav nav-tabs" role="tablist">
-                                                        <li role="presentation" className="active">
                                                             <a href="#flights" aria-controls="flights" role="tab"
-                                                               data-toggle="tab">Flights</a>
-                                                        </li>
-                                                        <li role="presentation">
-                                                            <a href="#hotels" aria-controls="hotels" role="tab"
-                                                               data-toggle="tab">Hotels</a>
-                                                        </li>
-                                                        <li role="presentation">
-                                                            <a href="#packages" aria-controls="packages" role="tab"
-                                                               data-toggle="tab">Cars</a>
-                                                        </li>
-                                                    </ul>
+                                                               data-toggle="tab">Flights</a></li>
+
+
+                                                        <li>  <a href="#hotels" aria-controls="hotels" role="tab"
+                                                                 data-toggle="tab">Hotels</a></li>
+
+                                                        <li>  <a href="#packages" aria-controls="packages" role="tab"
+                                                                 data-toggle="tab">Cars</a></li>
+
+                                                    </ul>*/}
                                                     <div className="tab-content">
                                                         <div role="tabpanel" className="tab-pane active"
                                                              id="flights">
+
+
+
+                                                            <div className="row">
+                                                                <div className="col-md-12 col-xs-12">
+                                                                    <div className="row">
+
+                                                                        <div className="col-sm-1" style={{padding:0, marginRight: 25}}>
+                                                                        <select style={{color: "black", width:100, height:42}}
+                                                                                onChange={(event) => {
+                                                                                    this.props.setSelectedFrom(event.target.value);
+                                                                                    this.setState({selectedFrom: event.target.value})
+                                                                                }}
+                                                                                className="cs-select cs-skin-border"
+                                                                                name="" id="selectedFrom">
+                                                                            <option style={{color: "black", width:150, height:42}} name="" id="">City
+                                                                            </option>
+                                                                            {
+                                                                                /*this.state.fromCity.map(city=>
+                                                                                    <option style={color} value={city}>{city}</option>
+
+                                                                                )*/
+                                                                                this.props.select.fromCity.map(city=>
+                                                                                    <option style={{color: "black", width:150, height:42}} value={city}>{city}</option>
+
+                                                                                )
+                                                                            }
+
+                                                                        </select>
+                                                                        </div>
+
+                                                                        <div className="col-sm-1" style={{padding:0, marginRight: 25}}>
+                                                                            <select style={{color: "black", width:100, height:42}}
+                                                                                    onChange={(event) => {
+                                                                                        this.props.setSelectedTo(event.target.value);
+                                                                                        this.setState({selectedTo: event.target.value})
+                                                                                    }}
+                                                                                    className="cs-select cs-skin-border"
+                                                                                    name="" id="selectedTo">
+                                                                                <option style={{color: "black", width:150, height:42}} name="" id="">City
+                                                                                </option>
+                                                                                {
+                                                                                    /*this.state.toCity.map(city=>
+                                                                                        <option style={color} value={city}>{city}</option>
+
+                                                                                    )*/
+                                                                                    this.props.select.toCity.map(city=>
+                                                                                        <option style={{color: "black", width:150, height:42}} value={city}>{city}</option>
+
+                                                                                    )
+                                                                                }
+
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div className="col-sm-2" style={{ padding:0, marginRight:10}}>
+                                                                            <div className="input-field" style={{color: "black", width:170, height:42}}>
+                                                                                <DateTimeField mode="date"
+                                                                                               dateTime={this.state.goingDate}
+                                                                                               minDate={this.state.startDate}
+                                                                                               defaultText="Departure"
+                                                                                               format={this.state.format}
+                                                                                               viewMode={this.state.mode}
+                                                                                               inputFormat={this.state.inputFormat}
+                                                                                               onChange={this.handleChange}/>
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                        {
+                                                                            this.state.return_enable
+                                                                                ?
+                                                                                <div className="col-sm-2" style={{padding:0}}>
+                                                                                    <div className="input-field" style={{color: "black", width:170, height:42}}>
+
+                                                                                            <DateTimeField mode="date"
+                                                                                                           dateTime={this.state.comingDate}
+                                                                                                           minDate={this.state.startDate}
+                                                                                                           defaultText="Arrival"
+                                                                                                           format={this.state.format}
+                                                                                                           viewMode={this.state.mode}
+                                                                                                           inputFormat={this.state.inputFormat}
+                                                                                                           onChange={this.handleChange1}/>
+
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                :
+                                                                                null
+                                                                        }
+
+                                                                        <div className="col-sm-2" style={{padding:0, marginLeft:10}}>
+                                                                            <section>
+                                                                                {/*<select className="cs-select cs-skin-border">
+                                                                            <option value="" disabled selected>Economy
+                                                                            </option>
+                                                                            <option value="economy">Economy</option>
+                                                                            <option value="first">First</option>
+                                                                            <option value="business">Business</option>*/}
+
+
+
+                                                                                <select style={{color: "black", width:180, height:42}}
+                                                                                        onChange={(event) => this.setState({selectedClass: event.target.value})}
+                                                                                        className="cs-select cs-skin-border"
+                                                                                        name="" id="category">
+                                                                                    <option style={color}
+                                                                                            value="class">Class
+                                                                                    </option>
+                                                                                    <option style={color}
+                                                                                            value="economy">Economy
+                                                                                    </option>
+                                                                                    <option style={color}
+                                                                                            value="first">First
+                                                                                    </option>
+                                                                                    <option style={color}
+                                                                                            value="business">Business
+                                                                                    </option>
+                                                                                </select>
+
+                                                                            </section>
+                                                                        </div>
+
+                                                                        <div className="col-xs-1" style={{padding:0, marginLeft:18}}>
+
+
+                                                                                <input style={{color: "black", width:70, height:42, padding:0}} type='number' min='0'
+                                                                                       id="noAdults" onChange={(event) => {
+                                                                                    this.setState({
+                                                                                        noAdults: event.target.value
+                                                                                    });
+
+                                                                                }}
+                                                                                />
+
+                                                                        </div>
+                                                                        <div className="col-xs-1" style={{padding:0}}>
+                                                                            <section>
+
+                                                                                <input style={{color: "black", width:70, height:42, padding:0}} type='number' min='0'
+                                                                                       id="noChild"
+                                                                                       onChange={(event) => {
+                                                                                           this.setState({
+                                                                                               noChild: event.target.value
+                                                                                           });
+
+                                                                                       }}
+                                                                                />
+                                                                            </section>
+                                                                        </div>
+                                                                        <div className="col-xs-2" style={{padding:0, width:70}}>
+                                                                        <button className="btn btn-primary btn-block"
+                                                                                style={{padding:0, height:42}}
+                                                                                onClick={() => this.searchFlight()}>
+                                                                            -->
+                                                                        </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+
+
+                                                                <div className="col-xs-12">
+
+                                                                    {/*<input type="submit"
+                                                                           className="btn btn-primary btn-block"
+                                                                           value="Search Flight"/>*/}
+                                                                </div>
+                                                            </div>
+                                                            <br/>
+
                                                             <div className="row">
                                                                 <label><input type="radio" name="optradio"
                                                                               onChange={() => {
@@ -541,195 +731,25 @@ class NewerHomePage extends Component {
                                                                                   localStorage.setItem("return_enable", true);
                                                                                   this.setState({return_enable: true})
                                                                               }}/>Round-Trip</label>
+
                                                             </div>
-                                                            <div className="row">
-                                                                <br/>
-                                                            </div>
-                                                            <div className="row">
-                                                                <br/>
-                                                            </div>
-                                                            <div className="row">
-                                                                <div className="col-xxs-12 col-xs-6 mt">
-                                                                    <div className="input-field">
-                                                                        <label for="from">From:</label>
-                                                                        <select style={color}
-                                                                                onChange={(event) => {
-                                                                                    this.props.setSelectedFrom(event.target.value);
-                                                                                    this.setState({selectedFrom: event.target.value})
-                                                                                }}
-                                                                                className="cs-select cs-skin-border"
-                                                                                name="" id="selectedFrom">
-                                                                            <option style={color} name="" id="">City
-                                                                            </option>
-                                                                            {
-                                                                                /*this.state.fromCity.map(city=>
-                                                                                    <option style={color} value={city}>{city}</option>
 
-                                                                                )*/
-                                                                                this.props.select.fromCity.map(city=>
-                                                                                    <option style={color} value={city}>{city}</option>
-
-                                                                                )
-                                                                            }
-
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-xxs-12 col-xs-6 mt">
-                                                                    <div className="input-field">
-                                                                        <label for="from">To:</label>
-
-                                                                        <select style={color}
-                                                                                onChange={(event) => {
-                                                                                    this.props.setSelectedTo(event.target.value);
-                                                                                    this.setState({selectedTo: event.target.value})
-                                                                                }}
-                                                                                className="cs-select cs-skin-border"
-                                                                                name="" id="selectedTo">
-                                                                            <option style={color} name="" id="">City
-                                                                            </option>
-                                                                            {
-                                                                                /*this.state.toCity.map(city=>
-                                                                                    <option style={color} value={city}>{city}</option>
-
-                                                                                )*/
-                                                                                this.props.select.toCity.map(city=>
-                                                                                    <option style={color} value={city}>{city}</option>
-
-                                                                                )
-                                                                            }
-
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-xxs-12 col-xs-6 mt alternate">
-                                                                    <div className="input-field">
-                                                                        <label for="date-start">Going Date</label>
-                                                                        <div className="input-field">
-                                                                            <DateTimeField mode="date"
-                                                                                           dateTime={this.state.goingDate}
-                                                                                           minDate={this.state.startDate}
-                                                                                           defaultText="Departure Date"
-                                                                                           format={this.state.format}
-                                                                                           viewMode={this.state.mode}
-                                                                                           inputFormat={this.state.inputFormat}
-                                                                                           onChange={this.handleChange}/>
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                {
-                                                                    this.state.return_enable
-                                                                        ?
-                                                                        <div
-                                                                            className="col-xxs-12 col-xs-6 mt alternate">
-                                                                            <div className="input-field">
-                                                                                <label for="date-end">Coming
-                                                                                    Date:</label>
-                                                                                <div className="input-field">
-                                                                                    <DateTimeField mode="date"
-                                                                                                   dateTime={this.state.comingDate}
-                                                                                                   minDate={this.state.startDate}
-                                                                                                   defaultText="Arrival Date"
-                                                                                                   format={this.state.format}
-                                                                                                   viewMode={this.state.mode}
-                                                                                                   inputFormat={this.state.inputFormat}
-                                                                                                   onChange={this.handleChange1}/>
-
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        :
-                                                                        null
-                                                                }
-                                                                <div className="col-sm-12 mt">
-                                                                    <section>
-                                                                        <label for="class">Class:</label>
-                                                                        {/*<select className="cs-select cs-skin-border">
-                                                                            <option value="" disabled selected>Economy
-                                                                            </option>
-                                                                            <option value="economy">Economy</option>
-                                                                            <option value="first">First</option>
-                                                                            <option value="business">Business</option>*/}
-
-                                                                        <label for="Class">class:</label>
-
-                                                                        <select style={color}
-                                                                                onChange={(event) => this.setState({selectedClass: event.target.value})}
-                                                                                className="cs-select cs-skin-border"
-                                                                                name="" id="category">
-                                                                            <option style={color}
-                                                                                    value="class">Class
-                                                                            </option>
-                                                                            <option style={color}
-                                                                                    value="economy">Economy
-                                                                            </option>
-                                                                            <option style={color}
-                                                                                    value="first">First
-                                                                            </option>
-                                                                            <option style={color}
-                                                                                    value="business">Business
-                                                                            </option>
-                                                                        </select>
-
-                                                                    </section>
-                                                                </div>
-                                                                <div className="col-xxs-12 col-xs-6 mt">
-                                                                    <section>
-                                                                        <label for="class">Adult:</label>
-                                                                        <input style={color} type='number'
-                                                                               id="noAdults" onChange={(event) => {
-                                                                            this.setState({
-                                                                                noAdults: event.target.value
-                                                                            });
-
-                                                                        }}
-                                                                        />
-                                                                    </section>
-                                                                </div>
-                                                                <div className="col-xxs-12 col-xs-6 mt">
-                                                                    <section>
-                                                                        <label for="class">Children:</label>
-                                                                        <input style={color} type='number'
-                                                                               id="noChild"
-                                                                               onChange={(event) => {
-                                                                                   this.setState({
-                                                                                       noChild: event.target.value
-                                                                                   });
-
-                                                                               }}
-                                                                        />
-                                                                    </section>
-                                                                </div>
-                                                                <div className="col-xs-12">
-                                                                    <button className="btn btn-primary btn-block"
-                                                                            onClick={() => this.searchFlight()}>Search
-                                                                        Flight
-                                                                    </button>
-                                                                    {/*<input type="submit"
-                                                                           className="btn btn-primary btn-block"
-                                                                           value="Search Flight"/>*/}
-                                                                </div>
-                                                            </div>
                                                         </div>
 
                                                         <div role="tabpanel" className="tab-pane" id="hotels">
                                                             <div className="row">
-                                                                <div className="col-xxs-12 col-xs-12 mt">
+                                                                <div className="col-xs-12 col-sm-12 col-md-12">
+                                                                    <div className="col-xs-3 col-md-3" style={{padding:0, marginRight:5}}>
                                                                     <div className="input-field">
-                                                                        <label for="from">City:</label>
                                                                         <input type="text" className="form-control"
                                                                                id="city"
                                                                                placeholder="Los Angeles, USA"
                                                                                onChange={(event) => hoteldata["city"] = event.target.value}/>
                                                                     </div>
-                                                                </div>
-                                                                <div className="col-xxs-12 col-xs-6 mt alternate">
-                                                                    <div className="input-field">
-                                                                        <label for="date-start" id="">Check
-                                                                            in:</label>
-                                                                        <div className="input-field"
-                                                                             id="checkindate">
+                                                                    </div>
+                                                                    <div className="col-xs-3 col-md-3" style={{padding:0, marginRight:5, width:200}}>
+
+                                                                        <div className="input-field" id="checkindate">
                                                                             <DateTimeField mode="date"
                                                                                            dateTime={this.state.goingDate}
                                                                                            minDate={this.state.startDate}
@@ -740,67 +760,67 @@ class NewerHomePage extends Component {
                                                                                            onChange={this.handlehotelChange}/>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="col-xxs-12 col-xs-6 mt alternate">
-                                                                    <div className="input-field">
-                                                                        <label for="date-end" id="checkoutdate">Check
-                                                                            Out:</label>
-                                                                        <div className="input-field">
-                                                                            <DateTimeField id="checkoutdate"
-                                                                                           mode="date"
-                                                                                           dateTime={this.state.goingDate}
-                                                                                           minDate={this.state.startDate}
-                                                                                           defaultText="Check out date"
-                                                                                           format={this.state.format}
-                                                                                           viewMode={this.state.mode}
-                                                                                           inputFormat={this.state.inputFormat}
-                                                                                           onChange={this.handlehotelChange1}/>
+                                                                    <div className="col-xs-3 col-md-3" style={{padding:0,width:200, marginRight:5}}>
+                                                                            <div className="input-field">
+                                                                                <DateTimeField id="checkoutdate"
+                                                                                               mode="date"
+                                                                                               dateTime={this.state.goingDate}
+                                                                                               minDate={this.state.startDate}
+                                                                                               defaultText="Check out date"
+                                                                                               format={this.state.format}
+                                                                                               viewMode={this.state.mode}
+                                                                                               inputFormat={this.state.inputFormat}
+                                                                                               onChange={this.handlehotelChange1}/>
 
+                                                                            </div>
+                                                                    </div>
+                                                                    <div className="col-xs-2 col-md-2" style={{padding:0, marginRight:5}}>
+                                                                        <div className="input-field">
+                                                                        <input placeholder="Rooms" style={{width: 160, height: 40, color: "orange"}}
+                                                                               className='form-control'
+                                                                               type='number'
+                                                                               id="noofrooms" min="0" onChange={(event) => {
+                                                                            hoteldata["requiredNoOfRooms"] = Number(event.target.value)
+                                                                        }}
+                                                                        />
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="col-sm-12 mt">
-                                                                    <input placeholder="Rooms" style={w}
-                                                                           type='number'
-                                                                           id="noofrooms" onChange={(event) => {
-                                                                        hoteldata["requiredNoOfRooms"] = Number(event.target.value)
-                                                                    }}
-                                                                    />
-                                                                </div>
+                                                                    <div className="col-xs-1 col-md-1" style={{padding:0}}>
+                                                                        <input type="submit"
+                                                                               style={{height:42}}
+                                                                               className="btn btn-primary btn-block"
+                                                                               onClick={() => this.searchHotels()}
+                                                                               value="-->"/>
+                                                                    </div>
 
-                                                                <div className="col-xs-12">
-                                                                    <input type="submit"
-                                                                           className="btn btn-primary btn-block"
-                                                                           onClick={() => this.searchHotels()}
-                                                                           value="Search Hotel"/>
+
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                                </div>
+
 
                                                         <div role="tabpanel" className="tab-pane" id="packages">
                                                             <div className="row">
-                                                                <div className="col-xxs-12 col-xs-6 mt">
+                                                                <div className="col-xs-12 col-sm-12">
+                                                                    <div className="col-xs-2 col-sm-2" style={{padding:0, marginRight:5}}>
                                                                     <div className="input-field">
-                                                                        <label for="from">Pick Up</label>
                                                                         <input type="text" className="form-control"
                                                                                id="from-place-car"
                                                                                placeholder="Los Angeles, USA"
                                                                                onChange={(event) => cardata["pickUpPoint"] = event.target.value}/>
                                                                     </div>
-                                                                </div>
-                                                                <div className="col-xxs-12 col-xs-6 mt">
+                                                                    </div>
+
+                                                                        <div className="col-xs-2 col-sm-2" style={{padding:0, marginRight:5}}>
                                                                     <div className="input-field">
-                                                                        <label for="from">Dropoff</label>
                                                                         <input type="text" className="form-control"
                                                                                id="to-place-car"
                                                                                placeholder="Tokyo, Japan"
                                                                                onChange={(event) => cardata["dropOffPoint"] = event.target.value}/>
                                                                     </div>
                                                                 </div>
-                                                                <div className="col-xxs-12 col-xs-6 mt alternate">
+                                                                        <div className="col-xs-3 col-sm-3" style={{padding:0, marginRight:5}}>
                                                                     <div className="input-field">
-                                                                        <label for="date-start">Pick up Date</label>
-                                                                        <div className="input-field">
                                                                             <DateTimeField mode="datetime"
                                                                                            dateTime={this.state.goingDate}
                                                                                            minDate={this.state.startDate}
@@ -812,11 +832,8 @@ class NewerHomePage extends Component {
 
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="col-xxs-12 col-xs-6 mt alternate">
+                                                                        <div className="col-xs-3 col-sm-3" style={{padding:0, marginRight:5}}>
                                                                     <div className="input-field">
-                                                                        <label for="date-end">Dropoff date</label>
-                                                                        <div className="input-field">
                                                                             <DateTimeField mode="datetime"
                                                                                            dateTime={this.state.goingDate}
                                                                                            minDate={this.state.startDate}
@@ -828,14 +845,15 @@ class NewerHomePage extends Component {
 
                                                                         </div>
                                                                     </div>
-                                                                </div>
 
-                                                                <div className="col-xs-12">
+                                                                        <div className="col-xs-1 col-sm-1" style={{padding:0}}>
                                                                     <input type="submit"
+                                                                           style={{height:42}}
                                                                            className="btn btn-primary btn-block"
                                                                            onClick={() => this.searchCars()}
-                                                                           value="Search Cars"/>
+                                                                           value="-->"/>
                                                                 </div>
+                                                            </div>
                                                             </div>
                                                         </div>
 

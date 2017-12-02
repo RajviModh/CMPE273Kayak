@@ -25,14 +25,14 @@ body.fh5co-offcanvas {
 }
 
 a {
-  color: #ff5c24;
+  color: #F78536;
   -webkit-transition: 0.5s, ease;
   -o-transition: 0.5s, ease;
   transition: 0.5s, ease;
 }
 a:hover {
   text-decoration: none;
-  color: #ff5c24;
+  color: #F78536;
 }
 
 p, ul, ol {
@@ -55,17 +55,17 @@ figure {
 
 ::-webkit-selection {
   color: #fcfcfc;
-  background: #ff5c24;
+  background: #F78536;
 }
 
 ::-moz-selection {
   color: #fcfcfc;
-  background: #ff5c24;
+  background: #F78536;
 }
 
 ::selection {
   color: #fcfcfc;
-  background: #ff5c24;
+  background: #F78536;
 }
 
 #fh5co-header {
@@ -86,7 +86,7 @@ figure {
 
 .header-top {
   padding: 10px 0;
-  background: #ff5c24;
+  background: #F78536;
 }
 .header-top .fh5co-link a {
   margin-left: 10px;
@@ -276,11 +276,11 @@ figure {
   font-weight: bold;
 }
 .sf-menu a:hover, .sf-menu a:focus {
-  color: #ff5c24 !important;
+  color: #F78536 !important;
 }
 
 .sf-menu li.active a:hover, .sf-menu li.active a:focus {
-  color: #ff5c24;
+  color: #F78536;
 }
 
 .sf-menu li,
@@ -304,7 +304,7 @@ figure {
 .sf-menu ul li:hover a,
 .sf-menu ul li.sfHover a,
 .sf-menu li.active a {
-  color: #ff5c24;
+  color: #F78536;
 }
 
 .sf-menu ul li:hover,
@@ -382,7 +382,7 @@ figure {
   top: 0;
   left: 0;
   font-size: 16px;
-  color: #ff5c24;
+  color: #F78536;
   background: rgba(0, 0, 0, 0.06);
   padding: 10px;
   -webkit-border-radius: 50%;
@@ -391,10 +391,10 @@ figure {
   border-radius: 50%;
 }
 #fh5co-logo a {
-  color: #ff5c24;
+  color: #F78536;
 }
 #fh5co-logo a:hover, #fh5co-logo a:focus {
-  color: #ff5c24 !important;
+  color: #F78536 !important;
 }
 
 #fh5co-menu-wrap {
@@ -409,7 +409,7 @@ figure {
 }
 
 #fh5co-primary-menu > li > ul li.active > a {
-  color: #ff5c24 !important;
+  color: #F78536 !important;
 }
 #fh5co-primary-menu > li > .sf-with-ul:after {
   border: none !important;
@@ -529,7 +529,7 @@ figure {
   background: none;
 }
 #fh5co-primary-menu .fh5co-sub-menu a:hover {
-  color: #ff5c24 !important;
+  color: #F78536 !important;
 }
 
 .tabulation {
@@ -563,23 +563,23 @@ figure {
   -moz-border-radius: 0;
   -ms-border-radius: 0;
   border-radius: 0;
-  color: #ff5c24 !important;
+  color: #F78536 !important;
 }
 .tabulation input[type="text"]::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
-  color: #ff5c24 !important;
+  color: #F78536 !important;
 }
 .tabulation input[type="text"]::-moz-placeholder {
   /* Firefox 19+ */
-  color: #ff5c24 !important;
+  color: #F78536 !important;
 }
 .tabulation input[type="text"]:-ms-input-placeholder {
   /* IE 10+ */
-  color: #ff5c24 !important;
+  color: #F78536 !important;
 }
 .tabulation input[type="text"]:-moz-placeholder {
   /* Firefox 18- */
-  color: #ff5c24 !important;
+  color: #F78536 !important;
 }
 @media screen and (max-width: 480px) {
   .tabulation input[type="text"] {
@@ -622,7 +622,7 @@ figure {
 }
 .nav-tabs .active a {
   border: none !important;
-  background: #ff5c24 !important;
+  background: #F78536 !important;
   color: #fff !important;
   font-weight: bold;
   -webkit-border-radius: 0;
@@ -669,7 +669,7 @@ div.cs-select span {
 .cs-skin-border > span {
   border: transparent;
   background: rgba(0, 0, 0, 0.05);
-  color: #ff5c24;
+  color: #F78536;
 }
 .cs-skin-border > span::after {
   font-size: 14px !important;
@@ -682,7 +682,7 @@ div.cs-select span {
 
 .cs-skin-border.cs-active > span {
   background: rgba(0, 0, 0, 0.05) !important;
-  color: #ff5c24;
+  color: #F78536;
 }
 
 .cs-select .cs-options {
@@ -730,7 +730,7 @@ div.cs-select span {
   width: 100px;
   margin-left: -50px;
   height: 2px;
-  background: #ff5c24;
+  background: #F78536;
 }
 .heading-section h3 {
   font-size: 40px;
@@ -822,8 +822,8 @@ div.cs-select span {
   font-weight: 400 !important;
 }
 .fh5co-tours > div .desc .btn:hover, .fh5co-tours > div .desc .btn:focus, .fh5co-tours > div .desc .btn:active {
-  border: 2px solid #ff5c24 !important;
-  background: #ff5c24 !important;
+  border: 2px solid #F78536 !important;
+  background: #F78536 !important;
   color: #fff !important;
 }
 .fh5co-tours > div:hover {
@@ -879,7 +879,7 @@ div.cs-select span {
   width: 40%;
   float: left;
   padding: 6px 20px;
-  background: #ff5c24;
+  background: #F78536;
 }
 .flight-book .plane-name .p-flight {
   font-size: 18px;
@@ -927,7 +927,7 @@ div.cs-select span {
 #fh5co-car .car .one-4 {
   width: 40%;
   float: left;
-  background: #ff5c24;
+  background: #F78536;
   padding: 30px;
 }
 #fh5co-car .car .one-4 h3, #fh5co-car .car .one-4 span {
@@ -975,7 +975,7 @@ div.cs-select span {
   display: table-cell;
   vertical-align: middle;
   font-size: 40px;
-  color: #ff5c24;
+  color: #F78536;
 }
 .feature-left .feature-copy {
   float: right;
@@ -1358,7 +1358,7 @@ div.cs-select span {
 
 #fh5co-services .fh5co-number {
   font-size: 30px;
-  color: #ff5c24;
+  color: #F78536;
   position: relative;
   padding-top: 10px;
   font-style: italic;
@@ -1374,7 +1374,7 @@ div.cs-select span {
   height: 3px;
   top: 0;
   left: 0;
-  background: #ff5c24;
+  background: #F78536;
 }
 #fh5co-services .fh5co-icon {
   margin-bottom: 30px;
@@ -1393,7 +1393,7 @@ div.cs-select span {
 }
 #fh5co-services .fh5co-icon i {
   font-size: 200px;
-  color: #ff5c24;
+  color: #F78536;
 }
 @media screen and (max-width: 768px) {
   #fh5co-services .fh5co-icon i {
@@ -1489,7 +1489,7 @@ div.cs-select span {
 .fh5co-testimonial > div h3, .fh5co-team > div h3 {
   margin-bottom: 0;
   font-size: 20px;
-  color: #ff5c24;
+  color: #F78536;
 }
 .fh5co-testimonial > div .position, .fh5co-team > div .position {
   color: #d9d9d9;
@@ -1556,7 +1556,7 @@ div.cs-select span {
   color: rgba(0, 0, 0, 0.3);
 }
 .fh5co-blog .blog-text span.comment a i {
-  color: #ff5c24;
+  color: #F78536;
   padding-left: 7px;
 }
 .fh5co-blog .blog-text h3 {
@@ -1601,7 +1601,7 @@ div.cs-select span {
 
 .fh5co-social-icons > a {
   padding: 4px 10px;
-  color: #ff5c24;
+  color: #F78536;
 }
 .fh5co-social-icons > a i {
   font-size: 26px;
@@ -1664,14 +1664,14 @@ div.cs-select span {
   transition: 0.3s;
 }
 .btn.btn-primary {
-  background: #ff5c24;
+  background: #F78536;
   color: #fff;
   border: none !important;
   border: 2px solid transparent !important;
 }
 .btn.btn-primary:hover, .btn.btn-primary:active, .btn.btn-primary:focus {
   box-shadow: none;
-  background: #ff5c24;
+  background: #F78536;
   color: #fff !important;
 }
 .btn:hover, .btn:active, .btn:focus {
@@ -1684,11 +1684,11 @@ div.cs-select span {
 }
 .btn.btn-outline {
   background: transparent;
-  color: #ff5c24;
-  border: 2px solid #ff5c24 !important;
+  color: #F78536;
+  border: 2px solid #F78536 !important;
 }
 .btn.btn-outline:hover, .btn.btn-outline:focus, .btn.btn-outline:active {
-  background: #ff5c24 !important;
+  background: #F78536 !important;
   color: #fff !important;
 }
 
@@ -1766,14 +1766,14 @@ div.cs-select span {
   color: rgba(255, 255, 255, 0.4);
 }
 #offcanvas-menu ul li a:hover {
-  color: #ff5c24;
+  color: #F78536;
 }
 #offcanvas-menu ul li > .fh5co-sub-menu {
   margin-top: 9px;
   padding-left: 20px;
 }
 #offcanvas-menu ul li.active > a {
-  color: #ff5c24;
+  color: #F78536;
 }
 #offcanvas-menu ul .fh5co-sub-menu {
   display: block !important;

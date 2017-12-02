@@ -92,7 +92,7 @@ class AdminAddHotels extends Component {
         return (
             <div className="fh5co-hero">
                 <div className="container">
-                    <div className="row justify-content-md-center">
+                    <div className="col-sm-12 col-md-12"><br/></div>
                         <div className="col-sm-6 col-md-6">
                             <div className="form-group">
                             </div>
@@ -294,7 +294,7 @@ class AdminAddHotels extends Component {
 
                     </div>
                 </div>
-            </div>
+
         );
     }
 }

@@ -70,7 +70,7 @@ Consonantia, there live the blind texts.</p>
 <a href="#"><i className="icon-youtube"/></a>
 </p>
 <p>Copyright 2017. All Rights Reserved. <br/>Made with <i
-className="icon-heart3"/> by Rajvi</p>
+className="icon-heart3"/></p>
 </div>
 </div>
 </div>
