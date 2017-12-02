@@ -17,7 +17,7 @@
     "express-session": "^1.15.6",
     "express-validator": "^4.3.0",
     "jade": "~1.11.0",
-    "kafka-node": "^2.2.3",
+    "kafka-node": "^2.3.0",
     "morgan": "~1.8.1",
     "mysql": "^2.15.0",
     "nodemon": "^1.12.1",

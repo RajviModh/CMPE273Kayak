@@ -10,7 +10,7 @@ const reducerHotels = (state = {
                 ...state,
                 hotels: action.payload.data
             };
-            console.log(state.hotels);
+            console.log("From store"+state.hotels);
             break;
 
         case "STORESELECTEDHOTELS":

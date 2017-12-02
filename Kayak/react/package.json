@@ -11,15 +11,15 @@
     "email-validator": "^1.1.1",
     "isemail": "^3.0.0",
     "chart.js": "^2.7.1",
-    "immutability-helper": "^2.5.0",
+    "immutability-helper": "^2.5.1",
     "immutable-helper": "0.0.5",
     "jquery": "^3.2.1",
     "jquery-ui": "^1.12.1",
     "jquery-ui-dist": "^1.12.1",
-    "moment": "^2.19.2",
+    "moment": "^2.19.3",
     "prop-types": "^15.5.10",
     "rc-slider": "^8.4.0",
-    "rc-tooltip": "^3.6.0",
+    "rc-tooltip": "^3.7.0",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.5",
     "react-bootstrap-datetimepicker": "0.0.22",
@@ -29,8 +29,8 @@
     "react-bootstrap-time-picker": "^1.0.3",
     "react-chartjs-2": "^2.6.4",
     "react-checkbox-group": "^3.3.4",
-    "react-data-grid": "^2.0.76",
-    "react-data-grid-addons": "^2.0.76",
+    "react-data-grid": "^2.0.78",
+    "react-data-grid-addons": "^2.0.78",
     "react-datetime": "^2.11.0",
     "react-dom": "^15.6.1",
     "react-dropdown": "^1.3.2",
@@ -51,6 +51,6 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "kafka-node": "^2.2.3"
+    "kafka-node": "^2.3.0"
   }
 }

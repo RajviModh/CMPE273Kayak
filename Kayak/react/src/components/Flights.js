@@ -493,8 +493,8 @@ class Flights extends Component {
                         localStorage.setItem("isUser",true)
                         alert(localStorage.getItem("isUser"))
                         this.close1('login')
-                        window.location.replace()
-                       // self.props.history.push('/flight_booking')
+                        //window.location.replace()
+                       self.props.history.push('/flight_booking')
                     } else if (res.status === '401') {
                         localStorage.setItem("isLoggedIn",false)
                         alert(localStorage.getItem("isLoggedIn"))
@@ -906,7 +906,9 @@ class Flights extends Component {
                                         </div>
                                     </div>
                                 )}
-
+                              {(this.state.flightData.length === 0) ? <div className="alert alert-danger" role="alert">
+                                <strong>No such flights found!</strong>
+                              </div> : ''}
 
                             </div>
 
@@ -1319,6 +1321,9 @@ class Flights extends Component {
                                         )
                                     })
                                 }
+                              {(this.state.roundData.length === 0) ? <div className="alert alert-danger" role="alert">
+                                <strong>No such flights found!</strong>
+                              </div> : ''}
                             </div>
 
                         </div>
