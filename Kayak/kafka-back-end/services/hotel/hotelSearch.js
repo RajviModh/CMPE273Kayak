@@ -49,7 +49,8 @@ function handleRequest(data, callback) {
                     response.message = "Server Error";
                     callback(error, response);
                 } else {
-                    console.time("Query_time");
+                    console.log("From SQL")
+                    console.timeEnd("Query_time");
                     let availableHotels = JSON.parse(rows[0][0].availableHotels);
                     console.log(availableHotels);
                     response.code = 200;
