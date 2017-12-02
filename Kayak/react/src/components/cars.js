@@ -207,7 +207,12 @@ class Cars extends Component {
             API.searchCars(formdata)
                 .then((res) => {
                     responseStatus = res.status;
-                    return res.json();
+                    try {
+                        return res.json();
+                    }
+                    catch(err){
+                        window.alert("Some error..Please try again later")
+                    }
                 }).then(jsonData => {
                 if (responseStatus === 200) {
                     //console.log(jsonData);
@@ -261,7 +266,7 @@ class Cars extends Component {
             document.getElementById('messcontact').style.display = 'block';
             document.getElementById("messcontact").innerHTML = 'Please enter contact';
         } else {
-            var details = {firstname: firstname, email: email, contact: contact};
+            var details = {firstname: firstname,lastname: lastname, email: email, contact: contact};
             this.props.storeDetails(details);
             this.props.history.push('/carbooking')
         }

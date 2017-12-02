@@ -223,7 +223,12 @@ class Hotels extends Component {
             API.searchHotels(formdata)
                 .then((res) => {
                     responseStatus = res.status;
-                    return res.json();
+                    try {
+                        return res.json();
+                    }
+                    catch(err){
+                        window.alert("Some error..Please try again later")
+                    }
                 }).then(jsonData => {
                 if (responseStatus === 200) {
                     try {
@@ -281,7 +286,7 @@ class Hotels extends Component {
             var isLoggedIn = localStorage.getItem("isLoggedIn")
             if(isLoggedIn)
             {
-                var details = {firstname: firstname, email: email, contact: contact};
+                var details = {firstname: firstname, lastname:lastname, email: email, contact: contact};
                 this.props.storeDetails(details);
                 this.props.history.push('/hotelbooking');
             }

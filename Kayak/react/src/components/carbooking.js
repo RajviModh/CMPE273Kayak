@@ -138,14 +138,18 @@ class Carbooking extends Component {
             document.getElementById('namevalidator').innerHTML = 'Invalid name';
         }else{
             var carbookingdetails = {CID:this.props.select.selectedcars.CID,fromDate:this.props.select.carbookingdetails.fromDate,
-                toDate:this.props.select.carbookingdetails.toDate, UID: 1};
+                toDate:this.props.select.carbookingdetails.toDate, firstname:this.props.select.details.lastname,
+                lastname:this.props.select.details.lastname,contact:this.props.select.details.contact,
+                lastname:this.props.select.details.email};
+
             API.bookCar(carbookingdetails)
                 .then((res) => {
-
                     if (res.status === 200) {
                         window.alert("Booking successful..");
                     } else if (res.status === 500) {
                         window.alert("Some error..");
+                    } else{
+                        window.alert("Some error..Please try again later");
                     }
                 });
         }

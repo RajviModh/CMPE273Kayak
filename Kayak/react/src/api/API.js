@@ -30,7 +30,8 @@ export const doSignup = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -52,7 +53,8 @@ export const adminAddHotels = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -72,7 +74,8 @@ export const adminAddFlights = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -92,7 +95,8 @@ export const adminAddCars = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -114,7 +118,8 @@ export const adminSearchHotels = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -134,7 +139,8 @@ export const adminSearchFlights = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -154,7 +160,8 @@ export const adminSearchCars = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -175,7 +182,8 @@ export const adminSearchBills = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -197,7 +205,8 @@ export const adminViewHotels = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -217,7 +226,8 @@ export const adminViewFlights = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -237,7 +247,8 @@ export const adminViewCars = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -257,7 +268,8 @@ export const adminViewUsers = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -279,7 +291,8 @@ export const adminUpdateHotels = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -299,7 +312,8 @@ export const adminUpdateFlights = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -319,7 +333,8 @@ export const adminUpdateCars = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -339,7 +354,8 @@ export const adminUpdateUsers = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -362,7 +378,8 @@ export const adminDeleteHotels = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -382,7 +399,8 @@ export const adminDeleteFlights = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -402,7 +420,8 @@ export const adminDeleteCars = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -425,7 +444,8 @@ export const adminViewFlightsChart = (payload) => {
                 ...headers,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials:'include'
         }
     ).then(res => res.json())
         .then(res => {
@@ -450,7 +470,8 @@ export const searchHotels = (payload) => {
             ...headers,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        credentials:'include'
     }).then(res => res)
 
         .catch(error => {
@@ -466,7 +487,8 @@ export const searchcityforHotels = (payload) => {
             ...headers,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        credentials:'include'
     }).then(res => res.json())
         .then(res => {
             alert("back in API  : " + JSON.stringify(res));
@@ -485,13 +507,13 @@ export const bookHotel = (payload) => {
             ...headers,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        credentials:'include'
     }).then(res => {
             alert("back in API  : " + JSON.stringify(res));
             return res;
         })
         .catch(error => {
-            window.alert("Some error occurred, please try again!");
             console.log("This is error");
             return error;
         });
@@ -506,7 +528,8 @@ export const searchCars = (payload) => {
             ...headers,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        credentials:'include'
     }).then(res => res)
 
         .catch(error => {
@@ -522,7 +545,8 @@ export const searchcityforCars = (payload) => {
             ...headers,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        credentials:'include'
     }).then(res => res.json())
         .then(res => {
             alert("back in API  : " + JSON.stringify(res));
@@ -541,7 +565,8 @@ export const bookCar = (payload) => {
             ...headers,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        credentials:'include'
     }).then(res => res)
         .catch(error => {
             console.log("This is error");

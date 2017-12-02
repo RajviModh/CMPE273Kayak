@@ -356,13 +356,18 @@ class NewerHomePage extends Component {
             window.alert("Please enter city name")
         } else if (this.state.checkindate == "") {
             window.alert("Please enter check in date")
+        } else if (this.state.checkindate<new Date().toISOString().slice(0,10)) {
+            window.alert("Check in date must be greater than or equal to today's date")
         } else if (this.state.checkoutdate == "") {
             window.alert("Please enter check out date")
+        } else if (this.state.checkoutdate<new Date().toISOString().slice(0,10)) {
+            window.alert("Check out date must be greater than or equal to today's date")
         } else if (rooms == "") {
             window.alert("Please enter number of rooms")
         } else if (rooms <= 0) {
             window.alert("Please enter valid number of rooms")
         } else {
+            console.log("in here")
             var bookingdetails = {
                 userid: 1,
                 city: city,
@@ -375,7 +380,12 @@ class NewerHomePage extends Component {
             API.searchHotels(hoteldata)
                 .then((res) => {
                     responseStatus = res.status;
-                    return res.json();
+                    try {
+                        return res.json();
+                    }
+                    catch(err){
+                        window.alert("Some error..Please try again later");
+                    }
                 }).then(jsonData => {
                 if (responseStatus === 200) {
                     //console.log(jsonData);
@@ -406,8 +416,12 @@ class NewerHomePage extends Component {
             window.alert("Please enter dropoff location")
         } else if (this.state.pickupdate == "") {
             window.alert("Please enter pickup date")
+        } else if (this.state.pickupdate<new Date().toISOString().slice(0,10)) {
+            window.alert("Pick up date must be greater than or equal to today's date")
         } else if (this.state.dropoffdate == "") {
             window.alert("Please enter dropoff date")
+        } else if (this.state.dropoffdate<new Date().toISOString().slice(0,10)) {
+            window.alert("Drop off date must be greater than or equal to today's date")
         } else {
             var bookingdetails = {fromDate: this.state.pickupdate, toDate: this.state.dropoffdate} //carid left
             this.props.storeCarBookingRequest(bookingdetails);
@@ -416,7 +430,11 @@ class NewerHomePage extends Component {
             API.searchCars(cardata)
                 .then((res) => {
                     responseStatus = res.status;
-                    return res.json();
+                    try {
+                        return res.json();
+                    }catch(err){
+                        window.alert("Some error..Please try again later");
+                    }
                 }).then(jsonData => {
                 if (responseStatus === 200) {
                     //console.log(jsonData);

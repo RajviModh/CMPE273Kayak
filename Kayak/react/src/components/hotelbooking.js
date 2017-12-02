@@ -143,7 +143,9 @@ class Hotelbooking extends Component {
             var bookingdetails = {
                 RID: this.props.select.selected.RID, fromDate: this.props.select.bookingdetails.checkin,
                 toDate: this.props.select.bookingdetails.checkout, noOfRooms: this.props.select.bookingdetails.rooms,
-                UID: this.props.select.bookingdetails.userid
+                UID: this.props.select.bookingdetails.userid,firstname:this.props.select.details.lastname,
+                lastname:this.props.select.details.lastname,contact:this.props.select.details.contact,
+                lastname:this.props.select.details.email
             };
 
             API.bookHotel(bookingdetails)
@@ -154,6 +156,8 @@ class Hotelbooking extends Component {
                         // this.props.history.push("/welcome");
                     } else if (res.status === 500) {
                         window.alert("Some error..");
+                    } else{
+                        window.alert("Some error..Please try again later");
                     }
                 });
         }
