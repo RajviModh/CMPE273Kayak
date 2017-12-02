@@ -6,7 +6,7 @@ var padding = {padding:0}
 
 var align = {float:'left'}
 
-var color = {color:"#F78536"}
+var color = {color:"#ff5c24"}
 
 var left = {'text-align':'left'}
 
