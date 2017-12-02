@@ -1,6 +1,10 @@
 const mysql = require('../mysql');
 const redis = require('redis');
 
+// Create Redis Client
+let client = redis.createClient();
+
+
 function handleRequest(data, callback) {
 
     let response = {};
