@@ -9,6 +9,8 @@ import {withRouter} from 'react-router-dom';
 import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css';
 import Slider from 'rc-slider';
+import Login from './Login';
+import Signup from './Signup';
 import {Modal} from 'react-bootstrap';
 
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
@@ -90,7 +92,6 @@ class Hotels extends Component {
             origHotelData : this.props.select.hotels,
             HotelData: this.props.select.hotels
         })
-
     }
 
     close1 = (data) => {

@@ -7,6 +7,9 @@ import Slider from 'rc-slider';
 import {Link, Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
 import * as API from '../api/API';
+import Login from './Login';
+import Signup from './Signup';
+import {Modal} from 'react-bootstrap';
 
 
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
@@ -30,14 +33,10 @@ var regex = /\d/g;
 var imgs = ["../images/car-2.jpg", "../images/car-3.jpg", "../images/car-4.jpg", "../images/car-5.jpg"];
 var validator = require("email-validator")
 var formdata = {};
+var type = "";
+var newRange=[100,2000];
+var newRating1=0;
 
-const sliderChanged = (newRange) => {
-    console.log(newRange);
-}
-
-const dropdownselected = () => {
-    console.log(document.getElementById("cartypes").value);
-}
 
 const handleClose = () => {
 
@@ -54,14 +53,114 @@ const handleClose = () => {
 class Cars extends Component {
 
     state = {
+        origCarData : [],
+        CarData :[],
         goingDate: new Date(),
         comingDate: new Date(),
         format: "YYYY-MM-DD",
         inputFormat: "DD/MM/YYYY",
         mode: "date",
         pickupdate: "",
-        dropoffdate: ""
+        dropoffdate: "",
+        showLoginModal: false,
+        showSignupModal: false,
     };
+
+    componentWillMount(){
+        this.setState({
+            origCarData : this.props.select.cars,
+            CarData: this.props.select.cars
+        })
+    }
+
+    close1 = (data) => {
+
+        if (data === 'login') {
+            //alert("in login of close");
+            this.setState({showLoginModal: false});
+        }
+        else if (data === 'signup') {
+            alert("in signup of close");
+            this.setState({showSignupModal: false});
+        }
+    };
+    open1 = (data) => {
+        if (data === 'login') {
+            alert("in login of open");
+            this.setState({showLoginModal: true});
+        }
+        else if (data === 'signup') {
+            alert("in signup of open");
+            this.setState({showSignupModal: true});
+        }
+    };
+
+    handleSubmit = (userdata) => {
+        var isEmailValid = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(userdata.username)
+
+        if(userdata.userdata==="" || userdata.password===""){
+            alert("Please insert all the fields")
+        }
+        else if(!isEmailValid)
+        {
+            alert("Email id invalid. Please try again.")
+        }
+        else
+        {
+            var self=this
+            API.doLogin(userdata)
+                .then((res) => {
+                    //alert("back in newer homepage : " + JSON.stringify(res));
+                    if (res.status === '201') {
+                        localStorage.setItem("isLoggedIn",true)
+                        alert(localStorage.getItem("isLoggedIn"))
+                        localStorage.setItem("isUser",true)
+                        alert(localStorage.getItem("isUser"))
+                        this.close1('login')
+                        window.location.replace()
+                        // self.props.history.push('/flight_booking')
+                    } else if (res.status === '401') {
+                        localStorage.setItem("isLoggedIn",false)
+                        alert(localStorage.getItem("isLoggedIn"))
+                        alert("Wrong username or password. Try again..!!")
+                    }
+                });}
+    };
+    handleSignUp = (userdata) => {
+
+        var isEmailValid = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(userdata.username)
+
+        if(userdata.userdata==="" || userdata.password===""){
+            alert("Please insert all the fields")
+        }
+        else if(!isEmailValid)
+        {
+            alert("Email id invalid. Please try again.")
+        }
+        else
+        {
+
+            API.doSignup(userdata)
+                .then((res) => {
+                    alert("back in handle signup response : " + JSON.stringify(res));
+                    if (res.code === '201') {
+                        alert("You have sign up successfully")
+                        this.open1('login')
+                    }
+                    else if (res.code === '401' && res.value === "User already exists") {
+                        alert("You cannot regiister. User already exists with this email id.")
+
+                    }
+                    else {
+                        alert("Try Again. Error happened.")
+
+                    }
+
+                })
+        }
+    };
+
+
 
     handlecarChange = (newDate) => {
         this.state.pickupdate = newDate;
@@ -124,8 +223,6 @@ class Cars extends Component {
                     window.alert("Bad request. Please try again later..")
                 }
             });
-            //API call here
-            //this.props.history.push('/hotels');
         }
     }
     handlecarbooking = () => {
@@ -167,6 +264,53 @@ class Cars extends Component {
             this.props.storeDetails(details);
             this.props.history.push('/carbooking')
         }
+    }
+
+    sliderChanged = (newRange1) => {
+        newRange=newRange1
+        this.handleFilter()
+    }
+
+    dropdownSelected = () => {
+        var e = document.getElementById("cartypes");
+        type = e.options[e.selectedIndex].value;
+        this.handleFilter()
+    }
+
+    handleFilter = () => {
+        var newData = []
+        var newData1 = []
+        var newData2 = []
+
+        for (var i = 0; i < this.state.origCarData.length; i++) {
+            if (this.state.origCarData[i].rooms.rent >= newRange[0] && this.state.origCarData[i].rooms.rent <= newRange[1]) {
+                newData1.push(this.state.origCarData[i])
+            }
+        }
+
+        for (var i = 0; i < this.state.origCarData.length; i++) {
+            if (this.state.origCarData[i].type === type) {
+                newData2.push(this.state.origCarData[i])
+            }
+        }
+
+        var newArr = []
+        newArr[0]=newData1
+        newArr[1]=newData2
+
+        if(newArr.length!=0){
+            var result = newArr.shift().filter(function(v) {
+                return newArr.every(function(a) {
+                    return a.indexOf(v) !== -1;
+                });
+            });
+            newData=result
+        }
+
+        console.log("Changed Data",newData)
+
+        this.setState({HotelData:newData})
+
     }
 
 
@@ -223,7 +367,6 @@ class Cars extends Component {
 
                                             </select>
 
-
                                         </div>
                                     </div>
 
@@ -277,8 +420,6 @@ class Cars extends Component {
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <div className="search-grids">
@@ -287,18 +428,17 @@ class Cars extends Component {
                                 <div className="range">
                                     <h3 className="sear-head">Filter by Price</h3><br></br>
                                     <Range min={100} max={2000} defaultValue={[150, 500]}
-                                           tipFormatter={value => `${value}`} onChange={sliderChanged}/>
+                                           tipFormatter={value => `${value}`} onChange={this.sliderChanged}/>
                                 </div>
 
                                 <div className="range-two">
                                     <h3 className="sear-head">Filter by Car Type</h3>
-                                    <select id="cartypes" onChange={() => dropdownselected()}>
+                                    <select id="cartypes" onChange={() => this.dropdownselected()}>
                                         <option value=""></option>
                                         <option value="Sedan">Sedan</option>
                                         <option value="Hatchback">Hatchback</option>
                                         <option value="SUV">SUV</option>
                                     </select>
-
                                 </div>
                             </div>
                             <br/>
@@ -345,6 +485,58 @@ class Cars extends Component {
 
                             </div>
 
+                            <div>
+                                <Modal show={this.state.showLoginModal} onHide={() => {
+                                    this.close('login')
+                                }}>
+                                    {/* <Modal.Header closeButton>
+                        <Modal.Title>Login</Modal.Title>
+                    </Modal.Header>*/}
+                                    <Modal.Body>
+                                        <Login handleSubmit={this.handleSubmit}/>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <div className="col-sm-10 col-md-10">
+                                            Don't have an account ?
+                                            <button onClick={() => {
+                                                this.close1('login')
+                                                this.open1('signup')
+                                            }}>Sign Up
+                                            </button>
+                                            <button onClick={() => {
+                                                this.close1('login')
+                                            }}>Close
+                                            </button>
+                                        </div>
+                                    </Modal.Footer>
+                                </Modal>
+
+                            </div>
+                            <div>
+                                <Modal show={this.state.showSignupModal} onHide={() => {
+                                    this.close('signup')
+                                }}>
+                                    <Modal.Body>
+                                        <Signup handleSignUp={this.handleSignUp}/>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <div className="col-sm-10 col-md-10">
+                                            Already have an account ?
+                                            <button onClick={() => {
+                                                this.close1('signup')
+                                                this.open1('login')
+                                            }}>Sign in
+                                            </button>
+                                            <button onClick={() => {
+                                                this.close1('signup')
+                                            }}>Close
+                                            </button>
+                                        </div>
+                                    </Modal.Footer>
+                                </Modal>
+
+                            </div>
+
                             <div id="modalforcarbooking" className="modal" style={{display: 'none'}}>
                                 <div className="modal-dialog" role="document">
                                     <div className="modal-content">
@@ -387,7 +579,6 @@ class Cars extends Component {
                     </div>
                 </div>
             </div>
-
         );
     }
 }

@@ -1,5 +1,23 @@
 const reducerHotels = (state = {
-    hotels: [],
+    hotels: [  {
+        "HID" : 1,
+        "city" : "Mumbai",
+        "freebies" : [
+            "b",
+            "p"
+        ],
+        "name" : "Mariott",
+        "rooms" : [
+            {
+                "RID" : 1,
+                "availableRooms" : 1,
+                "rent" : 200,
+                "type" : "r"
+            }
+        ],
+        "stars" : 4,
+        "state" : "Maharashtra",
+        "street" : "1st"}],
     selected : {},
     details : {},
     bookingdetails:{}
