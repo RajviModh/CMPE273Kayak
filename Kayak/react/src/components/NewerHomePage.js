@@ -362,6 +362,8 @@ class NewerHomePage extends Component {
             window.alert("Please enter check out date")
         } else if (this.state.checkoutdate<new Date().toISOString().slice(0,10)) {
             window.alert("Check out date must be greater than or equal to today's date")
+        } else if (this.state.checkoutdate<this.state.checkindate) {
+            window.alert("Check out date must be greater than or equal to check in date")
         } else if (rooms == "") {
             window.alert("Please enter number of rooms")
         } else if (rooms <= 0) {
@@ -422,6 +424,8 @@ class NewerHomePage extends Component {
             window.alert("Please enter dropoff date")
         } else if (this.state.dropoffdate<new Date().toISOString().slice(0,10)) {
             window.alert("Drop off date must be greater than or equal to today's date")
+        } else if (this.state.dropoffdate<this.state.pickupdate) {
+            window.alert("Drop off date must be greater than or equal pcikup date")
         } else {
             var bookingdetails = {fromDate: this.state.pickupdate, toDate: this.state.dropoffdate} //carid left
             this.props.storeCarBookingRequest(bookingdetails);
