@@ -94,7 +94,6 @@ app.use('/bookings',bookings)
 app.use('/logout',logout)
 
 app.post('/login',function(req, res,next) {
-    var session = req.session;
     console.log("username in app" + JSON.stringify(req.body));
     passport.authenticate('login', function(err, user) {
         if(err) {
@@ -104,7 +103,7 @@ app.post('/login',function(req, res,next) {
             res.status(401).send({status:401});
         }
         if(user) {
-            session.user = user.userid;
+            req.session.user = user.userid;
             console.log("user is ", user)
             console.log("i am in session ", req.session.user);
             console.log("session initialized");
