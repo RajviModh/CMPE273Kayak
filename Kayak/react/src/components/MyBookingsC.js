@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import axios from "axios";
+import { Link,Route, withRouter } from 'react-router-dom';
 
 
 var padding = {padding:0}
 
 var align = {float:'left'}
 
-var color = {color:"#ff5c24",'text-align':'right'}
+var color = {color:"#F78536"}
 
 var left = {'text-align':'left'}
 
@@ -21,11 +22,12 @@ class MyBookingsC extends Component{
     };
 
     componentWillMount(){
-
-        axios.get('http://localhost:3001/bookings/my_bookings')
+        var self=this
+        axios.get('http://localhost:3001/my_car_bookings/my_car_bookings',{withCredentials:true})
             .then(function (response) {
                 console.log("res",response);
                 console.log("res data",response.data);
+                self.setState({flight_bookings:response.data.data})
             })
             .catch(function (error) {
                 console.log(error);
@@ -37,166 +39,45 @@ class MyBookingsC extends Component{
         return(
             <div className="search-page" style={padding}>
                 <div className="container">
-                    <div className="search-grids">
-                        <div className="col-md-3 search-grid-left">
+                    {/*<div className="search-grids">
+                        <div className="col-md-3">
 
                         </div>
 
+                    </div>*/}
+                    <div><br/></div>
+                    <div className="col-md-12 ">
+                        <table id="tableMenu" className="table">
+                            <tbody>
+                            <tr>
+                                <th style={color}>Car </th>
+                                <th style={color}>Type</th>
+                                <th style={color}>Pick Up</th>
+                                <th style={color}>From</th>
+                                <th style={color}>To</th>
+                                <th style={color}>Booking Date</th>
+                                <th style={color}>Amount($)</th>
+                                <th style={color}>Name</th>
+                                <th style={color}>Age</th>
+                            </tr>
+                            {this.state.flight_bookings.map(flight=>
+
+                                <tr >
+                                    <td style={padding}>{flight.car}</td>
+                                    <td style={padding}>{flight.type}</td>
+                                    <td style={padding}>{flight.pickUpPoint}</td>
+                                    <td style={padding}>{flight.bookedFrom.slice(0,10)}</td>
+                                    <td style={padding}>{flight.bookedTo.slice(0,10)}</td>
+                                    <td style={padding}>{flight.bookedOn.slice(0,10)}</td>
+                                    <td style={padding}>{flight.totalAmount}</td>
+                                </tr>
+
+                            )}
+                            </tbody>
+                        </table>
+
                     </div>
 
-                    <div className="col-md-7 ">
-                        <div className="clearfix">
-                            <form>
-                                <div className="form-group">
-                                    <hr/>
-                                </div>
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <h4 style={color}>First Name : </h4>
-                                        </td>
-                                        <td style={left}>
-                                            &nbsp;
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h4 style={color}>Last Name : </h4>
-                                        </td>
-                                        <td  style={left}>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h4 style={color}>Address Line 1 : </h4>
-                                        </td>
-                                        <td  style={left}>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h4 style={color}>Address Line 2 : </h4>
-                                        </td>
-                                        <td style={left}>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h4 style={color}>City : </h4>
-                                        </td>
-                                        <td style={left}>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h4 style={color}>State : </h4>
-                                        </td>
-                                        <td style={left}>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h4 style={color}>Zip : </h4>
-                                        </td>
-                                        <td style={left}>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h4 style={color}>Contact No : </h4>
-                                        </td>
-                                        <td style={left}>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h4 style={color}>Email : </h4>
-                                        </td>
-                                        <td style={left}>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            &nbsp;
-                                        </td>
-                                        <td style={left}>
-                                            <button style={btnStyle} className="btn btn-primary btn-block" onClick={() => this.saveUserProfile(this.state)}>Edit
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                </table>
-
-
-
-                                <div className="input-field">
-
-                                </div>
-                            </form>
-
-
-
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -204,4 +85,4 @@ class MyBookingsC extends Component{
         );
     }
 }
-export default MyBookingsC;
+export default withRouter(MyBookingsC);

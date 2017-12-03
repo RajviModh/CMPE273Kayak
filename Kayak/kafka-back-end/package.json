@@ -16,7 +16,8 @@
     "mongodb": "^2.2.31",
     "mysql": "^2.15.0",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "redis": "^2.8.0"
   },
   "devDependencies": {},
   "description": ""

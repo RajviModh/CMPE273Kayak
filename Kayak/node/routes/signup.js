@@ -15,19 +15,22 @@ router.post('/doSignup', function (req, res, next) {
         email : reqEmail,
         passwd : reqPass
     }
-
-    kafka.make_request('signup_topic',data, function(err,results){
-        console.log("I got this result back after signing up",results);
-        if(err){
-            console.log("Error")
-            res.json(results)
-        }
-        else
-        {
-            console.log("registered")
-            res.json(results)
-        }
-    });
+    try {
+        kafka.make_request('signup_topic', data, function (err, results) {
+            console.log("I got this result back after signing up", results);
+            if (err) {
+                console.log("Error")
+                res.json(results)
+            }
+            else {
+                console.log("registered")
+                res.json(results)
+            }
+        });
+    }
+    catch(error){
+        res.json({code:'401',value:'some error occurred'})
+    }
 });
 
 module.exports = router;

@@ -33,6 +33,14 @@ var adminDashboard = require('./routes/admin/admindashboard');
 var flights = require('./routes/flight_search');
 var bookings = require('./routes/bookings');
 var logout = require('./routes/logout')
+var deleteme = require('./routes/deleteme')
+var userprofile = require('./routes/userprofile');
+var getprofile = require('./routes/getprofile');
+var hotel_bookings = require('./routes/hotel_bookings');
+var car_bookings = require('./routes/car_bookings');
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/kayak";
+
 
 var app = express();
 const hotelRoutes = require('./routes/hotel/hotelRoutes');
@@ -95,7 +103,12 @@ app.post('/adminViewFlightsChart',adminDashboard.adminViewFlightsChart);
 app.use('/flights', flights);
 app.use('/signup',signup);
 app.use('/bookings',bookings)
+app.post('/saveUserProfile',userprofile);
+app.post('/getUserProfile',getprofile);
+app.use('/my_hotel_bookings',hotel_bookings)
+app.use('/my_car_bookings',car_bookings)
 app.use('/logout',logout)
+app.use('/delete',deleteme)
 
 app.post('/login',function(req, res,next) {
     console.log("username in app" + JSON.stringify(req.body));
@@ -115,10 +128,31 @@ app.post('/login',function(req, res,next) {
             //console.log("back in app.js userid : "+user.userid);
             console.log("back in app.js" + JSON.stringify(user));
 
+            MongoClient.connect(url, function(err, db) {
+                if (err) throw err;
+                var myquery = { user_id: session.user };
+                db.collection("user_trace").deleteMany(myquery, function(err, obj) {
+                    if (err) throw err;
+                    console.log(obj.result.n + " document(s) deleted");
+                    db.close();
+                });
+            });
+
+            MongoClient.connect(url, function(err, db) {
+                if (err) throw err;
+                var myobj = { user_id: session.user, page:"user/login", time:new Date(), activity_peroid:"0" };
+                db.collection("user_trace").insertOne(myobj, function(err, res) {
+                    if (err) throw err;
+                    console.log("1 document inserted");
+                    db.close();
+                });
+            });
+
             return res.status(201).send({
                 userid: user.user_id,
                 email: user.email,
-                status: '201'
+                isUser:user.isUser,
+                status: 201
             });
         }
     })(req, res,next);

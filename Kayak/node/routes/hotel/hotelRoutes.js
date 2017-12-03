@@ -54,16 +54,15 @@ router.post('/hotel/book', (request, response, next) => {
       fromDate: request.body.fromDate,
       toDate: request.body.toDate,
       noOfRooms: request.body.noOfRooms,
-      UID: request.session.user
+      UID: request.session.user,
+      contact: request.body.contact,
+      email: request.body.email,
+      firstName: request.body.firstname,
+      lastName: request.body.lastName,
+      price: request.body.price
     };
     console.log(messagePayload);
-    kafka.make_request('hotelBook', {
-        RID: request.body.RID,
-        fromDate: request.body.fromDate,
-        toDate: request.body.toDate,
-        noOfRooms: request.body.noOfRooms,
-        UID: request.session.user
-    }, (error, kafkaResponse) => {
+    kafka.make_request('hotelBook', messagePayload, (error, kafkaResponse) => {
         console.log('in result');
         console.log(kafkaResponse);
         if (error) {

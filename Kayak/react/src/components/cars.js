@@ -111,7 +111,7 @@ class Cars extends Component {
             API.doLogin(userdata)
                 .then((res) => {
                     //alert("back in newer homepage : " + JSON.stringify(res));
-                    if (res.status === '201') {
+                    if (res.status === 201) {
                         localStorage.setItem("isLoggedIn",true)
                         alert(localStorage.getItem("isLoggedIn"))
                         localStorage.setItem("isUser",true)
@@ -119,7 +119,7 @@ class Cars extends Component {
                         this.close1('login')
                         window.location.replace()
                         // self.props.history.push('/flight_booking')
-                    } else if (res.status === '401') {
+                    } else if (res.status === 401) {
                         localStorage.setItem("isLoggedIn",false)
                         alert(localStorage.getItem("isLoggedIn"))
                         alert("Wrong username or password. Try again..!!")

@@ -15,7 +15,7 @@ function handle_signup(msg, callback) {
             callback(null, res)
         }
         else{
-            var signup="INSERT into user (email_id,password) values ('"+msg.email+"','"+msg.passwd+"')";
+            var signup="INSERT into user (email_id,password,is_active) values ('"+msg.email+"','"+msg.passwd+"',1)";
 
             mysql.setData(function(err,results){
                 if(!err && results.affectedRows > 0){

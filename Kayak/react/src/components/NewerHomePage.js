@@ -29,6 +29,8 @@ import {connect} from "react-redux";
 import car from '../images/car.svg';
 import hotel from '../images/hotel.svg';
 import flight from '../images/flight.svg';
+import UserProfile from "./UserProfile"
+import DisplayProfile from "./DisplayProfile"
 
 var abc = {backgroundImage: '../images/cover_bg_1.jpg'};
 var w = {width: 80, height: 40, color: "black"}
@@ -126,7 +128,7 @@ class NewerHomePage extends Component {
             API.doLogin(userdata)
                 .then((res) => {
                     //alert("back in newer homepage : " + JSON.stringify(res));
-                    if (res.status === '201') {
+                    if (res.status === 201) {
                         this.setState({
                             isLoggedIn: true,
                             message: "Welcome to my App..!!",
@@ -136,7 +138,7 @@ class NewerHomePage extends Component {
                         alert(localStorage.getItem("isLoggedIn"))
                         this.close('login')
                         this.props.history.push('/flights')
-                    } else if (res.status === '401') {
+                    } else if (res.status === 401) {
                         this.setState({
                             isLoggedIn: false,
                             message: "Wrong username or password. Try again..!!"
@@ -515,14 +517,29 @@ class NewerHomePage extends Component {
         }
     };
 
+    renderHeader(){
+       // alert("in render header"+typeof this.state.isLoggedIn)
+        if(this.state.isUser==="true") {
+            console.log("isUser true");
+         //   alert("returning user header")
+            return <UserHeader/>
+        }
+        else{
+            console.log("isUser false");``
+          //  alert("returning admin header")
+            return <AdminHeader/>
+    }}
+
     render() {
         return (
             <div id="fh5co-wrapper">
                 <div id="fh5co-page">
 
-                    <AdminHeader/>
+                    {/*<AdminHeader/>*/}
 
-                   {/* {this.state.isLoggedIn ? (this.state.isUser ? <UserHeader/> : <AdminHeader/>) : <BeforeHeader/>}*/}
+
+
+                   {this.state.isLoggedIn ? this.renderHeader() : <BeforeHeader/>}
 
                     <Route exact path="/" render={() => (
 
@@ -556,8 +573,6 @@ class NewerHomePage extends Component {
                                                     <div className="tab-content">
                                                         <div role="tabpanel" className="tab-pane active"
                                                              id="flights">
-
-
 
                                                             <div className="row">
                                                                 <div className="col-md-12 col-xs-12">
@@ -929,6 +944,17 @@ class NewerHomePage extends Component {
                     <Route exact path="/hotel_bookings" render={() => (
                         <div>
                             <MyBookingsH/>
+                        </div>
+                    )}/>
+
+                    <Route exact path="/edit_profile" render={() => (
+                        <div>
+                            <UserProfile/>
+                        </div>
+                    )}/>
+                    <Route exact path="/view_profile" render={() => (
+                        <div>
+                            <DisplayProfile/>
                         </div>
                     )}/>
                     <UserFooter/>

@@ -10,8 +10,6 @@ router.get('/logout', function (req, res, next) {
         data:'I have logged out',
         message : "Logged Out."
     });
-
-
 });
 
 module.exports = router;

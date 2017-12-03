@@ -1,7 +1,7 @@
 import React, {Component,PropTypes} from 'react';
 import {Route, withRouter, Link} from 'react-router-dom';
 import * as API from '../api/API';
-
+import logo from '../images/logo.png'
 import {Modal} from 'react-bootstrap';
 import Login from "./Login";
 import Signup from "./Signup";
@@ -28,15 +28,15 @@ class BeforeHeader extends Component{
             API.doLogin(userdata)
                 .then((res) => {
                     //alert("back in newer homepage : " + JSON.stringify(res));
-                    if (res.status === '201') {
+                    if (res.status === 201) {
                         localStorage.setItem("isLoggedIn",true)
-                        alert(localStorage.getItem("isLoggedIn"))
-                        localStorage.setItem("isUser",true)
-                        alert(localStorage.getItem("isUser"))
+
+                        localStorage.setItem("isUser",res.isUser)
+
                         this.close('login')
                         //self.props.history.push('/')
                         window.location.replace('/');
-                    } else if (res.status === '401') {
+                    } else if (res.status === 401) {
                         localStorage.setItem("isLoggedIn",false)
                         alert(localStorage.getItem("isLoggedIn"))
                         alert("Wrong username or password. Try again..!!")
@@ -81,21 +81,17 @@ class BeforeHeader extends Component{
     close = (data) => {
 
         if (data === 'login') {
-            //alert("in login of close");
             this.setState({showLoginModal: false});
         }
         else if (data === 'signup') {
-            alert("in signup of close");
             this.setState({showSignupModal: false});
         }
     };
     open = (data) => {
         if (data === 'login') {
-            alert("in login of open");
             this.setState({showLoginModal: true});
         }
         else if (data === 'signup') {
-            alert("in signup of open");
             this.setState({showSignupModal: true});
         }
     };
@@ -103,30 +99,20 @@ class BeforeHeader extends Component{
     render() {
         return (
             <div>
-                <header id="fh5co-header-section" className="sticky-banner">
-                    <div className="container">
-                        <div className="nav-header">
-                            <a href="#" className="js-fh5co-nav-toggle fh5co-nav-toggle dark"/>
-                            <h1 id="fh5co-logo"><a href="index.html"><i className="icon-airplane"/>KAYAK</a></h1>
 
-                            <nav id="fh5co-menu-wrap" role="navigation">
+              <div className="container" style={{height:0, margin: 0, marginLeft: 240, marginRight: 240}}>
+                <div className="nav-header" style={{backgroundColor:'black'}}>
+                  <a href="#" className="js-fh5co-nav-toggle fh5co-nav-toggle dark"/>
+                  <h1 id="fh5co-logo"><a href="#"><img src={logo} style={{height:27, width:126}}/> </a></h1>
+
+                    <nav id="fh5co-menu-wrap" role="navigation">
                                 <ul className="sf-menu" id="fh5co-primary-menu">
                                     <li className="active"><a href="/">Home</a></li>
-                                    <li>
-                                        <a href="vacation.html" className="fh5co-sub-ddown">Vacations</a>
-                                        <ul className="fh5co-sub-menu">
-                                            <li><a href="#">Family</a></li>
-                                            <li><a href="#">CSS3 &amp; HTML5</a></li>
-                                            <li><a href="#">Angular JS</a></li>
-                                            <li><a href="#">Node JS</a></li>
-                                            <li><a href="#">Django &amp; Python</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><Link to='/flight1'>Flights</Link></li>
-                                    <li><Link to='/hotels'>Hotels</Link></li>
-                                    <li><a href="car.html">Car</a></li>
-                                    <li><a href="blog.html">Blog</a></li>
-                                    <li><a href="contact.html">Contact</a></li>
+                                    <li></li>
+                                    <li></li>
+                                    <li></li>
+                                    <li></li>
+                                    <li></li>
                                     <li>
                                         <a href='#' className="fh5co-sub-ddown">My Account</a>
                                         <ul className="fh5co-sub-menu">
@@ -205,7 +191,6 @@ class BeforeHeader extends Component{
                             </div>
                         </div>
                     </div>
-                </header>
             </div>
         )
 

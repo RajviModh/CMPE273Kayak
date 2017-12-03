@@ -15,7 +15,7 @@ export const doLogin = (payload) => {
         credentials:'include'
     }).then(res => res.json())
         .then(res => {
-            alert("back in API  : " + JSON.stringify(res));
+            // alert("back in API  : " + JSON.stringify(res));
             return res;
         })
         .catch(error => {
@@ -35,7 +35,7 @@ export const doSignup = (payload) => {
         }
     ).then(res => res.json())
         .then(res => {
-            alert("in api response : "+JSON.stringify(res));
+            // alert("in api response : "+JSON.stringify(res));
             return res;
         })
         .catch(error => {
@@ -58,7 +58,7 @@ export const adminAddHotels = (payload) => {
         }
     ).then(res => res.json())
         .then(res => {
-            alert("in api response : "+JSON.stringify(res));
+            // alert("in api response : "+JSON.stringify(res));
             return res;
         })
         .catch(error => {
@@ -79,7 +79,7 @@ export const adminAddFlights = (payload) => {
         }
     ).then(res => res.json())
         .then(res => {
-            alert("in api response : "+JSON.stringify(res));
+            // alert("in api response : "+JSON.stringify(res));
             return res;
         })
         .catch(error => {
@@ -100,7 +100,7 @@ export const adminAddCars = (payload) => {
         }
     ).then(res => res.json())
         .then(res => {
-            alert("in api response : "+JSON.stringify(res));
+            // alert("in api response : "+JSON.stringify(res));
             return res;
         })
         .catch(error => {
@@ -123,7 +123,7 @@ export const adminSearchHotels = (payload) => {
         }
     ).then(res => res.json())
         .then(res => {
-            alert("in api response : "+JSON.stringify(res));
+            // alert("in api response : "+JSON.stringify(res));
             return res;
         })
         .catch(error => {
@@ -379,7 +379,7 @@ export const adminUpdateFlights = (payload) => {
         }
     ).then(res => res.json())
         .then(res => {
-            alert(" FLIGHT in api response : "+JSON.stringify(res));
+            // alert(" FLIGHT in api response : "+JSON.stringify(res));
             return res;
         })
         .catch(error => {
@@ -553,7 +553,7 @@ export const searchcityforHotels = (payload) => {
         credentials:'include'
     }).then(res => res.json())
         .then(res => {
-            alert("back in API  : " + JSON.stringify(res));
+            // alert("back in API  : " + JSON.stringify(res));
             return res;
         })
         .catch(error => {
@@ -572,7 +572,7 @@ export const bookHotel = (payload) => {
         body: JSON.stringify(payload),
         credentials:'include'
     }).then(res => {
-            alert("back in API  : " + JSON.stringify(res));
+            // alert("back in API  : " + JSON.stringify(res));
             return res;
         })
         .catch(error => {
@@ -611,7 +611,7 @@ export const searchcityforCars = (payload) => {
         credentials:'include'
     }).then(res => res.json())
         .then(res => {
-            alert("back in API  : " + JSON.stringify(res));
+            // alert("back in API  : " + JSON.stringify(res));
             return res;
         })
         .catch(error => {
@@ -635,3 +635,46 @@ export const bookCar = (payload) => {
             return error;
         });
 };
+
+export const saveUserProfile = (payload) =>
+  fetch(`${api}/saveUserProfile`, {
+    method: 'POST',
+    headers: {
+      'path':'./public/uploads/Profile_pics/'
+    },
+    body: payload,
+    credentials:'include'
+  }).then(res => {
+      console.log(res)
+      alert(res)
+      return res;
+    }
+  )
+    .then(jsonData =>{
+      debugger
+      alert("Response in API "+jsonData);
+      return jsonData;
+    })
+    .catch(error => {
+      debugger
+      alert("This is error in user profile update "+(error));
+      return {status:'201',message:'successful'};
+    });
+
+export const fetchUserProfile = (payload) =>
+  fetch(`${api}/getUserProfile`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    credentials:'include',
+    body: JSON.stringify(payload)
+  }).then(res => res.json())
+    .then(res =>{
+      return res;
+    })
+    .catch(error => {
+      console.log("This is error");
+      return error;
+    });

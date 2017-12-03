@@ -1,0 +1,738 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="624f621f-48c4-4e20-b9ed-8687a0f2b39d" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/Kayak/kafka-back-end/package.json" afterPath="$PROJECT_DIR$/Kayak/kafka-back-end/package.json" />
+      <change beforePath="$PROJECT_DIR$/Kayak/kafka-back-end/services/hotel/hotelBook.js" afterPath="$PROJECT_DIR$/Kayak/kafka-back-end/services/hotel/hotelBook.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/kafka-back-end/services/login.js" afterPath="$PROJECT_DIR$/Kayak/kafka-back-end/services/login.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/kafka-back-end/services/signup.js" afterPath="$PROJECT_DIR$/Kayak/kafka-back-end/services/signup.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/node/app.js" afterPath="$PROJECT_DIR$/Kayak/node/app.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/node/package.json" afterPath="$PROJECT_DIR$/Kayak/node/package.json" />
+      <change beforePath="$PROJECT_DIR$/Kayak/node/routes/flight_search.js" afterPath="$PROJECT_DIR$/Kayak/node/routes/flight_search.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/node/routes/hotel/hotelRoutes.js" afterPath="$PROJECT_DIR$/Kayak/node/routes/hotel/hotelRoutes.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/node/routes/login.js" afterPath="$PROJECT_DIR$/Kayak/node/routes/login.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/node/routes/logout.js" afterPath="$PROJECT_DIR$/Kayak/node/routes/logout.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/node/routes/signup.js" afterPath="$PROJECT_DIR$/Kayak/node/routes/signup.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/react/debug.log" afterPath="$PROJECT_DIR$/Kayak/react/debug.log" />
+      <change beforePath="$PROJECT_DIR$/Kayak/react/src/api/API.js" afterPath="$PROJECT_DIR$/Kayak/react/src/api/API.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/react/src/components/BeforeHeader.js" afterPath="$PROJECT_DIR$/Kayak/react/src/components/BeforeHeader.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/react/src/components/FlightBooking.js" afterPath="$PROJECT_DIR$/Kayak/react/src/components/FlightBooking.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/react/src/components/Flights.js" afterPath="$PROJECT_DIR$/Kayak/react/src/components/Flights.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/react/src/components/Hotels.js" afterPath="$PROJECT_DIR$/Kayak/react/src/components/Hotels.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/react/src/components/MyBookingsC.js" afterPath="$PROJECT_DIR$/Kayak/react/src/components/MyBookingsC.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/react/src/components/MyBookingsF.js" afterPath="$PROJECT_DIR$/Kayak/react/src/components/MyBookingsF.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/react/src/components/MyBookingsH.js" afterPath="$PROJECT_DIR$/Kayak/react/src/components/MyBookingsH.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/react/src/components/NewerHomePage.js" afterPath="$PROJECT_DIR$/Kayak/react/src/components/NewerHomePage.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/react/src/components/UserHeader.js" afterPath="$PROJECT_DIR$/Kayak/react/src/components/UserHeader.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/react/src/components/cars.js" afterPath="$PROJECT_DIR$/Kayak/react/src/components/cars.js" />
+      <change beforePath="$PROJECT_DIR$/Kayak/react/src/components/hotelbooking.js" afterPath="$PROJECT_DIR$/Kayak/react/src/components/hotelbooking.js" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="hotel_bookings.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Kayak/node/routes/hotel_bookings.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="46">
+              <caret line="2" column="23" lean-forward="false" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hotelbooking.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/hotelbooking.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="700">
+              <caret line="166" column="0" lean-forward="false" selection-start-line="166" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="reducer-hotels.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Kayak/react/src/reducers/reducer-hotels.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="46">
+              <caret line="2" column="12" lean-forward="false" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hotelBook.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Kayak/kafka-back-end/services/hotel/hotelBook.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="138">
+              <caret line="12" column="93" lean-forward="false" selection-start-line="12" selection-start-column="93" selection-end-line="12" selection-end-column="93" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Hotels.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/Hotels.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="349">
+              <caret line="202" column="47" lean-forward="false" selection-start-line="202" selection-start-column="34" selection-end-line="202" selection-end-column="47" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Login.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/Login.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="32" column="16" lean-forward="false" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hotelRoutes.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Kayak/node/routes/hotel/hotelRoutes.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="138">
+              <caret line="48" column="22" lean-forward="true" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>redis</find>
+      <find>one-way</find>
+      <find>this.ope</find>
+      <find>vacation</find>
+      <find>alert</find>
+      <find>saveuser</find>
+      <find>header</find>
+      <find>login</find>
+      <find>logout</find>
+      <find>API.doLogin</find>
+      <find>firstname</find>
+      <find>phone</find>
+      <find>this.props.select</find>
+      <find>this.props.select.</find>
+      <find>modal</find>
+      <find>render</find>
+      <find>bookhotel</find>
+      <find>status</find>
+      <find>Login</find>
+      <find>handlehotelboo</find>
+      <find>open1</find>
+      <find>showLoginModal</find>
+      <find>close</find>
+      <find>price</find>
+      <find>hotelboo</find>
+      <find>handlehotelbooking</find>
+      <find>bookingdetails</find>
+      <find>this.props.</find>
+      <find>displayhotelbookingmodal</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Kayak/react/src/components/UserHeader.js" />
+        <option value="$PROJECT_DIR$/Kayak/react/src/components/BeforeHeader.js" />
+        <option value="$PROJECT_DIR$/Kayak/node/app.js" />
+        <option value="$PROJECT_DIR$/Kayak/react/src/api/API.js" />
+        <option value="$PROJECT_DIR$/Kayak/react/src/components/NewerHomePage.js" />
+        <option value="$PROJECT_DIR$/Kayak/react/src/components/cars.js" />
+        <option value="$PROJECT_DIR$/Kayak/react/src/components/Flights.js" />
+        <option value="$PROJECT_DIR$/Kayak/react/src/components/MyBookingsH.js" />
+        <option value="$PROJECT_DIR$/Kayak/react/src/components/Hotels.js" />
+        <option value="$PROJECT_DIR$/Kayak/kafka-back-end/services/hotel/hotelBook.js" />
+        <option value="$PROJECT_DIR$/Kayak/react/src/components/hotelbooking.js" />
+        <option value="$PROJECT_DIR$/Kayak/node/routes/hotel/hotelRoutes.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER">
+    <package-json value="$PROJECT_DIR$/Kayak/kafka-back-end/package.json" />
+    <package-json value="$PROJECT_DIR$/Kayak/node/package.json" />
+    <package-json value="$PROJECT_DIR$/Kayak/react/package.json" />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/Kayak/kafka-back-end/node_modules" />
+    <handled-path value="$PROJECT_DIR$/Kayak/node/node_modules" />
+    <handled-path value="$PROJECT_DIR$/Kayak/react/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
+    <option name="width" value="656" />
+    <option name="height" value="456" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource ProjectPane="true" />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="CMPE273Kayak" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CMPE273Kayak" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CMPE273Kayak" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CMPE273Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="Kayak" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CMPE273Kayak" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CMPE273Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="kafka-back-end" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CMPE273Kayak" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CMPE273Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="kafka-back-end" type="462c0819:PsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CMPE273Kayak" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CMPE273Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="kafka-back-end" type="462c0819:PsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
+              <item name="hotel" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CMPE273Kayak" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CMPE273Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="node" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CMPE273Kayak" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CMPE273Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="node" type="462c0819:PsiDirectoryNode" />
+              <item name="routes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CMPE273Kayak" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CMPE273Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="react" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CMPE273Kayak" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CMPE273Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="react" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CMPE273Kayak" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CMPE273Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="react" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CMPE273Kayak" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CMPE273Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="Kayak" type="462c0819:PsiDirectoryNode" />
+              <item name="react" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="C:/Program Files/nodejs/node" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Sem 1/273 Enterprise Distributed Systems/GroupProject/Neha'sCode/Kayak/react/src/api/API.js" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="two.files.diff.last.used.folder" value="$PROJECT_DIR$/../../Sem 1/273 Enterprise Distributed Systems/GroupProject/Neha'sCode/Kayak/node" />
+    <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
+    <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../../Sem 1/273 Enterprise Distributed Systems/GroupProject/Neha'sCode/Kayak/react/src/api/API.js" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="start (1)" type="js.build_tools.npm" factoryName="npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/Kayak/node/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+    </configuration>
+    <configuration name="start (2)" type="js.build_tools.npm" factoryName="npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/Kayak/react/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+    </configuration>
+    <configuration name="start" type="js.build_tools.npm" factoryName="npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/Kayak/kafka-back-end/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+    </configuration>
+    <list size="3">
+      <item index="0" class="java.lang.String" itemvalue="npm.start" />
+      <item index="1" class="java.lang.String" itemvalue="npm.start (1)" />
+      <item index="2" class="java.lang.String" itemvalue="npm.start (2)" />
+    </list>
+    <recent_temporary>
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="npm.start (1)" />
+        <item index="1" class="java.lang.String" itemvalue="npm.start" />
+        <item index="2" class="java.lang.String" itemvalue="npm.start (2)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="624f621f-48c4-4e20-b9ed-8687a0f2b39d" name="Default" comment="" />
+      <created>1512290513410</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1512290513410</updated>
+      <workItem from="1512290515723" duration="13289000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="13289000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972974" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.8921454" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24972972" sideWeight="0.5041032" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="FAQ Robot" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24972972" sideWeight="0.49589685" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project Explorer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972974" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Job Explorer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="MaxCompute Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Kayak/kafka-back-end/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/node/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="12" column="20" lean-forward="false" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/kafka-back-end/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="12" column="10" lean-forward="false" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/car-3.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/ChangePassword.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#39#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/UserHeader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="3" column="25" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/BeforeHeader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="30" column="43" lean-forward="false" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#49#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/UserProfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6985">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#39#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/src/api/API.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="11" column="42" lean-forward="false" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
+          <folding>
+            <marker date="1512296384340" expanded="true" signature="205:330" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="453:467" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="577:598" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="744:889" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="1029:1031" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="1154:1175" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="1446:1591" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="1731:1733" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="1856:1877" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="2031:2176" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="2316:2318" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="2441:2462" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="2610:2755" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="2895:2897" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="3020:3041" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="3321:3466" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="3606:3608" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="3731:3752" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="3912:4057" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="4197:4284" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="4321:4342" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="4496:4641" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="4781:4868" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="4905:4926" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="5082:5227" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="5367:5454" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="5491:5512" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="5786:5931" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="6071:6158" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="6195:6216" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="6372:6517" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="6657:6744" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="6781:6802" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="6952:7097" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="7237:7324" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="7361:7382" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="7534:7679" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="7819:7906" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="7943:7964" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="8121:8266" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="8371:8458" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="8495:8516" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="8677:8822" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="8927:9014" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="9051:9072" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="9239:9384" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="9489:9576" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="9613:9634" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="9914:10059" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="10199:10286" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="10323:10344" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="10504:10649" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="10789:10860" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="10922:10943" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="11097:11242" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="11382:11469" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="11506:11527" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="11683:11828" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="11968:12055" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="12092:12113" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="12394:12539" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="12679:12766" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="12803:12824" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="12984:13129" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="13269:13356" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="13393:13414" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="13568:13713" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="13853:13940" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="13977:13998" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="14290:14435" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="14575:14662" ph="{&quot;return&quot;: res...}" />
+            <marker date="1512296384340" expanded="true" signature="14699:14720" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="14993:15118" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="15238:15259" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="15421:15546" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="15669:15731" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="15793:15814" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="15957:16082" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="16172:16234" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="16296:16317" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="16583:16708" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="16828:16849" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="17007:17132" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="17255:17317" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="17379:17400" ph="{...}" />
+            <marker date="1512296384340" expanded="true" signature="17539:17664" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1512296384340" expanded="true" signature="17783:17804" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/AdminHeader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="411">
+          <caret line="57" column="49" lean-forward="false" selection-start-line="57" selection-start-column="49" selection-end-line="57" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/kafka-back-end/services/login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="14" column="26" lean-forward="false" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/cars.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="121" column="49" lean-forward="false" selection-start-line="121" selection-start-column="49" selection-end-line="121" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#39#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/Flights.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="1841" column="42" lean-forward="false" selection-start-line="1841" selection-start-column="42" selection-end-line="1841" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#39#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/NewerHomePage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="628">
+          <caret line="943" column="54" lean-forward="true" selection-start-line="943" selection-start-column="39" selection-end-line="943" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/node/routes/bookings.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="7" column="355" lean-forward="false" selection-start-line="7" selection-start-column="355" selection-end-line="7" selection-end-column="355" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/node/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="107" column="43" lean-forward="false" selection-start-line="107" selection-start-column="29" selection-end-line="107" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/MyBookingsF.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="30" column="14" lean-forward="false" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#39#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/MyBookingsH.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="25" column="33" lean-forward="false" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#39#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/node/routes/hotel_bookings.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="46">
+          <caret line="2" column="23" lean-forward="false" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/Login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="32" column="16" lean-forward="false" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/kafka-back-end/services/hotel/hotelBook.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="12" column="93" lean-forward="false" selection-start-line="12" selection-start-column="93" selection-end-line="12" selection-end-column="93" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/Hotels.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="202" column="47" lean-forward="false" selection-start-line="202" selection-start-column="34" selection-end-line="202" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/src/reducers/reducer-hotels.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="46">
+          <caret line="2" column="12" lean-forward="false" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/react/src/components/hotelbooking.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="700">
+          <caret line="166" column="0" lean-forward="false" selection-start-line="166" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Kayak/node/routes/hotel/hotelRoutes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="48" column="22" lean-forward="true" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

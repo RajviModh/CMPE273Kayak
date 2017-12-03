@@ -80,20 +80,63 @@ class FlightBooking extends Component {
             document.getElementById('namevalidator').style.display = 'block';
             document.getElementById('namevalidator').innerHTML = 'Invalid name';
         } else {
+            var re = "false";
+            if (localStorage.getItem("return_enable") !== null && localStorage.getItem("return_enable") !== '' && localStorage.getItem("return_enable") !== undefined) {
+                re = localStorage.getItem("return_enable");
+            }
+            console.log(localStorage.getItem("return_enable"));
+            console.log("checking value for booking (direct or round) " + re);
             console.log(localStorage.getItem('goingD'));
             console.log(this.props.select.selectedFlight.fare);
-            console.log(((this.props.select.Adult.length*this.props.select.selectedFlight.fare)+(this.props.select.Child.length*this.props.select.selectedFlight.fare/10)));
-            var self=this;
-            axios.get('http://localhost:3001/flights/flight_booking_direct',{withCredentials:true,params:{f_id:this.props.select.selectedFlight.f_id,flight_start_s:localStorage.getItem('goingD'),class:localStorage.getItem('Sclass'),duration:this.props.select.selectedFlight.duration,booked_seats:this.props.select.Adult.length,passenger:this.props.select.Adult.concat(this.props.select.Child),fare:((this.props.select.Adult.length*this.props.select.selectedFlight.fare)+(this.props.select.Child.length*this.props.select.selectedFlight.fare_child))}})
-                .then(function (response) {
-                    console.log(response);
+            console.log(((this.props.select.Adult.length * this.props.select.selectedFlight.fare) + (this.props.select.Child.length * this.props.select.selectedFlight.fare / 10)));
+            var self = this;
+            if (re === "false") {
+                axios.get('http://localhost:3001/flights/flight_booking_direct', {
+                    withCredentials: true,
+                    params: {
+                        f_id: this.props.select.selectedFlight.f_id,
+                        flight_start_s: localStorage.getItem('goingD'),
+                        class: localStorage.getItem('Sclass'),
+                        duration: this.props.select.selectedFlight.duration,
+                        booked_seats: this.props.select.Adult.length,
+                        passenger: this.props.select.Adult.concat(this.props.select.Child),
+                        fare: ((this.props.select.Adult.length * this.props.select.selectedFlight.fare) + (this.props.select.Child.length * this.props.select.selectedFlight.fare_child))
+                    }
                 })
-                .catch(function (error) {
-                    console.log(error);
-                });
-
-
-             };
+                    .then(function (response) {
+                        console.log(response);
+                        self.props.history.push('/flight_bookings')
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            } else if (re === "true") {
+                console.log("true");
+                axios.get('http://localhost:3001/flights/flight_booking_round', {
+                    withCredentials: true,
+                    params: {
+                        f_id: this.props.select.selectedFlight.f_id,
+                        f_id_r: this.props.select.selectedFlightR.f_id,
+                        flight_start_s: localStorage.getItem('goingD'),
+                        flight_start_s_r: localStorage.getItem('comingD'),
+                        class: localStorage.getItem('Sclass'),
+                        duration: this.props.select.selectedFlight.duration,
+                        duration_r: this.props.select.selectedFlightR.duration,
+                        booked_seats: this.props.select.Adult.length,
+                        passenger: this.props.select.Adult.concat(this.props.select.Child),
+                        fare: ((this.props.select.Adult.length * this.props.select.selectedFlight.fare) + (this.props.select.Child.length * this.props.select.selectedFlight.fare_child)),
+                        fare_r: ((this.props.select.Adult.length * this.props.select.selectedFlightR.fare) + (this.props.select.Child.length * this.props.select.selectedFlightR.fare_child))
+                    }
+                })
+                    .then(function (response) {
+                        console.log(response);
+                        self.props.history.push('/flight_bookings')
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        }
 
 
 

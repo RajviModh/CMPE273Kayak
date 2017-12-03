@@ -9,8 +9,16 @@ function handle_request(msg, callback){
     console.log("in login of kafka back-end");
 
         console.log("In handle request:" + JSON.stringify(msg));
-    var getUser = "select * from kayak.user where email_id='" + msg.username+ "'";
+    var getUser = "select * from kayak.user where is_active=1 and email_id='" + msg.username+ "'";
     console.log("Query is:" + getUser);
+
+    if(msg.username==="admin@admin.com" && msg.password==="admin"){
+        res.code = "200";
+        res.value = "Success Login";
+        res.isUser=false;
+        callback(null, res);
+    }
+    else{
 
     mysql.fetchData(function (err, results) {
         //var session = req.session;
@@ -34,6 +42,7 @@ function handle_request(msg, callback){
                     res.value = "Success Login";
                     res.email=results[0].email_id;
                     res.userid = results[0].user_id;
+                    res.isUser=true;
                     callback(null, res);
                 }
 
@@ -50,7 +59,7 @@ function handle_request(msg, callback){
 
     },getUser);
 
-}
+}}
 
 
 exports.handle_request = handle_request;

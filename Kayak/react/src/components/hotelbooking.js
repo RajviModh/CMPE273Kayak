@@ -145,15 +145,16 @@ class Hotelbooking extends Component {
                 toDate: this.props.select.bookingdetails.checkout, noOfRooms: this.props.select.bookingdetails.rooms,
                 UID: this.props.select.bookingdetails.userid,firstname:this.props.select.details.firstname,
                 lastname:this.props.select.details.lastname,contact:this.props.select.details.contact,
-                email:this.props.select.details.email
+                email:this.props.select.details.email, price: this.props.select.selected.rent
             };
-
+            console.log(bookingdetails);
             API.bookHotel(bookingdetails)
                 .then((res) => {
 
                     if (res.status === 200) {
-                        window.alert("Booking successful..");
-                        // this.props.history.push("/welcome");
+                        window.alert("Booking successful!");
+
+                        this.props.history.push("/hotel_bookings");
                     } else if (res.status === 500) {
                         window.alert("Some error..");
                     } else{
@@ -170,7 +171,7 @@ class Hotelbooking extends Component {
         return (
 
             <div className="container-fluid">
-
+              <br/><br/><br/><br/>
                 <div className="row">
                     <div className="col-md-12">
                         <h1 style={{color: "Orange"}}><b>Booking Summary</b></h1><br/><br/>

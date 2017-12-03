@@ -16,6 +16,7 @@ import {connect} from "react-redux";
 import {Route, withRouter, Link} from 'react-router-dom';
 
 import * as API from '../api/API';
+import axios from "axios";
 import Login from "./Login";
 import Signup from "./Signup";
 
@@ -35,6 +36,7 @@ var btnStyle= {height:40, width:20}
 var btnStyle1 = {height:30, textAlign:"center"}
 var borderStyle = {border:"thin solid #ff5c24", padding:0}
 var newRange=[100,2000];
+var newRangeRound=[100,2000];
 var name=[]
 var age=[]
 var name1=[],age1=[]
@@ -58,6 +60,7 @@ const itemChange = (newItem) => {
 class Flights extends Component {
 
     state = {
+        origRoundData : [],
         roundData : [],
         passengers : [],
         children : [],
@@ -70,6 +73,9 @@ class Flights extends Component {
         selectedTo:'',
         goingDate : new Date(),
         comingDate : new Date(),
+        inputFormat: "DD/MM/YYYY",
+        date: "2017-11-21",
+        format: "YYYY-MM-DD",
         selectedClass:'',
         noAdults:0,
         noChild:0,
@@ -83,6 +89,12 @@ class Flights extends Component {
         e2:false,
         e3:false,
         e4:false,
+
+        p1:false,p2:false,p3:false,p4:false,
+        q1:false,q2:false,q3:false,q4:false,
+        r1:false,r2:false,r3:false,r4:false,
+        s1:false,s2:false,s3:false,s4:false,
+
         show_modal:false,
         showLoginModal: false,
         showSignupModal: false,
@@ -91,7 +103,7 @@ class Flights extends Component {
     componentWillMount(){
       var self=this;
       if(localStorage.getItem("return_enable")===null || localStorage.getItem("return_enable")===undefined || localStorage.getItem("return_enable")===''){
-        self.setState({
+          self.setState({
           return_enable:false
         })
       }else{
@@ -162,11 +174,159 @@ class Flights extends Component {
         //over
 
           self.setState({
-              roundData:roundData
+              roundData:roundData, origRoundData:roundData
           },function(){console.log("roundData ",this.state.roundData);});
       }, 500);
 
     }
+
+    searchFlight = () => {
+        if (this.state.return_enable === true) {
+            console.log(this.props.select);
+            var inputData = "from city " + this.state.selectedFrom + "to city " + this.state.selectedTo + "going date" + this.state.goingDate + "coming date" + this.state.comingDate + " class " + this.state.selectedClass + " Adults" + this.state.noAdults + " Child " + this.state.noChild;
+            var today = new Date()
+            var now = new Date(this.state.goingDate)
+            var going = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+            var now1 = new Date(this.state.comingDate)
+            var coming = new Date(now1.getUTCFullYear(), now1.getUTCMonth(), now1.getUTCDate(), now1.getUTCHours(), now1.getUTCMinutes(), now1.getUTCSeconds());
+
+            //alert(inputData);
+            var from = this.state.selectedFrom
+            var to = this.state.selectedTo
+            var goingD = this.state.goingDate
+            var comingD = this.state.comingDate
+            var Sclass = this.state.selectedClass
+            var adult = this.state.noAdults
+            var child = this.state.noChild
+
+            localStorage.setItem("Sclass", this.state.selectedClass);
+            localStorage.setItem("adult", this.state.noAdults);
+            localStorage.setItem("child", this.state.noChild);
+
+            if (from === "" || to === "" || goingD === "" || comingD === "" || Sclass === "" || adult === 0)
+                alert("Please select all the fields")
+            else if ( adult<0 )
+                alert("No of passengers cannot be negative")
+            else if (from === to)
+                alert("From city cannot be same as To city")
+            else if ((new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())) < (new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate())))
+                alert("Selected date cannot be less than today's date")
+            else if (coming < going)
+                alert("Arrival date cannot be less than Departure date");
+            else {
+                var self = this;
+                axios.get('http://localhost:3001/flights/search', {
+                    params: {
+                        from: document.getElementById('selectedFrom').value,
+                        to: document.getElementById('selectedTo').value,
+                        number_of_seats: document.getElementById('noAdults').value,
+                        number_of_seats_c: document.getElementById('noChild').value,
+                        category: document.getElementById('category').value,
+                        date: this.state.goingDate
+                    }
+                })
+                    .then(function (response) {
+                        console.log(response);
+                        self.props.setFlights(response.data.returnFlightS);
+                        localStorage.setItem("searchedFlights", JSON.stringify(response.data.returnFlightS));
+                        console.log("after setting localStorage ", JSON.stringify(response.data.returnFlightS));
+                        localStorage.setItem("goingD", goingD);
+                        localStorage.setItem("Sclass", Sclass);
+                        self.props.history.push("/");
+                        self.props.history.push("/flights_search");
+                        //window.location.replace("/flights_search");
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                axios.get('http://localhost:3001/flights/round', {
+                    params: {
+                        to: document.getElementById('selectedFrom').value,
+                        from: document.getElementById('selectedTo').value,
+                        number_of_seats: document.getElementById('noAdults').value,
+                        number_of_seats_c: document.getElementById('noChild').value,
+                        category: document.getElementById('category').value,
+                        date: this.state.comingDate
+                    }
+                })
+                    .then(function (response) {
+                        console.log(response);
+                        self.props.setFlights(response.data.returnFlightR);
+                        localStorage.setItem("searchedFlightsR", JSON.stringify(response.data.returnFlightR));
+                        console.log("after setting localStorage1 ", JSON.stringify(response.data.returnFlightR));
+                        localStorage.setItem("comingD", comingD);
+                        localStorage.setItem("Sclass", Sclass);
+                        self.props.history.push("/");
+                        self.props.history.push("/flights_search");
+                        //window.location.replace("/flights_search");
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        } else {
+            console.log(this.props.select);
+            var inputData = "from city " + this.state.selectedFrom + "to city " + this.state.selectedTo + "going date" + this.state.goingDate + "coming date" + this.state.comingDate + " class " + this.state.selectedClass + " Adults" + this.state.noAdults + " Child " + this.state.noChild;
+            var today = new Date()
+            var now = new Date(this.state.goingDate)
+            var going = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+            var coming = new Date(this.state.comingDate)
+
+            //alert(inputData);
+            var from = this.state.selectedFrom
+            var to = this.state.selectedTo
+            var goingD = this.state.goingDate
+            var comingD = this.state.comingDate
+            var Sclass = this.state.selectedClass
+            var adult = this.state.noAdults
+            var child = this.state.noChild
+
+            localStorage.setItem("Sclass", this.state.selectedClass);
+            localStorage.setItem("adult", this.state.noAdults);
+            localStorage.setItem("child", this.state.noChild);
+
+            if (from === "" || to === "" || goingD === "" || Sclass === "" || adult === "")
+                alert("Please select all the fields")
+            else if (from === to)
+                alert("From city cannot be same as To city")
+            else if ((new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())) < (new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate())))
+                alert("Selected date cannot be less than today's date")
+            else {
+                var self = this;
+                axios.get('http://localhost:3001/flights/search', {
+                    params: {
+                        from: document.getElementById('selectedFrom').value,
+                        to: document.getElementById('selectedTo').value,
+                        number_of_seats: document.getElementById('noAdults').value,
+                        number_of_seats_c: document.getElementById('noChild').value,
+                        category: document.getElementById('category').value,
+                        date: this.state.goingDate
+                    }
+                })
+                    .then(function (response) {
+                        console.log(response);
+                        self.props.setFlights(response.data.returnFlightS);
+                        localStorage.setItem("searchedFlights", JSON.stringify(response.data.returnFlightS));
+                        localStorage.setItem("goingD", goingD);
+                        localStorage.setItem("Sclass", Sclass);
+                        self.props.history.push("/");
+                        self.props.history.push("/flights_search");
+                        //window.location.replace("/flights_search");
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        }
+    }
+
+    handleChange = (newDate) => {
+        return this.setState({goingDate: newDate});
+    };
+
+    handleChange1 = (newDate) => {
+        return this.setState({comingDate: newDate});
+    };
 
 
     sliderChanged = (newRange1) => {
@@ -395,8 +555,336 @@ class Flights extends Component {
         this.setState({e4:(!this.state.e4)},this.handleChangeDepart)
     }
 
+    sliderChangedRound = (newRange1) => {
+        newRangeRound=newRange1;
+        console.log("slider changed",newRangeRound)
+
+        this.handleRoundFilter()
+    }
+
+    handleP1 = () => {
+        console.log("In handle p1")
+        this.setState({p1:(!this.state.p1)},this.handleRoundFilter)
+    }
+    handleP2 = () => {
+        console.log("In handle p2")
+        this.setState({p2:(!this.state.p2)},this.handleRoundFilter)
+    }
+    handleP3 = () => {
+        console.log("In handle p3")
+        this.setState({p3:(!this.state.p3)},this.handleRoundFilter)
+    }
+    handleP4 = () => {
+        console.log("In handle p4")
+        this.setState({p4:(!this.state.p4)},this.handleRoundFilter)
+    }
+
+    handleQ1 = () => {
+        console.log("In handle q1")
+        this.setState({q1:(!this.state.q1)},this.handleRoundFilter)
+    }
+    handleQ2 = () => {
+        console.log("In handle q2")
+        this.setState({q2:(!this.state.q2)},this.handleRoundFilter)
+    }
+    handleQ3 = () => {
+        console.log("In handle q3")
+        var q3 = !this.state.q3
+        console.log(q3)
+        this.setState({q3:q3},this.handleRoundFilter)
+    }
+    handleQ4 = () => {
+        console.log("In handle q4")
+        this.setState({q4:(!this.state.q4)},this.handleRoundFilter)
+    }
+
+    handleR1 = () => {
+        console.log("In handle r1")
+        this.setState({r1:(!this.state.r1)},this.handleRoundFilter)
+    }
+    handleR2 = () => {
+        console.log("In handle r2")
+        this.setState({r2:(!this.state.r2)},this.handleRoundFilter)
+    }
+    handleR3 = () => {
+        console.log("In handle r3")
+        this.setState({r3:(!this.state.r3)},this.handleRoundFilter)
+    }
+    handleR4 = () => {
+        console.log("In handle r4")
+        this.setState({r4:(!this.state.r4)},this.handleRoundFilter)
+    }
+
+    handleS1 = () => {
+        console.log("In handle s1")
+        this.setState({s1:(!this.state.s1)},this.handleRoundFilter)
+    }
+    handleS2 = () => {
+        console.log("In handle s2")
+        this.setState({s2:(!this.state.s2)},this.handleRoundFilter)
+    }
+    handleS3 = () => {
+        console.log("In handle s3")
+        this.setState({s3:(!this.state.s3)},this.handleRoundFilter)
+    }
+    handleS4 = () => {
+        console.log("In handle s4")
+        this.setState({s4:(!this.state.s4)},this.handleRoundFilter)
+    }
+
+    handleRoundFilter = () => {
+        var flag1=false,flag2=false,flag3=false,flag4=false,flag5=false
+        if (this.state.p1 === true || this.state.p2 === true || this.state.p3 === true || this.state.p4 === true)
+            flag2=true
+        if (this.state.q1 === true || this.state.q2 === true || this.state.q3 === true || this.state.q4 === true)
+            flag3=true
+        if (this.state.r1 === true || this.state.r2 === true || this.state.r3 === true || this.state.r4 === true)
+            flag4=true
+        if (this.state.s1 === true || this.state.s2 === true || this.state.s3 === true || this.state.s4 === true)
+            flag5=true
+        if(newRangeRound[0]===100 && newRangeRound[1]===2000)
+        {
+            console.log("in if")
+            flag1=false;
+        }
+        else
+        {
+            flag1=true
+            console.log("in else")
+        }
+
+        var newData = []
+        var newData1 = []
+        var newData2 = []
+        var newData3 = []
+        var newData4 = []
+        var newData5 = []
+
+        var flight = this.state.origRoundData
+
+        if(this.state.p1){
+            console.log("In p1")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight1.time_s>="00:00" && flight[i].flight1.time_s<="05:59")
+                {
+                    newData2.push(flight[i])
+                }
+            }
+        }
+        if(this.state.p2){
+            console.log("In p2")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight1.time_s>="06:00" && flight[i].flight1.time_s<="11:59")
+                {
+                    newData2.push(flight[i])
+                }
+            }
+        }
+        if(this.state.p3){
+            console.log("In p3")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight1.time_s>="12:00" && flight[i].flight1.time_s<="17:59")
+                {
+                    newData2.push(flight[i])
+                }
+            }
+        }
+        if(this.state.p4){
+            console.log("In c4")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight1.time_s>="18:00" && flight[i].flight1.time_s<="23:59")
+                {
+                    newData2.push(flight[i])
+                }
+            }
+        }
+
+
+        if(this.state.q1){
+            console.log("In q1")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight1.time_e>="00:00" && flight[i].flight1.time_e<="05:59")
+                {
+                    newData3.push(flight[i])
+                }
+            }
+        }
+        if(this.state.q2){
+            console.log("In q2")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight1.time_e>="06:00" && flight[i].flight1.time_e<="11:59")
+                {
+                    newData3.push(flight[i])
+                }
+            }
+        }
+        if(this.state.q3){
+            console.log("In q3")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight1.time_e>="12:00" && flight[i].flight1.time_e<="17:59")
+                {
+                    newData3.push(flight[i])
+                }
+            }
+        }
+        if(this.state.q4){
+            console.log("In c4")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight1.time_e>="18:00" && flight[i].flight1.time_e<="23:59")
+                {
+                    newData3.push(flight[i])
+                }
+            }
+        }
+
+        if(this.state.r1){
+            console.log("In r1")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight2.time_s>="00:00" && flight[i].flight2.time_s<="05:59")
+                {
+                    newData4.push(flight[i])
+                }
+            }
+        }
+        if(this.state.r2){
+            console.log("In r2")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight2.time_s>="06:00" && flight[i].flight2.time_s<="11:59")
+                {
+                    newData4.push(flight[i])
+                }
+            }
+        }
+        if(this.state.r3){
+            console.log("In r3")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight2.time_s>="12:00" && flight[i].flight2.time_s<="17:59")
+                {
+                    newData4.push(flight[i])
+                }
+            }
+        }
+        if(this.state.r4){
+            console.log("In r4")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight2.time_s>="18:00" && flight[i].flight2.time_s<="23:59")
+                {
+                    newData2.push(flight[i])
+                }
+            }
+        }
+
+        if(this.state.s1){
+            console.log("In s1")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight2.time_e>="00:00" && flight[i].flight2.time_e<="05:59")
+                {
+                    newData5.push(flight[i])
+                }
+            }
+        }
+        if(this.state.s2){
+            console.log("In s2")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight2.time_e>="06:00" && flight[i].flight2.time_e<="11:59")
+                {
+                    newData5.push(flight[i])
+                }
+            }
+        }
+        if(this.state.s3){
+            console.log("In s3")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight2.time_e>="12:00" && flight[i].flight2.time_e<="17:59")
+                {
+                    newData5.push(flight[i])
+                }
+            }
+        }
+        if(this.state.s4){
+            console.log("In c4")
+            for(var i=0;i<flight.length;i++)
+            {
+                if(flight[i].flight2.time_e>="18:00" && flight[i].flight2.time_e<="23:59")
+                {
+                    newData5.push(flight[i])
+                }
+            }
+        }
+
+        for (var i = 0; i < flight.length; i++) {
+            if (flight[i].total >= newRangeRound[0] && flight[i].total <= newRangeRound[1]) {
+                newData1.push(flight[i])
+            }
+        }
+
+        var n = 0;
+        var newArr = []
+
+        if(flag1===true)
+        {
+            newArr[n] = newData1
+            n++;
+        }
+        if(flag2===true)
+        {
+            newArr[n] = newData2
+            n++;
+        }
+        if(flag3===true)
+        {
+            newArr[n] = newData3
+            n++;
+        }
+        if(flag4===true)
+        {
+            newArr[n] = newData4
+            n++;
+        }
+        if(flag5===true)
+        {
+            newArr[n] = newData5
+            n++;
+        }
+
+        if(newArr.length!=0){
+            var result = newArr.shift().filter(function(v) {
+                return newArr.every(function(a) {
+                    return a.indexOf(v) !== -1;
+                });
+            });
+            newData=result
+        }
+        else
+        {
+            newData=this.state.origRoundData
+        }
+
+        console.log("Changed Data",newData)
+
+        this.setState({roundData:newData})
+
+    }
+
+
+
+
     open = () => {
-            alert("in open")
            this.setState({show_modal: true})
     }
 
@@ -432,6 +920,10 @@ class Flights extends Component {
           var obj = {name:name[i],age:age[i]}
           if(name[i]===undefined || age[i]===undefined || name[i]===null || age[i]===null || name[i]==='' || age[i]==='')
           { continue; }
+          else if(age[i]<0)
+              alert("Age cannot be negative")
+          else if(age[i]<=3)
+              alert("Age cannot be less than 3")
           else
               finalPassData.push(obj)
       }
@@ -443,6 +935,10 @@ class Flights extends Component {
           var obj = {name:name1[i],age:age1[i]}
           if(name1[i]===undefined || age1[i]===undefined || name1[i]===null || age1[i]===null || name1[i]==='' || age1[i]==='')
           { continue; }
+          else if(age1[i]<0)
+              alert("Age cannot be negative")
+          else if(age1[i]>3)
+              alert("Child Age cannot be greater than 3")
           else
               finalPassData1.push(obj)
       }
@@ -487,17 +983,14 @@ class Flights extends Component {
             API.doLogin(userdata)
                 .then((res) => {
                     //alert("back in newer homepage : " + JSON.stringify(res));
-                    if (res.status === '201') {
+                    if (res.status === 201) {
                         localStorage.setItem("isLoggedIn",true)
-                        alert(localStorage.getItem("isLoggedIn"))
                         localStorage.setItem("isUser",true)
-                        alert(localStorage.getItem("isUser"))
                         this.close1('login')
                         //window.location.replace()
                        self.props.history.push('/flight_booking')
-                    } else if (res.status === '401') {
+                    } else if (res.status === 401) {
                         localStorage.setItem("isLoggedIn",false)
-                        alert(localStorage.getItem("isLoggedIn"))
                         alert("Wrong username or password. Try again..!!")
                     }
                 });}
@@ -518,7 +1011,6 @@ class Flights extends Component {
 
             API.doSignup(userdata)
                 .then((res) => {
-                    alert("back in handle signup response : " + JSON.stringify(res));
                     if (res.code === '201') {
                         alert("You have sign up successfully")
                         this.open1('login')
@@ -538,21 +1030,17 @@ class Flights extends Component {
     close1 = (data) => {
 
         if (data === 'login') {
-            //alert("in login of close");
             this.setState({showLoginModal: false});
         }
         else if (data === 'signup') {
-            alert("in signup of close");
             this.setState({showSignupModal: false});
         }
     };
     open1 = (data) => {
         if (data === 'login') {
-            alert("in login of open");
             this.setState({showLoginModal: true});
         }
         else if (data === 'signup') {
-            alert("in signup of open");
             this.setState({showSignupModal: true});
         }
     };
@@ -576,8 +1064,8 @@ class Flights extends Component {
         }.bind(this));
 
         return (
-            <div>
 
+              <div className="fh5co-hero" style={{marginTop:100}}>
                 <div className="search-page" style={padding}>
                     <div className="container">
 
@@ -596,7 +1084,10 @@ class Flights extends Component {
                                     <div className="col-xs-3 mt" style={padding}>
                                         <div className="input-field">
                                             <select style={optStyle}
-                                                    onChange={(event)=>this.setState({selectedFrom:event.target.value})}  className="cs-select cs-skin-border" name="" id="">
+                                                    onChange={(event) => {
+                                                        this.props.setSelectedFrom(event.target.value);
+                                                        this.setState({selectedFrom: event.target.value})
+                                                    }}  className="cs-select cs-skin-border" name="" id="selectedFrom">
                                                 <option style={color} name="" id="">From City</option>
                                                 {
                                                     this.state.fromCity.map(city=>
@@ -611,7 +1102,10 @@ class Flights extends Component {
 
 
                                             <select style={optStyle}
-                                                    onChange={(event)=>this.setState({selectedTo:event.target.value})}  className="cs-select cs-skin-border" name="" id="">
+                                                    onChange={(event) => {
+                                                        this.props.setSelectedTo(event.target.value);
+                                                        this.setState({selectedTo: event.target.value})
+                                                    }}  className="cs-select cs-skin-border" name="" id="selectedTo">
                                                 <option style={color} name="" id="">To City</option>
                                                 {
                                                     this.state.toCity.map(city=>
@@ -662,7 +1156,7 @@ class Flights extends Component {
 
 
                                         <select style={optStyle}
-                                                onChange={(event)=>this.setState({selectedClass:event.target.value})}  className="cs-select cs-skin-border" name="" id="">
+                                                onChange={(event)=>this.setState({selectedClass:event.target.value})}  className="cs-select cs-skin-border" name="" id="category">
                                             <option style={color} value="class">Class</option>
                                             <option style={color} value="economy">Economy</option>
                                             <option style={color} value="first">First</option>
@@ -670,14 +1164,17 @@ class Flights extends Component {
                                         </select>
 
                                         &nbsp; &nbsp;
-                                        <input placeholder="Adult" style={w} type='number' onChange={(event) => {
-                                            this.passenger(event)
+                                        <input placeholder="Adult" style={w} id="noAdults" type='number' onChange={(event) => {
+                                            this.setState({
+                                                noAdults: event.target.value
+                                            });
+
                                         }}
                                         />
 
                                         &nbsp; &nbsp;
 
-                                        <input placeholder="Children" style={w} type='number' onChange={(event) => {
+                                        <input placeholder="Children" style={w} id="noChild" type='number' onChange={(event) => {
                                             this.setState({
                                                 noChild: event.target.value
                                             });
@@ -873,9 +1370,8 @@ class Flights extends Component {
                                                     <img src="../images/place-4.jpg" height={50} width={50} alt="" />
                                                 </div>
                                                 <div className="col-md-7"  onClick={()=>itemChange(flight.f_id)}>
-                                                    <span className="glyphicon glyphicon-bed" aria-hidden="true"></span>{flight.f_id}
-                                                    <span className="dot-inner" aria-hidden="true"> &nbsp; {flight.time_s}----{flight.time_e}</span>
-                                                    &nbsp; &nbsp;
+                                                    <span aria-hidden="true"></span>{flight.f_id}
+                                                    <span className="dot-inner" aria-hidden="true"> &nbsp; <tr>{flight.time_s}</tr>---- <tr>{flight.time_e}</tr></span><br/>
                                                     <p>Duration : {flight.duration} Hours</p>
                                                 </div>
                                                 <div className="col-md-2 text-right">
@@ -895,12 +1391,20 @@ class Flights extends Component {
                                                 <tbody>
                                                 <tr>
 
-                                                    <th style={{textAlign: 'center'}}>Room Type</th>
-                                                    <th style={{textAlign: 'center'}}>Reviews</th>
+                                                    <th style={{textAlign: 'center'}}>Flight</th>
+                                                    <th style={{textAlign: 'center'}}>From</th>
+                                                    <th style={{textAlign: 'center'}}>To</th>
+                                                    <th style={{textAlign: 'center'}}>Duration</th>
                                                     <th style={{textAlign: 'center'}}>Price</th>
                                                     <th style={{textAlign: 'center'}}></th>
                                                 </tr>
-                                                {RoomTypes}
+                                                <tr>
+                                                    <td> {flight.f_id} </td>
+                                                    <td>{this.props.select.selectedFrom}</td>
+                                                    <td>{this.props.select.selectedTo}</td>
+                                                    <td> {flight.duration} </td>
+                                                    <td> {flight.fare} </td>
+                                                </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -944,8 +1448,9 @@ class Flights extends Component {
         return (
             <div>
 
+              <div className="fh5co-hero" style={{marginTop:100}}>
                 <div className="search-page" style={padding}>
-                    <div className="container">
+                  <div className="container">
 
 
                         <div className="tab-content" style={borderStyle}>
@@ -962,7 +1467,10 @@ class Flights extends Component {
                                     <div className="col-xs-3 mt" style={padding}>
                                         <div className="input-field">
                                             <select style={optStyle}
-                                                    onChange={(event)=>this.setState({selectedFrom:event.target.value})}  className="cs-select cs-skin-border" name="" id="">
+                                                    onChange={(event) => {
+                                                        this.props.setSelectedFrom(event.target.value);
+                                                        this.setState({selectedFrom: event.target.value})
+                                                    }}  className="cs-select cs-skin-border" name="" id="selectedFrom">
                                                 <option style={color} name="" id="">From City</option>
                                                 {
                                                     this.state.fromCity.map(city=>
@@ -977,7 +1485,10 @@ class Flights extends Component {
 
 
                                             <select style={optStyle}
-                                                    onChange={(event)=>this.setState({selectedTo:event.target.value})}  className="cs-select cs-skin-border" name="" id="">
+                                                    onChange={(event) => {
+                                                        this.props.setSelectedTo(event.target.value);
+                                                        this.setState({selectedTo: event.target.value})
+                                                    }}  className="cs-select cs-skin-border" name="" id="selectedTo">
                                                 <option style={color} name="" id="">To City</option>
                                                 {
                                                     this.state.toCity.map(city=>
@@ -1028,7 +1539,7 @@ class Flights extends Component {
 
 
                                         <select style={optStyle}
-                                                onChange={(event)=>this.setState({selectedClass:event.target.value})}  className="cs-select cs-skin-border" name="" id="">
+                                                onChange={(event)=>this.setState({selectedClass:event.target.value})}  className="cs-select cs-skin-border" name="" id="category">
                                             <option style={color} value="class">Class</option>
                                             <option style={color} value="economy">Economy</option>
                                             <option style={color} value="first">First</option>
@@ -1036,7 +1547,7 @@ class Flights extends Component {
                                         </select>
 
                                         &nbsp; &nbsp;
-                                        <input placeholder="Adult" style={w} type='number' onChange={(event) => {
+                                        <input placeholder="Adult" style={w} type='number' id="noAdults" onChange={(event) => {
                                             this.setState({
                                                 noAdults: event.target.value
                                             });
@@ -1046,7 +1557,7 @@ class Flights extends Component {
 
                                         &nbsp; &nbsp;
 
-                                        <input placeholder="Children" style={w} type='number' onChange={(event) => {
+                                        <input placeholder="Children" style={w} type='number' id="noChild" onChange={(event) => {
                                             this.setState({
                                                 noChild: event.target.value
                                             });
@@ -1206,47 +1717,47 @@ class Flights extends Component {
                                 <h3 className="sear-head">Top Filters</h3>
                                 <div className="range">
                                     <h3 className="sear-head">Price</h3><br></br>
-                                    <Range min={100} max={2000} defaultValue={[100, 2000]} tipFormatter={value => `${value}`} onChange={this.sliderChanged}/>
+                                    <Range min={100} max={2000} defaultValue={[100, 2000]} tipFormatter={value => `${value}`} onChange={this.sliderChangedRound}/>
                                 </div>
                                 <div className="range">
                                     <h3 className="sear-head">Departure Time</h3><br></br>
-                                    <input type="checkbox" onChange={this.handleC1}/>00:00 - 06:00
+                                    <input type="checkbox" onChange={this.handleP1}/>00:00 - 06:00
                                     <br/>
-                                    <input type="checkbox" onChange={this.handleC2}/>06:00 - 12:00
+                                    <input type="checkbox" onChange={this.handleP2}/>06:00 - 12:00
                                     <br/>
-                                    <input type="checkbox" onChange={this.handleC3}/>12:00 - 18:00
+                                    <input type="checkbox" onChange={this.handleP3}/>12:00 - 18:00
                                     <br/>
-                                    <input type="checkbox" onChange={this.handleC4}/>18:00 - 23:59
+                                    <input type="checkbox" onChange={this.handleP4}/>18:00 - 23:59
                                 </div>
                                 <div className="range">
                                     <h3 className="sear-head">Arrival Time</h3><br></br>
-                                    <input type="checkbox" onChange={this.handleE1}/>00:00 - 06:00
+                                    <input type="checkbox" onChange={this.handleQ1}/>00:00 - 06:00
                                     <br/>
-                                    <input type="checkbox" onChange={this.handleE2}/>06:00 - 12:00
+                                    <input type="checkbox" onChange={this.handleQ2}/>06:00 - 12:00
                                     <br/>
-                                    <input type="checkbox" onChange={this.handleE3}/>12:00 - 18:00
+                                    <input type="checkbox" onChange={this.handleQ3}/>12:00 - 18:00
                                     <br/>
-                                    <input type="checkbox" onChange={this.handleE4}/>18:00 - 23:59
+                                    <input type="checkbox" onChange={this.handleQ4}/>18:00 - 23:59
                                 </div>
                                 <div className="range">
                                     <h3 className="sear-head">Departure Time</h3><br></br>
-                                    <input type="checkbox" onChange={this.handleC1}/>00:00 - 06:00
+                                    <input type="checkbox" onChange={this.handleR1}/>00:00 - 06:00
                                     <br/>
-                                    <input type="checkbox" onChange={this.handleC2}/>06:00 - 12:00
+                                    <input type="checkbox" onChange={this.handleR2}/>06:00 - 12:00
                                     <br/>
-                                    <input type="checkbox" onChange={this.handleC3}/>12:00 - 18:00
+                                    <input type="checkbox" onChange={this.handleR3}/>12:00 - 18:00
                                     <br/>
-                                    <input type="checkbox" onChange={this.handleC4}/>18:00 - 23:59
+                                    <input type="checkbox" onChange={this.handleR4}/>18:00 - 23:59
                                 </div>
                                 <div className="range">
                                     <h3 className="sear-head">Arrival Time</h3><br></br>
-                                    <input type="checkbox" onChange={this.handleE1}/>00:00 - 06:00
+                                    <input type="checkbox" onChange={this.handleS1}/>00:00 - 06:00
                                     <br/>
-                                    <input type="checkbox" onChange={this.handleE2}/>06:00 - 12:00
+                                    <input type="checkbox" onChange={this.handleS2}/>06:00 - 12:00
                                     <br/>
-                                    <input type="checkbox" onChange={this.handleE3}/>12:00 - 18:00
+                                    <input type="checkbox" onChange={this.handleS3}/>12:00 - 18:00
                                     <br/>
-                                    <input type="checkbox" onChange={this.handleE4}/>18:00 - 23:59
+                                    <input type="checkbox" onChange={this.handleS4}/>18:00 - 23:59
                                 </div>
 
 
@@ -1266,7 +1777,7 @@ class Flights extends Component {
                                                             <img src="../images/place-4.jpg" height={50} width={50} alt="" />
                                                         </div>
                                                         <div className="col-md-7">
-                                                            <span className="glyphicon glyphicon-bed" aria-hidden="true"></span>{flight.flight1.f_id}
+                                                            <span aria-hidden="true"></span>{flight.flight1.f_id}
                                                             <span className="dot-inner" aria-hidden="true"> &nbsp; {flight.flight1.time_s}----{flight.flight1.time_e}</span>
                                                             &nbsp; &nbsp;
                                                             <p>Duration : {flight.flight1.duration} Hours</p>
@@ -1287,7 +1798,7 @@ class Flights extends Component {
                                                                 <img src="../images/place-4.jpg" height={50} width={50} alt="" />
                                                             </div>
                                                             <div className="col-md-7">
-                                                                <span className="glyphicon glyphicon-bed" aria-hidden="true"></span>{flight.flight2.f_id}
+                                                                <span aria-hidden="true"></span>{flight.flight2.f_id}
                                                                 <span className="dot-inner" aria-hidden="true"> &nbsp; {flight.flight2.time_s}----{flight.flight2.time_e}</span>
                                                                 &nbsp; &nbsp;
                                                                 <p>Duration : {flight.flight2.duration} Hours</p>
@@ -1328,7 +1839,7 @@ class Flights extends Component {
 
                         </div>
 
-                    </div></div></div>
+                  </div></div></div></div>
 
         );
     }
