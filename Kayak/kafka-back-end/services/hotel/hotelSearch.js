@@ -53,7 +53,7 @@ function handleRequest(data, callback) {
                     response.message = "Server Error";
                     callback(error, response);
                 } else {
-                    console.log("From SQL")
+                    // console.log("From SQL")
                     console.timeEnd("Query_time");
                     let availableHotels = JSON.parse(rows[0][0].availableHotels);
                     console.log(availableHotels);
@@ -80,7 +80,7 @@ function handleRequest(data, callback) {
             console.log("From redis");
 
             //let availableHotels = JSON.parse(obj.availableHotels);
-            console.log(availableHotels);
+            console.log(obj);
             response.code = 200;
             response.message = "Search Successful";
             response.payload = obj;

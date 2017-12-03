@@ -4,7 +4,6 @@ const router = require('express').Router();
 var kafka = require('../kafka/client');
 
 router.post('/car/search', (request, response, next) => {
-    //chech for session
     console.log("search data:" + JSON.stringify({
         pickUpPoint: request.body.pickUpPoint,
         fromDate: request.body.fromDate,
@@ -33,7 +32,6 @@ router.post('/car/search', (request, response, next) => {
 
 
 router.post('/car/search/pickUpPoints', (request, response, next) => {
-    //chech for session
     kafka.make_request('carPickUpPointsSearch', {}, (error, kafkaResponse) => {
         console.log('in result');
         console.log(kafkaResponse);
@@ -56,13 +54,13 @@ router.post('/car/book', (request, response, next) => {
         CID: request.body.CID,
         fromDate: request.body.fromDate,
         toDate: request.body.toDate,
-        UID: request.body.UID
+        UID: request.session.user
     }));
     kafka.make_request('carBook', {
         CID: request.body.CID,
         fromDate: request.body.fromDate,
         toDate: request.body.toDate,
-        UID: request.body.UID
+        UID: request.session.user
     }, (error, kafkaResponse) => {
         console.log('in result');
         console.log(kafkaResponse);

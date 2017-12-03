@@ -4,7 +4,7 @@ const router = require('express').Router();
 var kafka = require('../kafka/client');
 
 router.post('/hotel/search', (request, response, next) => {
-    //chech for session
+
     kafka.make_request('hotelSearch', {
         "city": request.body.city,
         "fromDate": request.body.fromDate,
@@ -27,7 +27,7 @@ router.post('/hotel/search', (request, response, next) => {
 });
 
 router.post('/hotel/search/cities', (request, response, next) => {
-    //chech for session
+
     kafka.make_request('hotelCitiesSearch', {}, (error, kafkaResponse) => {
         console.log('in result');
         console.log(kafkaResponse);
@@ -47,12 +47,22 @@ router.post('/hotel/search/cities', (request, response, next) => {
 router.post('/hotel/book', (request, response, next) => {
     //chech for session
     console.log("reached node" + request.body.RID + request.body.fromDate);
+    console.log("user session" + request.session);
+    console.log("user from session: " + request.session.user);
+    let messagePayload = {
+      RID: request.body.RID,
+      fromDate: request.body.fromDate,
+      toDate: request.body.toDate,
+      noOfRooms: request.body.noOfRooms,
+      UID: request.session.user
+    };
+    console.log(messagePayload);
     kafka.make_request('hotelBook', {
         RID: request.body.RID,
         fromDate: request.body.fromDate,
         toDate: request.body.toDate,
         noOfRooms: request.body.noOfRooms,
-        UID: request.body.UID
+        UID: request.session.user
     }, (error, kafkaResponse) => {
         console.log('in result');
         console.log(kafkaResponse);

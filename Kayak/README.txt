@@ -30,7 +30,7 @@ bin\windows\zookeeper-server-start.bat config\zookeeper.properties
 
 kafka server
 cd c:\kafka_2.11-0.11.0.1
- bin\windows\kafka-server-start.bat config\server.properties
+bin\windows\kafka-server-start.bat config\server.properties
 
 topiCreation
 cd c:\kafka_2.11-0.11.0.1
