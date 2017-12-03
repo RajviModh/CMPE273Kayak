@@ -1,13 +1,13 @@
 var ejs= require('ejs');
 var mysql = require('mysql');
-
+var bcrypt = require('bcrypt')
 
 var pool = mysql.createPool({
         connectionLimit : 100,
         host     : '127.0.0.1',
         user     : 'root',
         password : 'root',
-        database : 'dropbox',
+        database : 'kayak',
         port	 : 3306,
     debug: false
     });
@@ -46,6 +46,19 @@ var setData = function(callback,sqlQuery,data) {
     });
 
 };
+
+var hashing = function(passwd) {
+    var salt = bcrypt.genSaltSync(10);
+    var newPass = bcrypt.hashSync(passwd, salt);
+    return newPass;
+};
+
+var compareHashed = function(passwd,hash){
+    return bcrypt.compareSync(passwd, hash);
+};
+
+exports.hashing=hashing;
+exports.compareHashed=compareHashed;
 
 exports.fetchData=fetchData;
 exports.setData = setData;

@@ -1,5 +1,5 @@
 {
-  "name": "untitled",
+  "name": "kayak",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^1.0.3",
+    "express": "^4.16.2",
     "fs": "0.0.1-security",
     "kafka-node": "^2.2.3",
     "mongodb": "^2.2.31",
