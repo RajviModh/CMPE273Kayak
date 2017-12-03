@@ -49,18 +49,18 @@ class AdminWelcomePage extends Component {
                 carschartData2: {
                     labels: [],
                     datasets: []
-                }
+                },
+                year:'',
+                month:''
             };
     }
 
-    componentWillMount() {
-        this.adminViewFlightsChart();
-        //this.adminViewHotelsChart();
-        //this.adminViewCarsChart();
-    }
 
     adminViewFlightsChart = () => {
-        API.adminViewFlightsChart()
+
+        var payload = {'year':this.state.year, 'month':this.state.month};
+        alert("---------------" + JSON.stringify(payload));
+        API.adminViewFlightsChart(payload)
             .then((res) => {
                 if (res.status === '201') {
                     let getChartData = this.getChartData(res.results);
@@ -71,7 +71,7 @@ class AdminWelcomePage extends Component {
                     });
                 }
             })
-    }
+    };
 
     getChartData = (search) => {
         console.log("in get chart data rows " + JSON.stringify(search));
@@ -93,21 +93,21 @@ class AdminWelcomePage extends Component {
         var dataset7 = [];
         var label8 = [];
         var dataset8 = [];
-       // console.log("in get chart data rows " + JSON.stringify(search[0]));
+        // console.log("in get chart data rows " + JSON.stringify(search[0]));
         for (let i = 0; i < search[0].length; i++) {
 
             label.push(search[0][i].airlineName);
             dataset.push(search[0][i].fare);
 
         }
-       // console.log("in get chart data rows " + JSON.stringify(search[1]));
+        // console.log("in get chart data rows " + JSON.stringify(search[1]));
         for (let i = 0; i < search[1].length; i++) {
 
             label1.push(search[1][i].from);
             dataset1.push(search[1][i].fare);
 
         }
-       // console.log("in get chart data rows " + JSON.stringify(search[2]));
+        // console.log("in get chart data rows " + JSON.stringify(search[2]));
         for (let i = 0; i < search[2].length; i++) {
 
             label2.push(search[2][i].airlineName);
@@ -348,7 +348,7 @@ class AdminWelcomePage extends Component {
                             '#BB8FCE',
                             '#900C3F'
 
-    ],
+                        ],
                         borderColor: 'rgba(255,99,132,1)',
                         borderWidth: 1,
                         hoverBackgroundColor: [
@@ -365,56 +365,105 @@ class AdminWelcomePage extends Component {
 
     render() {
         return (
-            <div className="fh5co-hero" style={{height:1000}}>
+            <div className="fh5co-hero" style={{height:1100}}>
                 <div className="container">
-                    <div className="row justify-content-md-center">
+                    <div style={{marginTop:70}}>
+                        <br/>
+                    </div>
+                    <div className="row">
                         <div className="col-md-12">
-                            <div className="row">
-                            <div className="col-md-4">
-                                <div className="fa-bar-chart">
-                                    <Bar
-                                        data={this.state.flightschartData}
-                                        width={500}
-                                        height={300}
-                                        options={{
+                            <div className="col-md-3">
+                                <label>Search By Year :</label>
+                            </div>
+                            <div className="col-md-2">
+                                <select name="select" onChange={(event) => {
+                                    this.setState({
+                                        year: event.target.value
+                                    });
+                                }} style={{width: 156}}>
+                                    <option>select</option>
+                                    <option>2017</option>
+                                    <option>2016</option>
+                                    <option>2015</option>
+                                    <option>2014</option>
+
+                                </select>
+                            </div>
+                            <div className="col-md-3">
+                                <label>Search By Month :</label>
+                            </div>
+                            <div className="col-md-2 col-sm-2">
+                                <select name="select" onChange={(event) => {
+                                    this.setState({
+                                        month: event.target.value
+                                    });
+                                }} style={{width: 156}}>
+                                    <option>select</option>
+                                    <option>1</option><option>2</option><option>3</option><option>4</option>
+                                    <option>5</option><option>6</option><option>7</option><option>8</option>
+                                    <option>9</option><option>10</option><option>11</option><option>12</option>
+
+                                </select>
+                            </div>
+                            <div className="col-md-2 col-sm-2">
+                                <button
+                                    className="btn btn-warning"
+                                    type="button"
+                                    style={{width:100, height:30, padding:0}}
+                                    onClick={() => this.adminViewFlightsChart(this.state.year)}>
+                                    Go
+                                </button>
+
+                            </div>
+
+                            <div className="col-md-12" style={{marginTop:20}}>
+                                <div className="row">
+                                    <div className="col-md-4">
+                                        <div className="fa-bar-chart">
+                                            <Bar
+                                                data={this.state.flightschartData}
+                                                width={500}
+                                                height={300}
+                                                options={{
+                                                    title: {
+                                                        display: true,
+                                                        text: 'Top 10 Flight carriers by revenue/year',
+                                                        fontSize: 20
+                                                    },
+                                                    maintainAspectRatio: false
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <div className="fa-pie-chart">
+                                            <Line data={this.state.flightschartData1} options={{
+                                                title: {
+                                                    display: true,
+                                                    text: 'Top 10 cities by revenue',
+                                                    fontSize: 20
+                                                },
+                                                maintainAspectRatio: false
+                                            }} height={300}/>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4">
+
+                                        <Doughnut data={this.state.flightschartData2} options={{
                                             title: {
                                                 display: true,
-                                                text: 'Top 10 Flight carriers by revenue/year',
+                                                text: 'Top 10 Flight carriers by revenue/month',
                                                 fontSize: 20
                                             },
                                             maintainAspectRatio: false
-                                        }}
-                                    />
+                                        }} height={300} text='Top 10 properties by last month'/>
+
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <hr/>
                                 </div>
                             </div>
-                            <div className="col-md-4">
-                                <div className="fa-pie-chart">
-                                    <Line data={this.state.flightschartData1} options={{
-                                        title: {
-                                            display: true,
-                                            text: 'Top 10 cities by revenue',
-                                            fontSize: 20
-                                        },
-                                        maintainAspectRatio: false
-                                    }} height={300}/>
-                                </div>
-                            </div>
-                            <div className="col-md-4">
-
-                                <Doughnut data={this.state.flightschartData2} options={{
-                                    title: {
-                                        display: true,
-                                        text: 'Top 10 Flight carriers by revenue/month',
-                                        fontSize: 20
-                                    },
-                                    maintainAspectRatio: false
-                                }} height={300} text='Top 10 properties by last month'/>
-
-                            </div>
-                            <br/>
-                                <br/>
-                                <hr/>
-                        </div>
                         </div>
                         <div className="col-md-12">
 
@@ -517,14 +566,13 @@ class AdminWelcomePage extends Component {
                             </div>
 
                         </div>
-
-                        </div>
                     </div>
                 </div>
+            </div>
+
 
         );
     }
 }
 
 export default withRouter(AdminWelcomePage);
-

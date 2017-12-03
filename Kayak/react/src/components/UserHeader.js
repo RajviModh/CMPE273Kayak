@@ -1,6 +1,7 @@
 import React, {Component,PropTypes} from 'react';
 import {Route, withRouter, Link} from 'react-router-dom';
 import axios from "axios";
+import logo from '../images/logo.png'
 
 class UserHeader extends Component{
 
@@ -51,11 +52,11 @@ class UserHeader extends Component{
     render() {
         return (
             <div>
-                    <header id="fh5co-header-section" className="sticky-banner">
-                        <div className="container">
-                            <div className="nav-header">
+
+                <div className="container" style={{height:0, margin: 0, marginLeft: 240, marginRight: 240}}>
+                    <div className="nav-header" style={{backgroundColor:'black'}}>
                                 <a href="#" className="js-fh5co-nav-toggle fh5co-nav-toggle dark"/>
-                                <h1 id="fh5co-logo"><a href="index.html"><i className="icon-airplane"/>KAYAK</a></h1>
+                        <h1 id="fh5co-logo"><a href="#"><img src={logo} style={{height:27, width:126}}/> </a></h1>
 
                                 <nav id="fh5co-menu-wrap" role="navigation">
                                     <ul className="sf-menu" id="fh5co-primary-menu">
@@ -91,7 +92,7 @@ class UserHeader extends Component{
 
                             </div>
                         </div>
-                    </header>
+
                 </div>
                     )
 

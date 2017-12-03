@@ -7,7 +7,7 @@
 }
 /* =======================================================
 *
-* 	Template Style 
+* 	Template Style
 *	Edit this section
 *
 * ======================================================= */
@@ -188,7 +188,7 @@ figure {
   }
 }
 .fh5co-cover .desc {
-  top: 40%;
+  top: 34%;
   position: absolute;
   width: 100%;
   margin-top: -80px;
@@ -533,9 +533,9 @@ figure {
 }
 
 .tabulation {
-  width: 100%;
+  width: 270%;
   float: left;
-  margin-top: -7em;
+  margin-top: 0em;
   background: rgba(255, 255, 255, 0.95);
   -webkit-box-shadow: 0px 43px 83px -20px rgba(0, 0, 0, 0.41);
   -moz-box-shadow: 0px 43px 83px -20px rgba(0, 0, 0, 0.41);
@@ -1979,3 +1979,30 @@ div.cs-select span {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+
+
+
+/* Tabs panel */
+.tabbable-panel {
+ /*border:1px solid #eee;
+  padding: 10px;*/
+  background-color: white;
+}
+
+/* Default mode */
+.tabbable-line > .nav-tabs {
+  border: none;
+  margin: 0px;
+}
+.tabbable-line > .nav-tabs > li {
+  margin-right: 2px;
+}
+.tabbable-line > .nav-tabs > li > a {
+  border: 0;
+  margin-right: 0;
+  color: #737373;
+}
+.tabbable-line > .nav-tabs > li > a > i {
+  color: #a6a6a6;
+}
