@@ -242,7 +242,7 @@ class AdminSearchUsers extends Component {
         return (
             <div className="fh5co-hero">
                 <div className="container">
-                    <div className="row justify-content-md-center">
+                    <div className="col-sm-12 col-md-12"><hr/><br/></div>
 
                     <div className="col-sm-12 col-md-12">
                         <ReactDataGrid
@@ -258,7 +258,6 @@ class AdminSearchUsers extends Component {
                             onClearFilters={this.onClearFilters}/>
                     </div>
                 </div>
-            </div>
             </div>
 
         );

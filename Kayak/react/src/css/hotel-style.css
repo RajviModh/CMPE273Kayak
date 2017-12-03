@@ -1870,11 +1870,11 @@ input[type="date"], input[type="time"], input[type="datetime-local"], input[type
 }
 .search-grid-left{
     padding: 15px;
-    background:#f5f4f0;
+    background:#f3f4f7;
 }
 h3.sear-head {
     font-family: 'Alegreya-Regular';
-    color:#DF1E1C;
+    color:#000000;
     margin-bottom: 10px;
     font-size: 19px;
     font-weight:600;

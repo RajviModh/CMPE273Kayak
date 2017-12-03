@@ -334,7 +334,7 @@ class AdminSearchHotels extends Component {
         return (
             <div className="fh5co-hero">
                 <div className="container">
-                    <div className="row justify-content-md-center">
+                    <div className="col-sm-12 col-md-12"><hr/><br/></div>
                         <h2 style={{color:'orange'}}><u>HOTELS</u></h2>
                         {/*<div className="col-sm-4 col-md-4">
                             <div className="col-sm-4 col-md-4">
@@ -450,7 +450,7 @@ class AdminSearchHotels extends Component {
                         </table>
                     </div>*/}
                 </div>
-            </div>
+
         );
     }
 }

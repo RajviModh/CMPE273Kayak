@@ -24,11 +24,11 @@ var color = {color: "black"}
 var colorBlue = {color: "blue"}
 var w = {width: 80, height: 40, color: "black"}
 var optStyle = {color: "Black", height: 40}
-var optStyle1 = {height: 30}
+var optStyle1 = {height: 30, width:150}
 var padding = {padding: 0}
 var btnStyle = {height: 40, width: 20}
 var btnStyle1 = {height: 30, textAlign: "center"}
-var borderStyle = {border: "thin solid #F78536", padding: 0}
+var borderStyle = {border: "thin solid #f3f4f7", padding: 0, backgroundColor:'#f3f4f7'}
 const emailRegex = require('email-regex')
 var re = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 var regex = /\d/g;
@@ -395,11 +395,10 @@ class Hotels extends Component {
 
         console.log(this.props.select.hotels);
         return (
-            <div>
-
+            <div className="fh5co-hero" style={{marginTop:100}}>
                 <div className="search-page" style={padding}>
-                    <div className="container">
 
+                    <div className="container">
 
                         <div className="tab-content" style={borderStyle}>
                             <div role="tabpanel" className="tab-pane active" id="flights">
@@ -407,7 +406,7 @@ class Hotels extends Component {
                                 &nbsp; &nbsp;
 
                                <div className="row">
-                                 <div className="col-xs-2 mt">
+                                 <div className="col-xs-3 mt">
                                    <div className="input-field">
                                      <input type="text" className="form-control"
                                             id="city"
@@ -416,7 +415,7 @@ class Hotels extends Component {
                                    </div>
                                  </div>
 
-                                 <div className="col-xs-2 mt" style={padding}>
+                                 <div className="col-xs-3 mt" style={padding}>
                                         <div className="input-field">
 
                                             <div className="input-field">
@@ -436,7 +435,7 @@ class Hotels extends Component {
 
                                     &nbsp; &nbsp;
 
-                                    <div className="col-xs-2 mt" style={padding}>
+                                    <div className="col-xs-3 " style={padding}>
 
                                         <div className="input-field">
 
@@ -453,10 +452,8 @@ class Hotels extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-xs-4 mt" style={padding}>
+                                    <div className="col-xs-1" style={{padding:0, height:42}}>
 
-
-                                        &nbsp; &nbsp;
 
                                         <input placeholder="Rooms" style={w} type='number' id="noofrooms" onChange={(event) => {
                                             formdata["requiredNoOfRooms"] = Number(event.target.value)
@@ -465,7 +462,7 @@ class Hotels extends Component {
 
                                     </div>
 
-                                    <div className="col-xs-1" style={padding}>
+                                    <div className="col-xs-1" style={{padding:0, height:42}}>
                                         <button className="btn btn-primary btn-block" style={btnStyle}
                                                 onClick={() => this.searchHotels()}>-->
                                         </button>
@@ -653,6 +650,7 @@ class Hotels extends Component {
                     </div>
                 </div>
             </div>
+
 
         );
     }

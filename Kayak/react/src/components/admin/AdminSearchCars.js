@@ -328,7 +328,7 @@ class AdminSearchCars extends Component {
         return (
             <div className="fh5co-hero">
                 <div className="container">
-                    <div className="row justify-content-md-center">
+                    <div className="col-sm-12 col-md-12"><hr/><br/></div>
                         <h2 style={{color:'orange'}}><u>CARS</u></h2>
                         {/*<div className="col-sm-4 col-md-4">
                             <div className="col-sm-4 col-md-4">
@@ -406,7 +406,6 @@ class AdminSearchCars extends Component {
                         </div>
                     </div>
                 </div>
-            </div>
 
         );
     }
