@@ -16,7 +16,7 @@ module.exports = function(passport) {
                 {
                     if(results.code == 200) {
                         done(null, {userid: results.userid,
-                            email: results.email
+                            email: results.emailid
                         });
                     }
                     else {

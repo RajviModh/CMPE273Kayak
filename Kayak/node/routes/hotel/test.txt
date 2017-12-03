@@ -1,0 +1,20 @@
+messages.data = content = msgPayload = {
+        "city": request.body.city,
+        "fromDate": request.body.fromDate,
+        "toDate": request.body.toDate,
+        "requiredNoOfRooms": request.body.requiredNoOfRooms
+    }
+
+
+kafka-back-end
+
+message = [
+                      { topic: topic_name, messages: JSON.stringify({
+                          correlationId:correlationId,
+                          replyTo:'response_topic',
+                          data:content}),
+                          partition:0}
+                  ];
+
+
+in kafka response, results = array of hotel objects

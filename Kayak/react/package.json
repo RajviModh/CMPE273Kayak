@@ -3,14 +3,46 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.17.1",
+    "card-validator": "^4.1.1",
+    "credit-card": "^3.0.1",
+    "credit-card-validator": "^1.0.8",
+    "email-regex": "^2.0.0",
+    "email-validator": "^1.1.1",
+    "isemail": "^3.0.0",
+    "chart.js": "^2.7.1",
+    "immutability-helper": "^2.5.1",
+    "immutable-helper": "0.0.5",
+    "jquery": "^3.2.1",
+    "jquery-ui": "^1.12.1",
+    "jquery-ui-dist": "^1.12.1",
+    "moment": "^2.19.3",
     "prop-types": "^15.5.10",
+    "rc-slider": "^8.4.0",
+    "rc-tooltip": "^3.7.0",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.5",
+    "react-bootstrap-datetimepicker": "0.0.22",
     "react-bootstrap-dropdown-menu": "^1.1.11",
     "react-bootstrap-modal": "^4.0.0",
+    "react-bootstrap-slider": "^2.1.3",
+    "react-bootstrap-time-picker": "^1.0.3",
+    "react-chartjs-2": "^2.6.4",
+    "react-checkbox-group": "^3.3.4",
+    "react-data-grid": "^2.0.78",
+    "react-data-grid-addons": "^2.0.78",
+    "react-datetime": "^2.11.0",
     "react-dom": "^15.6.1",
+    "react-dropdown": "^1.3.2",
+    "react-js-pagination": "^3.0.0",
+    "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.13"
+    "react-scripts": "1.0.13",
+    "react-select": "^1.0.0-rc.10",
+    "react-slider": "^0.9.0",
+    "react-stars": "^2.2.5",
+    "redux": "^3.7.2",
+    "redux-persist": "^4.10.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -19,6 +51,6 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "kafka-node": "^2.2.3"
+    "kafka-node": "^2.3.0"
   }
 }
